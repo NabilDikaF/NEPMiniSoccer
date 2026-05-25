@@ -109,37 +109,46 @@
 </head>
 <body class="bg-surface text-on-surface antialiased min-h-screen flex">
 <!-- SideNavBar Component -->
-<aside class="bg-surface-container-low dark:bg-surface-dim shadow-sm dark:shadow-none fixed left-0 top-0 h-screen w-64 hidden md:flex flex-col z-50">
+<nav class="fixed left-0 top-0 h-screen w-64 hidden md:flex flex-col bg-surface-container-low dark:bg-surface-dim shadow-sm dark:shadow-none z-40">
 <div class="flex flex-col h-full p-md space-y-base">
-<div class="mb-lg">
-<h1 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">NEP Admin</h1>
+<div class="flex items-center gap-sm mb-lg">
+<img alt="Admin Avatar" class="w-12 h-12 rounded-full object-cover" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"/>
+<div>
+<h2 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">NEP Admin</h2>
 <p class="font-label-sm text-label-sm text-secondary">Field Management</p>
 </div>
-<nav class="flex-1 space-y-xs">
-<!-- Dashboard: Inactive -->
-<a class="flex items-center px-sm py-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all font-label-md text-label-md translate-x-1 active:translate-x-0 transition-transform" href="#">
-<span class="material-symbols-outlined mr-sm">dashboard</span>
-                    Dashboard
-                </a>
-<!-- Verifikasi: Active -->
-<a class="flex items-center px-sm py-sm bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-lg font-bold transition-all font-label-md text-label-md translate-x-1 active:translate-x-0 transition-transform" href="#">
-<span class="material-symbols-outlined mr-sm">fact_check</span>
-                    Verifikasi
-                </a>
-<!-- Kelola Jadwal: Inactive -->
-<a class="flex items-center px-sm py-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all font-label-md text-label-md translate-x-1 active:translate-x-0 transition-transform" href="#">
-<span class="material-symbols-outlined mr-sm">calendar_month</span>
-                    Kelola Jadwal
-                </a>
+</div>
+<div class="flex-1 space-y-sm">
+<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="dashboard">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="">Dashboard</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-primary dark:text-primary-fixed-dim bg-surface-container-high dark:bg-surface-container rounded-lg transition-all translate-x-0 font-label-md text-label-md" href="verifikasi">
+<span class="material-symbols-outlined">fact_check</span>
+<span class="">Verifikasi</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="jadwal">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="">Kelola Jadwal</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="pelanggan">
+<span class="material-symbols-outlined">group</span>
+<span class="">Data Pelanggan</span>
+</a>
+</div>
+<div class="mt-auto">
+<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md">
+<form method="POST" action="{{ route('logout') }}" class="hidden md:block m-0 p-0">
+                @csrf
+                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
+                    <span>Logout</span>
+                    <span class="material-symbols-outlined text-sm">logout</span>
+                </button>
+            </form>
+</a>
+</div>
+</div>
 </nav>
-<div class="mt-auto border-t border-surface-variant pt-md">
-<a class="flex items-center px-sm py-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all font-label-md text-label-md translate-x-1 active:translate-x-0 transition-transform" href="#">
-<span class="material-symbols-outlined mr-sm">logout</span>
-                    Logout
-                </a>
-</div>
-</div>
-</aside>
 <!-- Main Content Area -->
 <main class="flex-1 md:ml-64 p-gutter max-w-container-max mx-auto w-full">
 <!-- Header -->
@@ -207,7 +216,7 @@
 <td class="py-md px-md whitespace-nowrap">
 <button class="flex items-center space-x-xs text-primary hover:text-primary-container transition-colors font-label-md text-label-md">
 <span class="material-symbols-outlined text-[18px]">image</span>
-<span>View Photo</span>
+<span class="">View Photo</span>
 </button>
 </td>
 <td class="py-md px-md text-right space-x-xs flex justify-end whitespace-nowrap">
@@ -230,7 +239,7 @@
 <td class="py-md px-md whitespace-nowrap">
 <button class="flex items-center space-x-xs text-primary hover:text-primary-container transition-colors font-label-md text-label-md">
 <span class="material-symbols-outlined text-[18px]">image</span>
-<span>View Photo</span>
+<span class="">View Photo</span>
 </button>
 </td>
 <td class="py-md px-md text-right space-x-xs flex justify-end whitespace-nowrap">
@@ -253,7 +262,7 @@
 <td class="py-md px-md whitespace-nowrap">
 <button class="flex items-center space-x-xs text-primary hover:text-primary-container transition-colors font-label-md text-label-md">
 <span class="material-symbols-outlined text-[18px]">image</span>
-<span>View Photo</span>
+<span class="">View Photo</span>
 </button>
 </td>
 <td class="py-md px-md text-right space-x-xs flex justify-end whitespace-nowrap">

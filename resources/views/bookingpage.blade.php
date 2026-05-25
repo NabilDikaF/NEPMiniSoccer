@@ -120,22 +120,26 @@
 <!-- Navigation Links -->
 <nav class="hidden md:flex space-x-md items-center">
 <!-- Active Item -->
-<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary font-bold pb-1 hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="#">
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary font-bold pb-1 hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="/">
                     Home
                 </a>
 <!-- Inactive Items -->
-<a class="text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="#">
+<a class="text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="mybookings">
                     My Bookings
                 </a>
-<a class="text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="#">
+<a class="text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="profile">
                     Profile
                 </a>
 </nav>
 <!-- Trailing Action -->
 <div class="flex items-center">
-<button class="text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform font-label-md text-label-md px-sm py-xs">
-                    Logout
+<form method="POST" action="{{ route('logout') }}" class="hidden md:block m-0 p-0">
+                @csrf
+                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
+                    <span>Logout</span>
+                    <span class="material-symbols-outlined text-sm">logout</span>
                 </button>
+            </form>
 </div>
 </div>
 </header>

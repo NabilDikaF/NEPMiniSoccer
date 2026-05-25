@@ -124,33 +124,67 @@
 <body class="bg-surface font-body-md text-on-surface antialiased min-h-screen flex flex-col">
 <!-- TopNavBar Component -->
 <nav class="bg-surface-container-lowest dark:bg-surface-container-highest docked full-width top-0 sticky z-50 shadow-sm dark:shadow-none elevation-1 relative group">
-<div class="flex justify-between items-center px-gutter py-base max-w-container-max mx-auto w-full">
-<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">
-                NEP Mini Soccer
-            </div>
-<div class="hidden md:flex space-x-md">
-<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary font-bold pb-1 scale-95 active:scale-90 transition-transform" href="#">Home</a>
-<a class="text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="#">My Bookings</a>
-<a class="text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="#">Profile</a>
-</div>
-<button class="hidden md:flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
-<span>Logout</span>
-<span class="material-symbols-outlined text-sm">logout</span>
-</button>
-<button class="md:hidden text-on-surface p-2 focus:outline-none focus:ring-2 focus:ring-primary rounded">
-<span class="material-symbols-outlined">menu</span>
-</button>
-</div>
-<!-- Mobile Menu Dropdown (Hidden by default, shown on focus-within or via JS theoretically) -->
-<div class="md:hidden hidden absolute top-full left-0 w-full bg-surface-container-lowest shadow-md elevation-2 flex flex-col items-center py-4 space-y-4 border-t border-surface-variant z-40 group-focus-within:flex">
-<a class="text-primary dark:text-primary-fixed-dim font-bold pb-1 scale-95 active:scale-90 transition-transform" href="#">Home</a>
-<a class="text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="#">My Bookings</a>
-<a class="text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="#">Profile</a>
-<button class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
-<span>Logout</span>
-<span class="material-symbols-outlined text-sm">logout</span>
-</button>
-</div>
+    <div class="flex justify-between items-center px-gutter py-base max-w-container-max mx-auto w-full">
+        <div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">
+            NEP Mini Soccer
+        </div>
+        
+        <div class="hidden md:flex space-x-md items-center">
+            <a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary font-bold pb-1 scale-95 active:scale-90 transition-transform" href="/">Home</a>
+            
+            @auth
+                {{-- Hanya muncul jika sudah login --}}
+                <a class="text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="mybooking">My Bookings</a>
+                <a class="text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="profile">Profile</a>
+            @endauth
+        </div>
+
+        @auth
+            <form method="POST" action="{{ route('logout') }}" class="hidden md:block m-0 p-0">
+                @csrf
+                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
+                    <span>Logout</span>
+                    <span class="material-symbols-outlined text-sm">logout</span>
+                </button>
+            </form>
+        @endauth
+
+        @guest
+            <a href="{{ route('login') }}" class="hidden md:flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
+                <span>Login</span>
+                <span class="material-symbols-outlined text-sm">login</span>
+            </a>
+        @endguest
+
+        <button class="md:hidden text-on-surface p-2 focus:outline-none focus:ring-2 focus:ring-primary rounded">
+            <span class="material-symbols-outlined">menu</span>
+        </button>
+    </div>
+
+    <div class="md:hidden hidden absolute top-full left-0 w-full bg-surface-container-lowest shadow-md elevation-2 flex flex-col items-center py-4 space-y-4 border-t border-surface-variant z-40 group-focus-within:flex md:group-focus-within:hidden">
+        <a class="text-primary dark:text-primary-fixed-dim font-bold pb-1 scale-95 active:scale-90 transition-transform" href="/">Home</a>
+        
+        @auth
+            {{-- Hanya muncul jika sudah login --}}
+            <a class="text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="mybooking">My Bookings</a>
+            <a class="text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="profile">Profile</a>
+            
+            <form method="POST" action="{{ route('logout') }}" class="m-0 p-0">
+                @csrf
+                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
+                    <span>Logout</span>
+                    <span class="material-symbols-outlined text-sm">logout</span>
+                </button>
+            </form>
+        @endauth
+
+        @guest
+            <a href="{{ route('login') }}" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
+                <span>Login</span>
+                <span class="material-symbols-outlined text-sm">login</span>
+            </a>
+        @endguest
+    </div>
 </nav>
 <!-- Main Content -->
 <main class="flex-grow">

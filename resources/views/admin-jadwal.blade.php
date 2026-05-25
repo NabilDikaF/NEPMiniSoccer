@@ -120,35 +120,45 @@
 </div>
 </header>
 <aside class="fixed left-0 top-0 h-screen w-64 flex flex-col bg-surface-container-low shadow-sm z-40 transform -translate-x-full peer-checked:translate-x-0 md:translate-x-0 transition-transform duration-300 md:sticky md:flex">
-<div class="p-md flex flex-col h-full space-y-base">
-<div class="mb-lg flex justify-between items-start">
+<div class="p-md flex flex-col h-full space-y-base"><div class="flex flex-col h-full p-md space-y-base">
+<div class="flex items-center gap-sm mb-lg">
+<img alt="Admin Avatar" class="w-12 h-12 rounded-full object-cover" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"/>
 <div>
-<h1 class="font-headline-sm text-headline-sm font-bold text-primary hidden md:block">NEP Admin</h1>
-<p class="font-label-sm text-label-sm text-secondary mt-xs">Field Management</p>
-</div>
-<label class="md:hidden material-symbols-outlined text-secondary cursor-pointer" for="mobile-sidebar-toggle">close</label>
-</div>
-<nav class="flex-1 flex flex-col gap-xs">
-<a class="flex items-center gap-sm px-sm py-sm text-secondary hover:bg-surface-container-high rounded-lg transition-all translate-x-1 active:translate-x-0" href="#">
-<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-<span class="font-label-md text-label-md">Dashboard</span>
-</a>
-<a class="flex items-center gap-sm px-sm py-sm text-secondary hover:bg-surface-container-high rounded-lg transition-all translate-x-1 active:translate-x-0" href="#">
-<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
-<span class="font-label-md text-label-md">Verifikasi</span>
-</a>
-<a class="flex items-center gap-sm px-sm py-sm bg-primary-container text-on-primary-container rounded-lg font-bold translate-x-1 active:translate-x-0 transition-transform" href="#">
-<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
-<span class="font-label-md text-label-md">Kelola Jadwal</span>
-</a>
-</nav>
-<div class="mt-auto pt-md border-t border-surface-container-highest">
-<a class="flex items-center gap-sm px-sm py-sm text-secondary hover:bg-surface-container-high rounded-lg transition-all translate-x-1 active:translate-x-0" href="#">
-<span class="material-symbols-outlined" data-icon="logout">logout</span>
-<span class="font-label-md text-label-md">Logout</span>
-</a>
+<h2 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">NEP Admin</h2>
+<p class="font-label-sm text-label-sm text-secondary">Field Management</p>
 </div>
 </div>
+<div class="flex-1 space-y-sm">
+<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="dashboard">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="verifikasi">
+<span class="material-symbols-outlined">fact_check</span>
+<span>Verifikasi</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-primary dark:text-primary-fixed-dim bg-surface-container-high dark:bg-surface-container rounded-lg transition-all translate-x-0 font-label-md text-label-md" href="jadwal">
+<span class="material-symbols-outlined">calendar_month</span>
+<span>Kelola Jadwal</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="pelanggan">
+<span class="material-symbols-outlined">group</span>
+<span>Data Pelanggan</span>
+</a>
+</div>
+<div class="mt-auto">
+<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md">
+<span class="material-symbols-outlined">logout</span>
+<form method="POST" action="{{ route('logout') }}" class="hidden md:block m-0 p-0">
+                @csrf
+                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
+                    <span>Logout</span>
+                    <span class="material-symbols-outlined text-sm">logout</span>
+                </button>
+            </form>
+</a>
+</div>
+</div></div>
 </aside>
 <main class="flex-1 p-md md:p-lg w-full max-w-[1440px] mx-auto overflow-x-hidden">
 <header class="mb-lg flex flex-col sm:flex-row justify-between items-start sm:items-center gap-md">
@@ -169,7 +179,7 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
 <div class="flex flex-col gap-xs">
 <label class="font-label-md text-label-md text-on-surface flex justify-between">
-<span>Blok Pagi</span>
+<span class="">Blok Pagi</span>
 <span class="text-secondary font-label-sm text-label-sm font-normal">06:00 - 10:00</span>
 </label>
 <div class="relative">
@@ -179,7 +189,7 @@
 </div>
 <div class="flex flex-col gap-xs">
 <label class="font-label-md text-label-md text-on-surface flex justify-between">
-<span>Blok Siang</span>
+<span class="">Blok Siang</span>
 <span class="text-secondary font-label-sm text-label-sm font-normal">10:00 - 15:00</span>
 </label>
 <div class="relative">
@@ -189,7 +199,7 @@
 </div>
 <div class="flex flex-col gap-xs">
 <label class="font-label-md text-label-md text-on-surface flex justify-between">
-<span>Blok Sore</span>
+<span class="">Blok Sore</span>
 <span class="text-secondary font-label-sm text-label-sm font-normal">15:00 - 18:00</span>
 </label>
 <div class="relative">
@@ -199,7 +209,7 @@
 </div>
 <div class="flex flex-col gap-xs">
 <label class="font-label-md text-label-md text-on-surface flex justify-between">
-<span>Blok Malam</span>
+<span class="">Blok Malam</span>
 <span class="text-secondary font-label-sm text-label-sm font-normal">18:00 - 23:00</span>
 </label>
 <div class="relative">

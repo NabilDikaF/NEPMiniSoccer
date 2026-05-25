@@ -124,13 +124,19 @@
                 NEP Mini Soccer
             </div>
 <div class="hidden md:flex items-center space-x-md">
-<a class="text-secondary font-medium hover:text-primary-container transition-colors duration-200 font-label-md text-label-md" href="#">Home</a>
+<a class="text-secondary font-medium hover:text-primary-container transition-colors duration-200 font-label-md text-label-md" href="/">Home</a>
 <!-- Active State Applied Here based on exact intent match -->
-<a class="text-primary border-b-2 border-primary font-bold pb-1 hover:text-primary-container transition-colors duration-200 font-label-md text-label-md" href="#">My Bookings</a>
-<a class="text-secondary font-medium hover:text-primary-container transition-colors duration-200 font-label-md text-label-md" href="#">Profile</a>
+<a class="text-primary border-b-2 border-primary font-bold pb-1 hover:text-primary-container transition-colors duration-200 font-label-md text-label-md" href="mybooking">My Bookings</a>
+<a class="text-secondary font-medium hover:text-primary-container transition-colors duration-200 font-label-md text-label-md" href="profile">Profile</a>
 </div>
 <div class="hidden md:flex items-center">
-<button class="text-secondary font-label-md text-label-md hover:text-primary transition-colors scale-95 active:scale-90 transition-transform">Logout</button>
+<form method="POST" action="{{ route('logout') }}" class="hidden md:block m-0 p-0">
+                @csrf
+                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
+                    <span>Logout</span>
+                    <span class="material-symbols-outlined text-sm">logout</span>
+                </button>
+            </form>
 </div>
 <button class="md:hidden text-on-surface p-xs rounded hover:bg-surface-container transition-colors">
 <span class="material-symbols-outlined">menu</span>

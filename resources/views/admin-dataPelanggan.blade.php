@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>NEP Admin - Data Pelanggan</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -115,30 +113,38 @@
 <nav class="fixed left-0 top-0 h-screen w-64 hidden md:flex flex-col bg-surface-container-low dark:bg-surface-dim shadow-sm dark:shadow-none z-40">
 <div class="flex flex-col h-full p-md space-y-base">
 <div class="flex items-center gap-sm mb-lg">
-<img alt="Admin Avatar" class="w-12 h-12 rounded-full object-cover" data-alt="A professional headshot of an administrative professional in a bright, modern office setting. The lighting is crisp and even, reflecting a high-quality SaaS dashboard aesthetic. The mood is welcoming yet authoritative, fitting for a sports management software interface. The color palette incorporates subtle green tones in the background to match the brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7P06HlnPnTGTIQuNNgTlnKq1RROsE5TAeBSnc0WLBm5xhrBSmkagDA_4_zqSQSIKnE7-Ky9btQSpHNa5hoAxkEuFrEqNldfU8t-cGgHvknlboNP5L9OiTeO48IWSDIRqgeeli43xBMRuBxMF-uiU1edHDNqriSNkQe5HmhMWeU8a-T6Y8jvKmzv25ZjuADai3bqJi3ggpWfprJowhiJAYEmsdMAWvyTDZpkaNi5QTwOc0lPgopxQu9HuR6M8IcGeL0PqXDZG0I_3c"/>
+<img alt="Admin Avatar" class="w-12 h-12 rounded-full object-cover" data-alt="A professional headshot of an administrative professional in a bright, modern office setting. The lighting is crisp and even, reflecting a high-quality SaaS dashboard aesthetic. The mood is welcoming yet authoritative, fitting for a sports management software interface. The color palette incorporates subtle green tones in the background to match the brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7P06HlnPnTGTIQuNNgTlnKq1RROsE5TAeBSnc0WLBm5xhrBSmkagDA_4_zqSQSIKnE7-Ky9btQSpHNa5hoAxkEuFrEqNldfU8t-cGgHvknlboNP5L9OiTeO48IWSDIRqgeeli43xBMRuBxMF-uiU1edHDNqriSNkQe5HmhMWeU8a-T6Y8jvKmzv25ZjuADai3bqJi3ggpWfprJowhiJAYEmsdMAWvyTDZpkaNi5QTwOc0lPgopxQu9HuR6M8IcGeL0PqXDZG0I_3c">
 <div>
 <h2 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">NEP Admin</h2>
 <p class="font-label-sm text-label-sm text-secondary">Field Management</p>
 </div>
 </div>
-<div class="flex-1 space-y-sm">
-<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="#">
+<div class="flex-1 space-y-sm"><a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="dashboard">
 <span class="material-symbols-outlined">dashboard</span>
-<span>Dashboard</span>
+<span class="">Dashboard</span>
 </a>
-<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="#">
+<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="verifikasi">
 <span class="material-symbols-outlined">fact_check</span>
-<span>Verifikasi</span>
+<span class="">Verifikasi</span>
 </a>
-<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="#">
+<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="jadwal">
 <span class="material-symbols-outlined">calendar_month</span>
-<span>Kelola Jadwal</span>
+<span class="">Kelola Jadwal</span>
 </a>
-</div>
+<a class="flex items-center gap-sm p-sm text-primary dark:text-primary-fixed-dim bg-surface-container-high dark:bg-surface-container rounded-lg transition-all translate-x-0 font-label-md text-label-md" href="pelanggan">
+<span class="material-symbols-outlined">group</span>
+<span class="">Data Pelanggan</span>
+</a></div>
 <div class="mt-auto">
-<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="#">
+<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md">
 <span class="material-symbols-outlined">logout</span>
-<span>Logout</span>
+<form method="POST" action="{{ route('logout') }}" class="hidden md:block m-0 p-0">
+                @csrf
+                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
+                    <span>Logout</span>
+                    <span class="material-symbols-outlined text-sm">logout</span>
+                </button>
+            </form>
 </a>
 </div>
 </div>
@@ -159,7 +165,7 @@
 </div>
 <div class="relative w-full md:w-auto">
 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary">search</span>
-<input class="w-full md:w-64 pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary font-body-md text-body-md shadow-[0_2px_4px_rgba(33,37,41,0.05)] transition-shadow hover:shadow-[0_8px_16px_rgba(33,37,41,0.08)]" placeholder="Cari nama tim..." type="text"/>
+<input class="w-full md:w-64 pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary font-body-md text-body-md shadow-[0_2px_4px_rgba(33,37,41,0.05)] transition-shadow hover:shadow-[0_8px_16px_rgba(33,37,41,0.08)]" placeholder="Cari nama tim..." type="text">
 </div>
 </div>
 <!-- Data Table Card -->
@@ -253,4 +259,6 @@
 </div>
 </div>
 </main>
+
+
 </body></html>

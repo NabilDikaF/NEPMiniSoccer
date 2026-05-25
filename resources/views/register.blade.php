@@ -148,7 +148,7 @@
 </form>
 <div class="mt-md text-center">
 <p class="font-body-md text-body-md text-secondary">
-                    Sudah punya akun? <a class="text-primary font-medium hover:underline p-2 -m-2 inline-block" href="#">Login di sini</a>
+                    Sudah punya akun? <a class="text-primary font-medium hover:underline p-2 -m-2 inline-block" href="login">Login di sini</a>
 </p>
 </div>
 </div>

@@ -11,7 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Contoh memanggil seeder lain yang sudah Anda buat
         $this->call([
         UserSeeder::class,
         HargaSeeder::class,

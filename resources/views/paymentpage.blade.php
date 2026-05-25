@@ -125,7 +125,13 @@
 <a class="text-secondary font-medium hover:text-primary-container transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="#">Profile</a>
 </nav>
 <div>
-<button class="text-primary font-label-md text-label-md hover:text-primary-container transition-colors duration-200">Logout</button>
+<form method="POST" action="{{ route('logout') }}" class="hidden md:block m-0 p-0">
+                @csrf
+                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
+                    <span>Logout</span>
+                    <span class="material-symbols-outlined text-sm">logout</span>
+                </button>
+            </form>
 </div>
 </div>
 </header>

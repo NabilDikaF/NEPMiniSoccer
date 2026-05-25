@@ -114,51 +114,20 @@
 <button class="p-sm text-secondary hover:bg-surface-container-high rounded-full focus:outline-none focus:ring-2 focus:ring-primary" id="sidebar-toggle">
 <span class="material-symbols-outlined">menu</span>
 </button>
-<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-headline-sm text-headline-sm font-bold">
-            N
-        </div>
+<div class="w-8 h-8 rounded-full text-on-primary-container font-headline-sm text-headline-sm font-bold"><img alt="Admin Avatar" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7P06HlnPnTGTIQuNNgTlnKq1RROsE5TAeBSnc0WLBm5xhrBSmkagDA_4_zqSQSIKnE7-Ky9btQSpHNa5hoAxkEuFrEqNldfU8t-cGgHvknlboNP5L9OiTeO48IWSDIRqgeeli43xBMRuBxMF-uiU1edHDNqriSNkQe5HmhMWeU8a-T6Y8jvKmzv25ZjuADai3bqJi3ggpWfprJowhiJAYEmsdMAWvyTDZpkaNi5QTwOc0lPgopxQu9HuR6M8IcGeL0PqXDZG0I_3c"/></div>
 </div>
 <h1 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">NEP Admin</h1>
 </header>
 <!-- Overlay -->
 <div class="fixed inset-0 bg-on-background/50 z-40 hidden transition-opacity duration-300 opacity-0 md:hidden" id="sidebar-overlay"></div>
 <!-- SideNavBar -->
-<nav class="bg-surface-container-low dark:bg-surface-dim shadow-lg md:shadow-sm dark:shadow-none fixed md:relative left-0 top-0 h-screen w-64 flex flex-col p-md space-y-base z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out" id="sidebar">
-<div class="flex items-center justify-between md:justify-start mb-lg">
-<div class="flex items-center space-x-sm">
-<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-headline-sm text-headline-sm font-bold">
-            N
-        </div>
-<div>
-<h1 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">NEP Admin</h1>
-<p class="font-label-sm text-label-sm text-secondary">Field Management</p>
-</div>
-</div>
-<button class="md:hidden p-sm text-secondary hover:bg-surface-container-high rounded-full focus:outline-none focus:ring-2 focus:ring-primary" id="sidebar-close">
-<span class="material-symbols-outlined">close</span>
-</button>
-</div>
-<div class="flex-1 space-y-xs overflow-y-auto">
-<a class="flex items-center space-x-sm p-sm bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-lg font-bold translate-x-1 active:translate-x-0 transition-transform font-label-md text-label-md" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
-<span>Dashboard</span>
-</a>
-<a class="flex items-center space-x-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all font-label-md text-label-md" href="#">
-<span class="material-symbols-outlined">fact_check</span>
-<span>Verifikasi</span>
-</a>
-<a class="flex items-center space-x-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all font-label-md text-label-md" href="#">
-<span class="material-symbols-outlined">calendar_month</span>
-<span>Kelola Jadwal</span>
-</a>
-</div>
-<div class="mt-auto">
-<a class="flex items-center space-x-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all font-label-md text-label-md" href="#">
-<span class="material-symbols-outlined">logout</span>
-<span>Logout</span>
-</a>
-</div>
-</nav>
+<nav class="bg-surface-container-low dark:bg-surface-dim shadow-lg md:shadow-sm dark:shadow-none fixed md:relative left-0 top-0 h-screen w-64 flex flex-col p-md space-y-base z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out" id="sidebar"><div class="flex flex-col h-full p-md space-y-base"><div class="flex items-center justify-between md:justify-start mb-lg"><div class="flex items-center gap-sm"><img alt="Admin Avatar" class="w-12 h-12 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7P06HlnPnTGTIQuNNgTlnKq1RROsE5TAeBSnc0WLBm5xhrBSmkagDA_4_zqSQSIKnE7-Ky9btQSpHNa5hoAxkEuFrEqNldfU8t-cGgHvknlboNP5L9OiTeO48IWSDIRqgeeli43xBMRuBxMF-uiU1edHDNqriSNkQe5HmhMWeU8a-T6Y8jvKmzv25ZjuADai3bqJi3ggpWfprJowhiJAYEmsdMAWvyTDZpkaNi5QTwOc0lPgopxQu9HuR6M8IcGeL0PqXDZG0I_3c"/><div><h2 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">NEP Admin</h2><p class="font-label-sm text-label-sm text-secondary">Field Management</p></div></div><button class="md:hidden p-sm text-secondary hover:bg-surface-container-high rounded-full focus:outline-none focus:ring-2 focus:ring-primary" id="sidebar-close"><span class="material-symbols-outlined">close</span></button></div><div class="flex-1 space-y-sm"><a class="flex items-center gap-sm p-sm text-primary dark:text-primary-fixed-dim bg-surface-container-high dark:bg-surface-container rounded-lg transition-all translate-x-0 font-label-md text-label-md" href="dashboard"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span><span class="">Dashboard</span></a><a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="verifikasi"><span class="material-symbols-outlined">fact_check</span><span class="">Verifikasi</span></a><a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="jadwal"><span class="material-symbols-outlined">calendar_month</span><span class="">Kelola Jadwal</span></a><a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="pelanggan"><span class="material-symbols-outlined">group</span><span class="">Data Pelanggan</span></a></div><div class="mt-auto"><a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="#"><span class="material-symbols-outlined">logout</span><form method="POST" action="{{ route('logout') }}" class="hidden md:block m-0 p-0">
+                @csrf
+                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
+                    <span>Logout</span>
+                    <span class="material-symbols-outlined text-sm">logout</span>
+                </button>
+            </form></a></div></div></nav>
 <!-- Main Content Canvas -->
 <main class="flex-1 overflow-y-auto p-md md:p-gutter lg:p-xl w-full">
 <div class="max-w-container-max mx-auto space-y-lg">
@@ -244,13 +213,13 @@
 </div>
 <!-- X-Axis Labels -->
 <div class="flex justify-between items-center mt-sm text-secondary font-label-sm text-label-sm">
-<span>M<span class="hidden sm:inline">on</span></span>
-<span>T<span class="hidden sm:inline">ue</span></span>
-<span>W<span class="hidden sm:inline">ed</span></span>
-<span>T<span class="hidden sm:inline">hu</span></span>
-<span>F<span class="hidden sm:inline">ri</span></span>
-<span>S<span class="hidden sm:inline">at</span></span>
-<span>S<span class="hidden sm:inline">un</span></span>
+<span class="">M<span class="hidden sm:inline">on</span></span>
+<span class="">T<span class="hidden sm:inline">ue</span></span>
+<span class="">W<span class="hidden sm:inline">ed</span></span>
+<span class="">T<span class="hidden sm:inline">hu</span></span>
+<span class="">F<span class="hidden sm:inline">ri</span></span>
+<span class="">S<span class="hidden sm:inline">at</span></span>
+<span class="">S<span class="hidden sm:inline">un</span></span>
 </div>
 </div>
 <!-- Recent Activity Feed -->

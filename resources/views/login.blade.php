@@ -159,7 +159,7 @@
 </div>
 <span class="font-body-md text-body-md text-secondary select-none">Remember Me</span>
 </label>
-<a class="font-label-md text-label-md text-primary text-decoration-none hover:text-primary-container transition-colors" href="#">Forgot Password?</a>
+<a class="font-label-md text-label-md text-primary text-decoration-none hover:text-primary-container transition-colors" href="forgetpw">Forgot Password?</a>
 </div>
 <!-- Submit Button -->
 <div class="pt-3">
@@ -173,7 +173,7 @@
 <div class="mt-4 mt-md-5 pt-3 pt-md-4 border-top border-surface-variant text-center">
 <p class="font-body-md text-body-md text-secondary mb-0">
                 Don't have an account? 
-                <a class="font-label-md text-label-md text-primary text-decoration-none hover:text-primary-container transition-colors ms-2" href="#">Register here</a>
+                <a class="font-label-md text-label-md text-primary text-decoration-none hover:text-primary-container transition-colors ms-2" href="register">Register here</a>
 </p>
 </div>
 </main>

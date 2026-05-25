@@ -12,18 +12,28 @@ class AuthController extends Controller
         return view('login');
     }
 
+    public function register()
+    {
+        return view('register');
+    }
+
+    public function forgetpw()
+    {
+        return view('forgetpw');
+    }
+
     public function login_post(Request $request)
     {
         // 1. Validasi input
         $request->validate([
             'identifier' => 'required',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
         // 2. Petakan identifier dari form menjadi 'email' untuk database
         $credentials = [
             'email' => $request->identifier,
-            'password' => $request->password
+            'password' => $request->password,
         ];
 
         // 3. Proses Autentikasi
@@ -45,5 +55,16 @@ class AuthController extends Controller
         return back()->withErrors([
             'identifier' => 'Email atau sandi tidak sesuai.',
         ])->onlyInput('identifier');
+    }
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        // Arahkan kembali ke halaman utama (home) atau halaman login setelah berhasil logout
+        return redirect('/');
     }
 }
