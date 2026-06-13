@@ -24,9 +24,9 @@ Route::get('/admin/verifikasi', [DashboardController::class, 'verifikasi'])->nam
 Route::get('/admin/jadwal', [DashboardController::class, 'jadwal'])->name('admin.jadwal');
 Route::get('/admin/pelanggan', [DashboardController::class, 'pelanggan'])->name('admin.pelanggan');
 
-Route::get('/booking', [BookingController::class, 'booking'])->name('booking');
-Route::get('/payment', [PaymentController::class, 'payment'])->name('payment');
-Route::get('/mybooking', [BookingController::class, 'mybooking'])->name('mybooking');
-Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+Route::get('/booking', [BookingController::class, 'booking'])->name('booking')->middleware('auth');
+Route::get('/payment', [PaymentController::class, 'payment'])->name('payment')->middleware('auth');
+Route::get('/mybooking', [BookingController::class, 'mybooking'])->name('mybooking')->middleware('auth');
+Route::get('/profile', [ProfileController::class, 'profile'])->name('profile')->middleware('auth');
 
 

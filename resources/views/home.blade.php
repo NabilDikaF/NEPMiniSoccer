@@ -130,11 +130,11 @@
         </div>
         
         <div class="hidden md:flex space-x-md items-center">
-            <a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary font-bold pb-1 scale-95 active:scale-90 transition-transform" href="/">Home</a>
             
             @auth
-                {{-- Hanya muncul jika sudah login --}}
-                <a class="text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="mybooking">My Bookings</a>
+            {{-- Hanya muncul jika sudah login --}}
+            <a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary font-bold pb-1 scale-95 active:scale-90 transition-transform" href="/">Home</a>
+                <a class="text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="mybooking">Riwayat </a>
                 <a class="text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="profile">Profile</a>
             @endauth
         </div>
@@ -143,7 +143,7 @@
             <form method="POST" action="{{ route('logout') }}" class="hidden md:block m-0 p-0">
                 @csrf
                 <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
-                    <span>Logout</span>
+                    <span>Keluar</span>
                     <span class="material-symbols-outlined text-sm">logout</span>
                 </button>
             </form>
@@ -151,7 +151,7 @@
 
         @guest
             <a href="{{ route('login') }}" class="hidden md:flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
-                <span>Login</span>
+                <span>Masuk</span>
                 <span class="material-symbols-outlined text-sm">login</span>
             </a>
         @endguest
@@ -199,9 +199,9 @@
 <p class="font-body-lg text-base sm:text-lg md:text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-md px-4 md:px-0">
                     Fasilitas mini soccer premium dengan kualitas rumput sintetis standar FIFA. Pesan jadwalmu sekarang dan nikmati pengalaman bermain kelas satu.
                 </p>
-<button class="bg-primary-container text-on-primary hover:bg-primary transition-colors duration-200 font-label-md text-label-md py-sm px-md rounded-lg elevation-2 active:scale-95 w-full sm:w-auto">
+<a class="inline-flex items-center justify-center bg-primary-container text-on-primary hover:bg-primary transition-colors duration-200 font-label-md text-label-md py-sm px-md rounded-lg elevation-2 active:scale-95 w-full sm:w-auto" href="{{ route('booking') }}">
                     Pesan Sekarang
-                </button>
+                </a>
 </div>
 </section>
 <!-- Availability Section -->

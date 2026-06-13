@@ -121,10 +121,6 @@
 <input class="w-full border border-surface-variant rounded-lg px-sm py-3 sm:py-sm font-body-md text-body-md text-on-surface bg-surface-bright focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="fullName" placeholder="Masukkan nama lengkap" type="text"/>
 </div>
 <div class="flex flex-col space-y-xs">
-<label class="font-label-md text-label-md text-on-surface" for="teamName">Nama Tim <span class="text-secondary font-normal">(Opsional)</span></label>
-<input class="w-full border border-surface-variant rounded-lg px-sm py-3 sm:py-sm font-body-md text-body-md text-on-surface bg-surface-bright focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="teamName" placeholder="Masukkan nama tim" type="text"/>
-</div>
-<div class="flex flex-col space-y-xs">
 <label class="font-label-md text-label-md text-on-surface" for="whatsapp">No. WhatsApp</label>
 <input class="w-full border border-surface-variant rounded-lg px-sm py-3 sm:py-sm font-body-md text-body-md text-on-surface bg-surface-bright focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="whatsapp" placeholder="Contoh: 081234567890" type="tel"/>
 </div>
@@ -141,14 +137,14 @@
 <input class="w-full border border-surface-variant rounded-lg px-sm py-3 sm:py-sm font-body-md text-body-md text-on-surface bg-surface-bright focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="confirmPassword" placeholder="Masukkan ulang password" type="password"/>
 </div>
 <div class="pt-base">
-<button class="w-full bg-primary-container text-on-primary font-label-md text-label-md py-3 sm:py-sm rounded-lg shadow-[0_2px_4px_rgba(33,37,41,0.05)] hover:shadow-[0_8px_16px_rgba(33,37,41,0.08)] hover:-translate-y-0.5 transition-all duration-200" type="button">
+<button class="w-full bg-primary-container text-on-primary font-label-md text-label-md py-3 sm:py-sm rounded-lg shadow-[0_2px_4px_rgba(33,37,41,0.05)] hover:shadow-[0_8px_16px_rgba(33,37,41,0.08)] transition-all duration-200" type="button">
                         Daftar Akun
                     </button>
 </div>
 </form>
 <div class="mt-md text-center">
 <p class="font-body-md text-body-md text-secondary">
-                    Sudah punya akun? <a class="text-primary font-medium hover:underline p-2 -m-2 inline-block" href="login">Login di sini</a>
+                    Sudah punya akun? <a class="text-primary font-medium hover:underline p-2 -m-2 inline-block" href="login">Masuk</a>
 </p>
 </div>
 </div>
