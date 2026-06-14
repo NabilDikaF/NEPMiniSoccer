@@ -115,7 +115,7 @@
 <img alt="Admin Avatar" class="w-12 h-12 rounded-full object-cover" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"/>
 <div>
 <h2 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">NEP Admin</h2>
-<p class="font-label-sm text-label-sm text-secondary">Field Management</p>
+<p class="font-label-sm text-label-sm text-secondary">Manajemen Lapangan</p>
 </div>
 </div>
 <div class="flex-1 space-y-sm">
@@ -140,8 +140,8 @@
 <a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md">
 <form method="POST" action="{{ route('logout') }}" class="hidden md:block m-0 p-0">
                 @csrf
-                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
-                    <span>Logout</span>
+                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-110 active:scale-110 transition-transform">
+                    <span>Keluar</span>
                     <span class="material-symbols-outlined text-sm">logout</span>
                 </button>
             </form>
@@ -154,19 +154,19 @@
 <!-- Header -->
 <header class="mb-lg flex flex-col sm:flex-row justify-between items-start sm:items-center gap-sm sm:gap-0">
 <div>
-<h2 class="font-headline-lg text-headline-lg text-on-surface">Payment Verification</h2>
-<p class="font-body-md text-body-md text-secondary mt-xs">Review and approve incoming bank transfer proofs.</p>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Verifikasi Pembayaran</h2>
+<p class="font-body-md text-body-md text-secondary mt-xs">Meninjau dan menyetujui bukti transfer bank yang masuk.</p>
 </div>
 <div class="flex items-center space-x-sm bg-surface-container-lowest px-sm py-xs rounded-lg shadow-sm border border-surface-variant">
 <span class="material-symbols-outlined text-secondary">filter_list</span>
-<span class="font-label-md text-label-md text-on-surface">Filter: Pending</span>
+<span class="font-label-md text-label-md text-on-surface">Filter: Menunggu</span>
 </div>
 </header>
 <!-- Stats Overview -->
 <div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-lg">
 <div class="bg-surface-container-lowest p-md rounded-lg shadow-sm border border-surface-variant flex items-center justify-between">
 <div>
-<p class="font-label-sm text-label-sm text-secondary mb-xs">Pending Reviews</p>
+<p class="font-label-sm text-label-sm text-secondary mb-xs">Menunggu Untuk Ditinjau</p>
 <p class="font-headline-md text-headline-md text-on-surface font-bold">12</p>
 </div>
 <div class="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container">
@@ -175,7 +175,7 @@
 </div>
 <div class="bg-surface-container-lowest p-md rounded-lg shadow-sm border border-surface-variant flex items-center justify-between">
 <div>
-<p class="font-label-sm text-label-sm text-secondary mb-xs">Approved Today</p>
+<p class="font-label-sm text-label-sm text-secondary mb-xs">Disetujui Hari Ini</p>
 <p class="font-headline-md text-headline-md text-on-surface font-bold">8</p>
 </div>
 <div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
@@ -184,7 +184,7 @@
 </div>
 <div class="bg-surface-container-lowest p-md rounded-lg shadow-sm border border-surface-variant flex items-center justify-between">
 <div>
-<p class="font-label-sm text-label-sm text-secondary mb-xs">Rejected</p>
+<p class="font-label-sm text-label-sm text-secondary mb-xs">Ditolak</p>
 <p class="font-headline-md text-headline-md text-on-surface font-bold">1</p>
 </div>
 <div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-on-error-container">
@@ -198,12 +198,12 @@
 <table class="w-full text-left border-collapse min-w-[800px] md:min-w-full">
 <thead>
 <tr class="bg-surface-container-low border-b border-surface-variant">
-<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap">Date</th>
-<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap">Team Name</th>
-<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap">Payment Type</th>
-<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap">Amount</th>
-<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap">Proof File</th>
-<th class="font-label-md text-label-md text-secondary py-sm px-md text-right whitespace-nowrap">Actions</th>
+<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap">Tanggal</th>
+<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap">Nama Tim</th>
+<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap">Tipe Pembayaran</th>
+<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap">Jumlah</th>
+<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap">Bukti Transfer</th>
+<th class="font-label-md text-label-md text-secondary py-sm px-md text-right whitespace-nowrap">Aksi</th>
 </tr>
 </thead>
 <tbody class="font-body-md text-body-md">
@@ -216,7 +216,7 @@
 <td class="py-md px-md whitespace-nowrap">
 <button class="flex items-center space-x-xs text-primary hover:text-primary-container transition-colors font-label-md text-label-md">
 <span class="material-symbols-outlined text-[18px]">image</span>
-<span class="">View Photo</span>
+<span class="">Lihat Foto</span>
 </button>
 </td>
 <td class="py-md px-md text-right space-x-xs flex justify-end whitespace-nowrap">
@@ -234,12 +234,12 @@
 <tr class="border-b border-surface-variant hover:bg-surface-bright transition-colors">
 <td class="py-md px-md text-on-surface whitespace-nowrap">Oct 24, 11:15</td>
 <td class="py-md px-md font-medium text-on-surface whitespace-nowrap">Kickers Club</td>
-<td class="py-md px-md text-secondary whitespace-nowrap">Full Payment</td>
+<td class="py-md px-md text-secondary whitespace-nowrap">Lunas</td>
 <td class="py-md px-md font-medium text-on-surface whitespace-nowrap">Rp 500.000</td>
 <td class="py-md px-md whitespace-nowrap">
 <button class="flex items-center space-x-xs text-primary hover:text-primary-container transition-colors font-label-md text-label-md">
 <span class="material-symbols-outlined text-[18px]">image</span>
-<span class="">View Photo</span>
+<span class="">Lihat Foto</span>
 </button>
 </td>
 <td class="py-md px-md text-right space-x-xs flex justify-end whitespace-nowrap">
@@ -262,7 +262,7 @@
 <td class="py-md px-md whitespace-nowrap">
 <button class="flex items-center space-x-xs text-primary hover:text-primary-container transition-colors font-label-md text-label-md">
 <span class="material-symbols-outlined text-[18px]">image</span>
-<span class="">View Photo</span>
+<span class="">Lihat Foto</span>
 </button>
 </td>
 <td class="py-md px-md text-right space-x-xs flex justify-end whitespace-nowrap">
@@ -281,12 +281,12 @@
 </div>
 <!-- Pagination Footer -->
 <div class="bg-surface-container-lowest border-t border-surface-variant px-md py-sm flex flex-col sm:flex-row items-center justify-between gap-sm sm:gap-0">
-<span class="font-label-sm text-label-sm text-secondary">Showing 1 to 3 of 12 entries</span>
+<span class="font-label-sm text-label-sm text-secondary">Memperlihatkan 1 sampai 3 dari 12</span>
 <div class="flex space-x-xs">
-<button class="px-sm py-xs border border-surface-variant rounded text-secondary hover:bg-surface-container-high transition-colors font-label-md text-label-md disabled:opacity-50" disabled="">Prev</button>
+<button class="px-sm py-xs border border-surface-variant rounded text-secondary hover:bg-surface-container-high transition-colors font-label-md text-label-md disabled:opacity-50" disabled="">Sebelumnya</button>
 <button class="px-sm py-xs bg-primary-container text-on-primary-container rounded font-label-md text-label-md">1</button>
 <button class="px-sm py-xs border border-surface-variant rounded text-secondary hover:bg-surface-container-high transition-colors font-label-md text-label-md">2</button>
-<button class="px-sm py-xs border border-surface-variant rounded text-secondary hover:bg-surface-container-high transition-colors font-label-md text-label-md">Next</button>
+<button class="px-sm py-xs border border-surface-variant rounded text-secondary hover:bg-surface-container-high transition-colors font-label-md text-label-md">Lanjutnya</button>
 </div>
 </div>
 </div>

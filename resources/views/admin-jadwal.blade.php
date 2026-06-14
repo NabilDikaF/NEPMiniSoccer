@@ -148,11 +148,11 @@
 </div>
 <div class="mt-auto">
 <a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md">
-<span class="material-symbols-outlined">logout</span>
+<span class="material-symbols-outlined"></span>
 <form method="POST" action="{{ route('logout') }}" class="hidden md:block m-0 p-0">
                 @csrf
-                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
-                    <span>Logout</span>
+                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-110 active:scale-110 transition-transform">
+                    <span>Keluar</span>
                     <span class="material-symbols-outlined text-sm">logout</span>
                 </button>
             </form>
@@ -225,7 +225,7 @@
 <h3 class="font-headline-sm text-headline-sm text-on-surface">Keanggotaan</h3>
 </div>
 <div class="flex flex-col gap-base">
-<p class="font-body-md text-body-md text-secondary">Atur persentase potongan harga untuk akun yang terdaftar sebagai Member aktif.</p>
+<p class="font-body-md text-body-md text-secondary">Atur persentase potongan harga untuk pelanggan yang memilih jenis member.</p>
 <div class="flex flex-col gap-xs mt-sm">
 <label class="font-label-md text-label-md text-on-surface">Diskon Member</label>
 <div class="relative flex items-center">

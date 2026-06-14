@@ -121,10 +121,10 @@
 <!-- Overlay -->
 <div class="fixed inset-0 bg-on-background/50 z-40 hidden transition-opacity duration-300 opacity-0 md:hidden" id="sidebar-overlay"></div>
 <!-- SideNavBar -->
-<nav class="bg-surface-container-low dark:bg-surface-dim shadow-lg md:shadow-sm dark:shadow-none fixed md:relative left-0 top-0 h-screen w-64 flex flex-col p-md space-y-base z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out" id="sidebar"><div class="flex flex-col h-full p-md space-y-base"><div class="flex items-center justify-between md:justify-start mb-lg"><div class="flex items-center gap-sm"><img alt="Admin Avatar" class="w-12 h-12 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7P06HlnPnTGTIQuNNgTlnKq1RROsE5TAeBSnc0WLBm5xhrBSmkagDA_4_zqSQSIKnE7-Ky9btQSpHNa5hoAxkEuFrEqNldfU8t-cGgHvknlboNP5L9OiTeO48IWSDIRqgeeli43xBMRuBxMF-uiU1edHDNqriSNkQe5HmhMWeU8a-T6Y8jvKmzv25ZjuADai3bqJi3ggpWfprJowhiJAYEmsdMAWvyTDZpkaNi5QTwOc0lPgopxQu9HuR6M8IcGeL0PqXDZG0I_3c"/><div><h2 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">NEP Admin</h2><p class="font-label-sm text-label-sm text-secondary">Field Management</p></div></div><button class="md:hidden p-sm text-secondary hover:bg-surface-container-high rounded-full focus:outline-none focus:ring-2 focus:ring-primary" id="sidebar-close"><span class="material-symbols-outlined">close</span></button></div><div class="flex-1 space-y-sm"><a class="flex items-center gap-sm p-sm text-primary dark:text-primary-fixed-dim bg-surface-container-high dark:bg-surface-container rounded-lg transition-all translate-x-0 font-label-md text-label-md" href="dashboard"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span><span class="">Dashboard</span></a><a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="verifikasi"><span class="material-symbols-outlined">fact_check</span><span class="">Verifikasi</span></a><a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="jadwal"><span class="material-symbols-outlined">calendar_month</span><span class="">Kelola Jadwal</span></a><a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="pelanggan"><span class="material-symbols-outlined">group</span><span class="">Data Pelanggan</span></a></div><div class="mt-auto"><a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="#"><span class="material-symbols-outlined">logout</span><form method="POST" action="{{ route('logout') }}" class="hidden md:block m-0 p-0">
+<nav class="bg-surface-container-low dark:bg-surface-dim shadow-lg md:shadow-sm dark:shadow-none fixed md:relative left-0 top-0 h-screen w-64 flex flex-col p-md space-y-base z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out" id="sidebar"><div class="flex flex-col h-full p-md space-y-base"><div class="flex items-center justify-between md:justify-start mb-lg"><div class="flex items-center gap-sm"><img alt="Admin Avatar" class="w-12 h-12 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7P06HlnPnTGTIQuNNgTlnKq1RROsE5TAeBSnc0WLBm5xhrBSmkagDA_4_zqSQSIKnE7-Ky9btQSpHNa5hoAxkEuFrEqNldfU8t-cGgHvknlboNP5L9OiTeO48IWSDIRqgeeli43xBMRuBxMF-uiU1edHDNqriSNkQe5HmhMWeU8a-T6Y8jvKmzv25ZjuADai3bqJi3ggpWfprJowhiJAYEmsdMAWvyTDZpkaNi5QTwOc0lPgopxQu9HuR6M8IcGeL0PqXDZG0I_3c"/><div><h2 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">NEP Admin</h2><p class="font-label-sm text-label-sm text-secondary">Field Management</p></div></div><button class="md:hidden p-sm text-secondary hover:bg-surface-container-high rounded-full focus:outline-none focus:ring-2 focus:ring-primary" id="sidebar-close"><span class="material-symbols-outlined">close</span></button></div><div class="flex-1 space-y-sm"><a class="flex items-center gap-sm p-sm text-primary dark:text-primary-fixed-dim bg-surface-container-high dark:bg-surface-container rounded-lg transition-all translate-x-0 font-label-md text-label-md" href="dashboard"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span><span class="">Dashboard</span></a><a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="verifikasi"><span class="material-symbols-outlined">fact_check</span><span class="">Verifikasi</span></a><a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="jadwal"><span class="material-symbols-outlined">calendar_month</span><span class="">Kelola Jadwal</span></a><a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="pelanggan"><span class="material-symbols-outlined">group</span><span class="">Data Pelanggan</span></a></div><div class="mt-auto"><a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="#"><span class="material-symbols-outlined"></span><form method="POST" action="{{ route('logout') }}" class="hidden md:block m-0 p-0">
                 @csrf
-                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
-                    <span>Logout</span>
+                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-110 active:scale-110 transition-transform">
+                    <span>Keluar</span>
                     <span class="material-symbols-outlined text-sm">logout</span>
                 </button>
             </form></a></div></div></nav>
@@ -134,11 +134,11 @@
 <!-- Header Section -->
 <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
 <div>
-<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background">Overview</h2>
-<p class="font-body-md text-body-md text-secondary">Here's what's happening at NEP Mini Soccer today.</p>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background">Ringkasan</h2>
+<p class="font-body-md text-body-md text-secondary">Berikut adalah ringkasan singkat aktivitas di NEP Mini Soccer.</p>
 </div>
 <button class="w-full sm:w-auto bg-primary hover:bg-primary-container text-on-primary px-md py-sm rounded-DEFAULT font-label-md text-label-md transition-colors shadow-sm">
-                    Generate Report
+                    Buat Laporan
                 </button>
 </header>
 <!-- Metrics Bento Grid -->
@@ -152,9 +152,9 @@
 <span class="font-label-sm text-label-sm text-primary-container bg-surface flex items-center px-2 py-1 rounded-full">+12.5%</span>
 </div>
 <div>
-<p class="font-label-md text-label-md text-secondary mb-xs">Total Revenue</p>
+<p class="font-label-md text-label-md text-secondary mb-xs">Total Pendapatan</p>
 <h3 class="font-headline-lg md:font-display-lg text-headline-lg md:text-display-lg text-on-background">Rp 4.2M</h3>
-<p class="font-body-md text-body-md text-secondary mt-xs">vs last week</p>
+<p class="font-body-md text-body-md text-secondary mt-xs">Seminggu terakhir</p>
 </div>
 </div>
 <!-- Active Orders Card -->
@@ -166,9 +166,9 @@
 <span class="font-label-sm text-label-sm text-secondary bg-surface flex items-center px-2 py-1 rounded-full">-2.1%</span>
 </div>
 <div>
-<p class="font-label-md text-label-md text-secondary mb-xs">Active Orders</p>
+<p class="font-label-md text-label-md text-secondary mb-xs">Pesanan Aktif</p>
 <h3 class="font-headline-lg md:font-display-lg text-headline-lg md:text-display-lg text-on-background">24</h3>
-<p class="font-body-md text-body-md text-secondary mt-xs">Awaiting verification</p>
+<p class="font-body-md text-body-md text-secondary mt-xs">Menunggu Verifikasi</p>
 </div>
 </div>
 <!-- Today's Schedule Card -->
@@ -182,9 +182,9 @@
 </div>
 </div>
 <div class="relative z-10">
-<p class="font-label-md text-label-md text-inverse-on-surface mb-xs">Today's Schedule</p>
+<p class="font-label-md text-label-md text-inverse-on-surface mb-xs">Jadwal Hari Ini</p>
 <h3 class="font-headline-lg md:font-display-lg text-headline-lg md:text-display-lg">8/12</h3>
-<p class="font-body-md text-body-md text-inverse-on-surface mt-xs">Slots booked</p>
+<p class="font-body-md text-body-md text-inverse-on-surface mt-xs">Slot Terisi</p>
 </div>
 </div>
 </section>
@@ -193,11 +193,11 @@
 <!-- Peak Hours Chart Area -->
 <div class="lg:col-span-2 bg-surface-container-lowest rounded-lg shadow-sm border border-surface-variant p-md w-full overflow-hidden">
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-lg gap-4 sm:gap-0">
-<h3 class="font-headline-sm text-headline-sm text-on-background">Peak Hours Analysis</h3>
+<h3 class="font-headline-sm text-headline-sm text-on-background">Analisis Jam Puncak</h3>
 <select class="w-full sm:w-auto bg-surface border border-surface-variant text-secondary text-sm rounded-DEFAULT focus:ring-primary focus:border-primary block p-2">
-<option>This Week</option>
-<option>Last Week</option>
-<option>This Month</option>
+<option>Minggu Ini</option>
+<option>Minggu Lalu</option>
+<option>Bulan Ini</option>
 </select>
 </div>
 <!-- Chart Placeholder -->
@@ -224,35 +224,35 @@
 </div>
 <!-- Recent Activity Feed -->
 <div class="bg-surface-container-lowest rounded-lg shadow-sm border border-surface-variant p-md flex flex-col h-auto md:h-96 lg:h-auto">
-<h3 class="font-headline-sm text-headline-sm text-on-background mb-md">Recent Activity</h3>
+<h3 class="font-headline-sm text-headline-sm text-on-background mb-md">Aktivitas Terbaru</h3>
 <div class="space-y-md flex-1 overflow-y-auto pr-2">
 <div class="flex items-start space-x-sm">
 <div class="w-2 h-2 mt-2 rounded-full bg-primary-container flex-shrink-0"></div>
 <div>
-<p class="font-label-md text-label-md text-on-background">Booking Confirmed</p>
-<p class="font-body-md text-body-md text-secondary">Field A - 19:00, Budi Santoso</p>
-<p class="font-label-sm text-label-sm text-outline mt-xs">10 mins ago</p>
+<p class="font-label-md text-label-md text-on-background">Booking Dikonfirmasi</p>
+<p class="font-body-md text-body-md text-secondary">19:00, Budi Santoso</p>
+<p class="font-label-sm text-label-sm text-outline mt-xs">10 menit lalu</p>
 </div>
 </div>
 <div class="flex items-start space-x-sm">
 <div class="w-2 h-2 mt-2 rounded-full bg-tertiary flex-shrink-0"></div>
 <div>
-<p class="font-label-md text-label-md text-on-background">Payment Pending</p>
-<p class="font-body-md text-body-md text-secondary">Field B - 20:00, Tim Garuda</p>
-<p class="font-label-sm text-label-sm text-outline mt-xs">45 mins ago</p>
+<p class="font-label-md text-label-md text-on-background">Pembayaran Tertunda</p>
+<p class="font-body-md text-body-md text-secondary">20:00, Tim Garuda</p>
+<p class="font-label-sm text-label-sm text-outline mt-xs">45 menit lalu</p>
 </div>
 </div>
 <div class="flex items-start space-x-sm">
 <div class="w-2 h-2 mt-2 rounded-full bg-secondary flex-shrink-0"></div>
 <div>
-<p class="font-label-md text-label-md text-on-background">Schedule Updated</p>
-<p class="font-body-md text-body-md text-secondary">Maintenance scheduled for tomorrow</p>
-<p class="font-label-sm text-label-sm text-outline mt-xs">2 hours ago</p>
+<p class="font-label-md text-label-md text-on-background">Jadwal Diperbarui</p>
+<p class="font-body-md text-body-md text-secondary">Pemeliharaan dijadwalkan untuk besok</p>
+<p class="font-label-sm text-label-sm text-outline mt-xs">2 jam yang lalu</p>
 </div>
 </div>
 </div>
 <button class="w-full mt-md py-sm border border-surface-variant rounded-DEFAULT text-secondary hover:bg-surface font-label-md text-label-md transition-colors">
-                        View All
+                        Lihat Semua
                     </button>
 </div>
 </section>
