@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Super Admin',
                 'email' => 'admin@minisoccer.com',
+                'no_hp' => null,
                 'password' => Hash::make('rahasia123'), // Hash::make berfungsi untuk mengenkripsi password
                 'role' => 'admin',
                 'created_at' => now(),
@@ -24,6 +25,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Budi Pelanggan',
                 'email' => 'budi@gmail.com',
+                'no_hp' => '08123456789',
                 'password' => Hash::make('pelanggan123'),
                 'role' => 'pelanggan',
                 'created_at' => now(),

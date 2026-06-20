@@ -1,299 +1,428 @@
-<!DOCTYPE html>
+@extends('layouts.app')
+@section('title', 'My Bookings - NEP Mini Soccer')
 
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>My Bookings - NEP Mini Soccer</title>
-<!-- Fonts & Icons -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<!-- Tailwind CSS -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Theme Configuration -->
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-tertiary": "#ffffff",
-                        "surface-bright": "#f8f9fa",
-                        "surface-container": "#edeeef",
-                        "on-primary-fixed": "#002106",
-                        "background": "#f8f9fa",
-                        "on-secondary-fixed-variant": "#43474c",
-                        "secondary": "#5b5f63",
-                        "on-tertiary-container": "#5b0025",
-                        "on-primary-container": "#00330d",
-                        "surface-container-high": "#e7e8e9",
-                        "tertiary-container": "#ee6189",
-                        "surface": "#f8f9fa",
-                        "secondary-container": "#dde0e5",
-                        "secondary-fixed": "#e0e3e8",
-                        "primary-fixed-dim": "#66df75",
-                        "surface-variant": "#e1e3e4",
-                        "on-surface-variant": "#3e4a3c",
-                        "secondary-fixed-dim": "#c3c7cc",
-                        "on-error-container": "#93000a",
-                        "tertiary-fixed": "#ffd9df",
-                        "on-secondary-fixed": "#181c20",
-                        "on-secondary-container": "#5f6368",
-                        "on-tertiary-fixed-variant": "#8b1140",
-                        "tertiary-fixed-dim": "#ffb1c1",
-                        "primary-container": "#28a745",
-                        "outline": "#6e7b6b",
-                        "inverse-surface": "#2e3132",
-                        "on-primary-fixed-variant": "#00531a",
-                        "on-secondary": "#ffffff",
-                        "surface-container-highest": "#e1e3e4",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-dim": "#d9dadb",
-                        "on-background": "#191c1d",
-                        "primary": "#006e25",
-                        "tertiary": "#ab2d57",
-                        "primary-fixed": "#83fc8e",
-                        "surface-tint": "#006e25",
-                        "on-primary": "#ffffff",
-                        "error": "#ba1a1a",
-                        "outline-variant": "#bdcab9",
-                        "surface-container-low": "#f3f4f5",
-                        "inverse-on-surface": "#f0f1f2",
-                        "on-error": "#ffffff",
-                        "inverse-primary": "#66df75",
-                        "on-tertiary-fixed": "#3f0018",
-                        "on-surface": "#191c1d",
-                        "error-container": "#ffdad6"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "xl": "80px",
-                        "gutter": "24px",
-                        "lg": "48px",
-                        "base": "8px",
-                        "xs": "4px",
-                        "md": "24px",
-                        "container-max": "1200px",
-                        "sm": "12px"
-                    },
-                    "fontFamily": {
-                        "headline-lg-mobile": ["Inter"],
-                        "label-sm": ["Inter"],
-                        "label-md": ["Inter"],
-                        "headline-lg": ["Inter"],
-                        "headline-sm": ["Inter"],
-                        "body-lg": ["Inter"],
-                        "body-md": ["Inter"],
-                        "display-lg": ["Inter"],
-                        "headline-md": ["Inter"]
-                    },
-                    "fontSize": {
-                        "headline-lg-mobile": ["28px", { "lineHeight": "1.3", "fontWeight": "700" }],
-                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
-                        "label-md": ["14px", { "lineHeight": "1.2", "fontWeight": "600" }],
-                        "headline-lg": ["32px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "700" }],
-                        "headline-sm": ["20px", { "lineHeight": "1.4", "fontWeight": "600" }],
-                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "display-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }]
-                    }
+@section('content')
+<!-- Main Content Canvas -->
+<div class="w-full max-w-container-max mx-auto px-gutter py-xl">
+    <!-- Page Header -->
+    <header class="mb-lg flex flex-col md:flex-row md:items-end justify-between gap-md">
+        <div>
+            <h1 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Status Booking</h1>
+            <p class="font-body-md text-body-md text-secondary">Kelola pertandingan Anda yang akan datang dan tinjau pemesanan sebelumnya.</p>
+        </div>
+        <!-- Filter Pills -->
+        <div class="flex gap-sm overflow-x-auto pb-xs hide-scrollbar" id="filter-buttons">
+            <button onclick="filterBookings('all', this)" class="filter-btn px-md py-xs bg-primary text-on-primary rounded-full font-label-md text-label-md shadow-sm whitespace-nowrap transition-colors">Semua Booking</button>
+            <button onclick="filterBookings('upcoming', this)" class="filter-btn px-md py-xs bg-surface-container-lowest border border-outline-variant text-secondary rounded-full font-label-md text-label-md hover:bg-surface-container transition-colors whitespace-nowrap">Akan Datang</button>
+            <button onclick="filterBookings('completed', this)" class="filter-btn px-md py-xs bg-surface-container-lowest border border-outline-variant text-secondary rounded-full font-label-md text-label-md hover:bg-surface-container transition-colors whitespace-nowrap">Selesai</button>
+        </div>
+    </header>
+
+    <!-- Notifikasi Sukses / Error -->
+    @if(session('success'))
+        <div class="bg-primary-container/20 text-primary-fixed-variant p-4 rounded-lg text-sm font-bold mb-6 border border-primary-container/50">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="bg-error/10 text-error p-4 rounded-lg text-sm font-bold mb-6 border border-error/20">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <!-- Bento Grid Layout for Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
+        
+        @forelse($bookings as $booking)
+            @php
+                $firstDetail = $booking->detailBookings->first();
+                $lastDetail  = $booking->detailBookings->last();
+                
+                if(!$firstDetail) continue;
+
+                $tanggal = \Carbon\Carbon::parse($firstDetail->jadwal->tanggal)->translatedFormat('D, d M Y');
+                $jamMulai = \Carbon\Carbon::parse($firstDetail->jadwal->harga->jam_mulai)->format('H:i');
+                $jamSelesai = \Carbon\Carbon::parse($lastDetail->jadwal->harga->jam_selesai)->format('H:i');
+                
+                // Hitung sisa tagihan secara aman
+                $sudahDibayar = $booking->pembayaran ? $booking->pembayaran->where('status_pembayaran', 'Valid')->sum('nominal_dibayar') : 0;
+                $sisaTagihan = $booking->total_tagihan - $sudahDibayar;
+
+                // Logika H-x untuk kancing fitur Reschedule & Cancel
+                $jadwalMulaiDate = \Carbon\Carbon::parse($firstDetail->jadwal->tanggal)->startOfDay();
+                $selisihHari = \Carbon\Carbon::now()->startOfDay()->diffInDays($jadwalMulaiDate, false);
+                $isRescheduleLocked = $selisihHari <= 3;
+
+                // Tentukan Kategori Filter
+                $filterCategory = 'upcoming';
+                if ($booking->status_booking == 'Dibatalkan' || $selisihHari < 0) {
+                    $filterCategory = 'completed';
                 }
+            @endphp
+
+            {{-- KONDISI 1: MENUNGGU PEMBAYARAN ATAU HALF PAID --}}
+            @if($booking->status_booking == 'Menunggu Pembayaran' || $booking->status_booking == 'Half Paid')
+                <article data-category="{{ $filterCategory }}" class="booking-card bg-surface-container-lowest rounded-lg p-md shadow-[0_2px_4px_rgba(33,37,41,0.05)] hover:shadow-[0_8px_16px_rgba(33,37,41,0.08)] transition-all duration-300 flex flex-col border border-surface-variant relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-secondary-fixed-dim"></div>
+                    <div class="flex-1 flex flex-col"><div class="flex flex-col sm:flex-row justify-between items-start mb-sm gap-sm">
+                        <div>
+                            <h3 class="font-headline-sm text-headline-sm text-on-surface">NEP Mini Soccer ({{ $booking->tipe_booking }})</h3>
+                            <p class="font-label-sm text-label-sm text-secondary flex items-center gap-xs mt-xs">
+                                <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                {{ $tanggal }} • {{ $jamMulai }} - {{ $jamSelesai }}
+                            </p>
+                        </div>
+                        <span class="px-sm py-xs bg-secondary-fixed text-on-secondary-fixed rounded-full font-label-sm text-label-sm whitespace-nowrap">{{ $booking->status_booking }}</span>
+                    </div><div class="flex flex-col gap-xs py-sm border-t border-surface-variant mt-sm">
+                        <div class="flex justify-between items-center">
+                            <span class="font-label-md text-label-md text-secondary">Booking ID</span>
+                            <span class="font-body-md text-body-md text-on-surface font-medium">{{ $booking->id_booking }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-label-md text-label-md text-secondary">Total Tagihan</span>
+                            <span class="font-body-md text-body-md text-on-surface font-medium">Rp {{ number_format($booking->total_tagihan, 0, ',', '.') }}</span>
+                        </div>
+                        @if($booking->status_booking == 'Half Paid')
+                        <div class="flex justify-between items-center mt-xs p-xs bg-surface-container-low rounded">
+                            <span class="font-label-md text-label-md text-secondary">Sisa Pembayaran</span>
+                            <span class="font-body-md text-body-md text-on-surface font-bold">Rp {{ number_format($sisaTagihan, 0, ',', '.') }}</span>
+                        </div>
+                        @endif
+                        
+                        @if($booking->pembayaranTerakhir && $booking->pembayaranTerakhir->status_pembayaran == 'Ditolak')
+                        <div class="mt-sm p-sm bg-error-container text-on-error-container rounded-DEFAULT border border-error/20 flex flex-col gap-xs">
+                            <span class="font-label-md text-label-md font-bold flex items-center gap-xs whitespace-nowrap">
+                                <span class="material-symbols-outlined text-[18px]">error</span> Pembayaran Terakhir Ditolak
+                            </span>
+                            <span class="font-label-md text-label-md">
+                                <strong>Alasan:</strong> {{ $booking->pembayaranTerakhir->catatan_admin ?? 'Tidak ada catatan dari admin.' }}
+                            </span>
+                        </div>
+                        @endif
+                    </div></div><!-- FOOTER TOMBOL AKSI -->
+                    <div class="mt-auto pt-sm grid grid-cols-1 xl:grid-cols-3 gap-xs w-full border-t border-surface-variant mt-sm">
+                        <!-- Pembayaran -->
+                        <a href="{{ route('payment.page', $booking->id_booking) }}" class="w-full xl:w-auto flex-1 text-center justify-center px-sm py-sm bg-primary text-on-primary rounded font-label-md text-label-md shadow-sm hover:opacity-90 transition-all flex items-center gap-xs whitespace-nowrap">
+                            <span class="material-symbols-outlined text-[18px]">payments</span> Bayar
+                        </a>
+
+                        <!-- Reschedule -->
+                        @if($isRescheduleLocked)
+                            <button type="button" onclick="openAlertModal('Peringatan Sistem', 'Permintaan Reschedule ditolak. Mengubah jadwal hanya dapat dilakukan maksimal <strong>H-3 sebelum jadwal bermain.</strong>')" class="w-full xl:w-auto flex-1 text-center justify-center px-sm py-sm border border-outline-variant text-secondary opacity-70 cursor-not-allowed rounded font-label-md text-label-md flex items-center gap-xs whitespace-nowrap">
+                                <span class="material-symbols-outlined text-[18px]">event_busy</span> Resched
+                            </button>
+                        @else
+                            <button type="button" onclick="openRescheduleModal('{{ $booking->id_booking }}')" class="w-full xl:w-auto flex-1 text-center justify-center px-sm py-sm border border-outline text-secondary rounded font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center gap-xs whitespace-nowrap">
+                                <span class="material-symbols-outlined text-[18px]">edit_calendar</span> Resched
+                            </button>
+                        @endif
+
+                        <!-- Cancel -->
+                        <button type="button" onclick="openCancelModal('{{ $booking->id_booking }}', {{ $selisihHari }}, '{{ $booking->status_booking }}')" class="w-full xl:w-auto flex-1 text-center justify-center px-sm py-sm border border-error text-error hover:bg-error/10 rounded font-label-md text-label-md transition-colors flex items-center gap-xs whitespace-nowrap">
+                            <span class="material-symbols-outlined text-[18px]">cancel</span> Cancel
+                        </button>
+                    </div>
+                </article>
+
+            {{-- KONDISI 2: MENUNGGU VERIFIKASI --}}
+            @elseif($booking->status_booking == 'Menunggu Verifikasi')
+                <article data-category="{{ $filterCategory }}" class="booking-card bg-surface-container-lowest rounded-lg p-md shadow-[0_2px_4px_rgba(33,37,41,0.05)] hover:shadow-[0_8px_16px_rgba(33,37,41,0.08)] transition-all duration-300 flex flex-col border border-surface-variant relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-tertiary-fixed"></div>
+                    <div class="flex-1 flex flex-col"><div class="flex flex-col sm:flex-row justify-between items-start mb-sm gap-sm">
+                        <div>
+                            <h3 class="font-headline-sm text-headline-sm text-on-surface">NEP Mini Soccer ({{ $booking->tipe_booking }})</h3>
+                            <p class="font-label-sm text-label-sm text-secondary flex items-center gap-xs mt-xs">
+                                <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                {{ $tanggal }} • {{ $jamMulai }} - {{ $jamSelesai }}
+                            </p>
+                        </div>
+                        <span class="px-sm py-xs bg-tertiary-fixed text-on-tertiary-fixed rounded-full font-label-sm text-label-sm whitespace-nowrap">Menunggu Verifikasi</span>
+                    </div><div class="flex flex-col gap-xs py-sm border-t border-surface-variant mt-sm">
+                        <div class="flex justify-between items-center">
+                            <span class="font-label-md text-label-md text-secondary">Booking ID</span>
+                            <span class="font-body-md text-body-md text-on-surface font-medium">{{ $booking->id_booking }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-label-md text-label-md text-secondary">Total Tagihan</span>
+                            <span class="font-body-md text-body-md text-on-surface font-medium">Rp {{ number_format($booking->total_tagihan, 0, ',', '.') }}</span>
+                        </div>
+                        <div class="mt-xs font-label-sm text-label-sm text-secondary bg-surface-container p-xs rounded">
+                            Admin sedang meninjau bukti pembayaran Anda.
+                        </div>
+                    </div></div><!-- FOOTER TOMBOL AKSI -->
+                    <div class="mt-auto pt-sm grid grid-cols-2 gap-xs w-full border-t border-surface-variant mt-sm">
+                        <!-- Reschedule -->
+                        @if($isRescheduleLocked)
+                            <button type="button" onclick="openAlertModal('Peringatan Sistem', 'Permintaan Reschedule ditolak. Mengubah jadwal hanya dapat dilakukan maksimal <strong>H-3 sebelum jadwal bermain.</strong>')" class="w-full sm:w-auto flex-1 text-center justify-center px-sm py-sm border border-outline-variant text-secondary opacity-70 cursor-not-allowed rounded font-label-md text-label-md flex items-center gap-xs whitespace-nowrap">
+                                <span class="material-symbols-outlined text-[18px]">event_busy</span> Reschedule
+                            </button>
+                        @else
+                            <button type="button" onclick="openRescheduleModal('{{ $booking->id_booking }}')" class="w-full sm:w-auto flex-1 text-center justify-center px-sm py-sm border border-outline text-secondary rounded font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center gap-xs whitespace-nowrap">
+                                <span class="material-symbols-outlined text-[18px]">edit_calendar</span> Reschedule
+                            </button>
+                        @endif
+
+                        <!-- Cancel -->
+                        <button type="button" onclick="openCancelModal('{{ $booking->id_booking }}', {{ $selisihHari }}, '{{ $booking->status_booking }}')" class="w-full sm:w-auto flex-1 text-center justify-center px-sm py-sm border border-error text-error hover:bg-error/10 rounded font-label-md text-label-md transition-colors flex items-center gap-xs whitespace-nowrap">
+                            <span class="material-symbols-outlined text-[18px]">cancel</span> Cancel
+                        </button>
+                    </div>
+                </article>
+
+            {{-- KONDISI 3: CONFIRMED / LUNAS --}}
+            @elseif($booking->status_booking == 'Confirmed' || $booking->status_booking == 'Lunas')
+                <article data-category="{{ $filterCategory }}" class="booking-card bg-surface-container-lowest rounded-lg p-md shadow-[0_2px_4px_rgba(33,37,41,0.05)] hover:shadow-[0_8px_16px_rgba(33,37,41,0.08)] transition-all duration-300 flex flex-col border border-surface-variant relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-primary-container"></div>
+                    <div class="flex-1 flex flex-col"><div class="flex flex-col sm:flex-row justify-between items-start mb-sm gap-sm">
+                        <div>
+                            <h3 class="font-headline-sm text-headline-sm text-on-surface">NEP Mini Soccer ({{ $booking->tipe_booking }})</h3>
+                            <p class="font-label-sm text-label-sm text-secondary flex items-center gap-xs mt-xs">
+                                <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                {{ $tanggal }} • {{ $jamMulai }} - {{ $jamSelesai }}
+                            </p>
+                        </div>
+                        <span class="px-sm py-xs bg-primary-container text-on-primary-container rounded-full font-label-sm text-label-sm whitespace-nowrap">Confirmed/Lunas</span>
+                    </div><div class="flex flex-col gap-xs py-sm border-t border-surface-variant mt-sm">
+                        <div class="flex justify-between items-center">
+                            <span class="font-label-md text-label-md text-secondary">Booking ID</span>
+                            <span class="font-body-md text-body-md text-on-surface font-medium">{{ $booking->id_booking }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-label-md text-label-md text-secondary">Total Tagihan</span>
+                            <span class="font-body-md text-body-md text-on-surface font-medium">Rp {{ number_format($booking->total_tagihan, 0, ',', '.') }}</span>
+                        </div>
+                    </div></div><!-- FOOTER TOMBOL AKSI -->
+                    <div class="mt-auto pt-sm grid grid-cols-2 gap-xs w-full border-t border-surface-variant mt-sm">
+                        <!-- Reschedule -->
+                        @if($isRescheduleLocked)
+                            <button type="button" onclick="openAlertModal('Peringatan Sistem', 'Permintaan Reschedule ditolak. Mengubah jadwal hanya dapat dilakukan maksimal <strong>H-3 sebelum jadwal bermain.</strong>')" class="w-full sm:w-auto flex-1 text-center justify-center px-sm py-sm border border-outline-variant text-secondary opacity-70 cursor-not-allowed rounded font-label-md text-label-md flex items-center gap-xs whitespace-nowrap">
+                                <span class="material-symbols-outlined text-[18px]">event_busy</span> Reschedule
+                            </button>
+                        @else
+                            <button type="button" onclick="openRescheduleModal('{{ $booking->id_booking }}')" class="w-full sm:w-auto flex-1 text-center justify-center px-sm py-sm border border-outline text-secondary rounded font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center gap-xs whitespace-nowrap">
+                                <span class="material-symbols-outlined text-[18px]">edit_calendar</span> Reschedule
+                            </button>
+                        @endif
+
+                        <!-- Cancel -->
+                        <button type="button" onclick="openCancelModal('{{ $booking->id_booking }}', {{ $selisihHari }}, '{{ $booking->status_booking }}')" class="w-full sm:w-auto flex-1 text-center justify-center px-sm py-sm border border-error text-error hover:bg-error/10 rounded font-label-md text-label-md transition-colors flex items-center gap-xs whitespace-nowrap">
+                            <span class="material-symbols-outlined text-[18px]">cancel</span> Cancel
+                        </button>
+                    </div>
+                </article>
+
+            {{-- KONDISI 4: SELESAI --}}
+            @elseif($booking->status_booking == 'Selesai')
+                <article data-category="{{ $filterCategory }}" class="booking-card bg-surface-container-lowest rounded-lg p-md shadow-[0_2px_4px_rgba(33,37,41,0.05)] opacity-80 flex flex-col h-full border border-surface-variant relative overflow-hidden grayscale-[0.3]">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-secondary"></div>
+                    <div class="flex flex-col sm:flex-row justify-between items-start mb-sm gap-sm">
+                        <div>
+                            <h3 class="font-headline-sm text-headline-sm text-secondary">NEP Mini Soccer ({{ $booking->tipe_booking }})</h3>
+                            <p class="font-label-sm text-label-sm text-secondary flex items-center gap-xs mt-xs">
+                                <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                {{ $tanggal }} • {{ $jamMulai }} - {{ $jamSelesai }}
+                            </p>
+                        </div>
+                        <span class="px-sm py-xs bg-surface-variant text-on-surface-variant rounded-full font-label-sm text-label-sm whitespace-nowrap">Selesai</span>
+                    </div>
+                    <div class="flex flex-col gap-xs py-sm border-t border-surface-variant mt-sm">
+                        <div class="flex justify-between items-center">
+                            <span class="font-label-md text-label-md text-secondary">Booking ID</span>
+                            <span class="font-body-md text-body-md text-secondary font-medium">{{ $booking->id_booking }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-label-md text-label-md text-secondary">Total Tagihan</span>
+                            <span class="font-body-md text-body-md text-secondary font-medium">Rp {{ number_format($booking->total_tagihan, 0, ',', '.') }}</span>
+                        </div>
+                    </div>
+                </article>
+
+            {{-- KONDISI 4: DIBATALKAN --}}
+            @elseif($booking->status_booking == 'Dibatalkan')
+                <article data-category="{{ $filterCategory }}" class="booking-card bg-surface-container-lowest rounded-lg p-md shadow-[0_2px_4px_rgba(33,37,41,0.05)] opacity-80 flex flex-col h-full border border-surface-variant relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-error"></div>
+                    <div class="flex flex-col sm:flex-row justify-between items-start mb-sm gap-sm">
+                        <div>
+                            <h3 class="font-headline-sm text-headline-sm text-on-surface line-through text-secondary">NEP Mini Soccer</h3>
+                            <p class="font-label-sm text-label-sm text-secondary flex items-center gap-xs mt-xs">
+                                <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                {{ $tanggal }} • {{ $jamMulai }} - {{ $jamSelesai }}
+                            </p>
+                        </div>
+                        <span class="px-sm py-xs bg-error-container text-on-error-container rounded-full font-label-sm text-label-sm whitespace-nowrap">Dibatalkan</span>
+                    </div>
+                    <div class="flex flex-col gap-xs py-sm border-t border-surface-variant mt-sm">
+                        <div class="flex justify-between items-center">
+                            <span class="font-label-md text-label-md text-secondary">Booking ID</span>
+                            <span class="font-body-md text-body-md text-secondary font-medium">{{ $booking->id_booking }}</span>
+                        </div>
+                    </div>
+                </article>
+            @endif
+
+        @empty
+            <div class="col-span-1 md:col-span-2 lg:col-span-3 text-center py-10 bg-surface-container-lowest rounded-lg border border-surface-variant">
+                <span class="material-symbols-outlined text-secondary text-6xl mb-4">event_note</span>
+                <h3 class="font-headline-sm text-on-surface font-bold">Belum Ada Pesanan</h3>
+                <p class="text-secondary mt-2">Anda belum pernah memesan lapangan. Yuk, main sekarang!</p>
+                <a href="{{ route('booking') }}" class="inline-block mt-4 px-6 py-2 bg-primary text-on-primary rounded font-label-md text-label-md shadow hover:shadow-md transition">Pesan Lapangan</a>
+            </div>
+        @endforelse
+        
+    </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- BAGIAN KOMPONEN MODAL (MENGGUNAKAN THEME ASLI ANDA)     -->
+<!-- ======================================================= -->
+
+<!-- 1. MODAL CANCEL (Hitung Denda Otomatis) -->
+<div id="cancel-modal" class="fixed inset-0 bg-[#191c1d]/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+    <div class="bg-surface-container-lowest rounded-xl max-w-md w-full p-6 shadow-xl border border-surface-variant relative transform scale-95 transition-transform duration-300" id="cancel-modal-card">
+        <div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-on-error-container mb-4 mx-auto">
+            <span class="material-symbols-outlined text-[24px]">warning</span>
+        </div>
+        <h3 class="font-headline-sm text-headline-sm text-center text-on-surface mb-2">Batalkan Pesanan?</h3>
+        <!-- Pesan peringatan denda disuntikkan kesini -->
+        <div id="cancel-warning-message" class="font-body-md text-body-md p-4 rounded-lg mb-6 text-center leading-relaxed"></div>
+
+        <form id="cancel-form" method="POST" class="flex flex-col sm:flex-row gap-sm m-0">
+            @csrf
+            <button type="submit" class="w-full sm:w-1/2 bg-error hover:opacity-90 text-on-error font-label-md text-label-md py-3 rounded-lg transition-opacity shadow-sm">
+                Ya, Batalkan
+            </button>
+            <button type="button" onclick="closeModal('cancel-modal', 'cancel-modal-card')" class="w-full sm:w-1/2 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md py-3 rounded-lg transition-colors">
+                Batal
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- 2. MODAL RESCHEDULE KONFIRMASI -->
+<div id="reschedule-modal" class="fixed inset-0 bg-[#191c1d]/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+    <div class="bg-surface-container-lowest rounded-xl max-w-md w-full p-6 shadow-xl border border-surface-variant relative transform scale-95 transition-transform duration-300" id="reschedule-modal-card">
+        <div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container mb-4 mx-auto">
+            <span class="material-symbols-outlined text-[24px]">edit_calendar</span>
+        </div>
+        <h3 class="font-headline-sm text-headline-sm text-center text-on-surface mb-2">Ubah Jadwal Main?</h3>
+        <div class="bg-surface-container text-on-surface font-body-md text-body-md p-4 rounded-lg mb-6 text-center leading-relaxed">
+            Apakah Anda yakin ingin mengajukan Reschedule?
+        </div>
+
+        <form id="reschedule-form" method="POST" class="flex flex-col sm:flex-row gap-sm m-0">
+            @csrf
+            <button type="button" onclick="closeModal('reschedule-modal', 'reschedule-modal-card')" class="w-full sm:w-1/2 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md py-3 rounded-lg transition-colors">
+                Batal
+            </button>
+            <button type="submit" class="w-full sm:w-1/2 bg-primary hover:opacity-90 text-on-primary font-label-md text-label-md py-3 rounded-lg transition-opacity shadow-sm">
+                Ya, Reschedule
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- 3. MODAL ALERT PERINGATAN (Untuk H-3 Locked) -->
+<div id="alert-modal" class="fixed inset-0 bg-[#191c1d]/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+    <div class="bg-surface-container-lowest rounded-xl max-w-md w-full p-6 shadow-xl border border-surface-variant relative transform scale-95 transition-transform duration-300" id="alert-modal-card">
+        <div class="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container mb-4 mx-auto">
+            <span class="material-symbols-outlined text-[24px]">event_busy</span>
+        </div>
+        <h3 id="alert-title" class="font-headline-sm text-headline-sm text-center text-on-surface mb-2">Peringatan</h3>
+        <div id="alert-message" class="text-secondary font-body-md text-body-md mb-6 text-center leading-relaxed"></div>
+        <button type="button" onclick="closeModal('alert-modal', 'alert-modal-card')" class="w-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md py-3 rounded-lg transition-colors">
+            Saya Mengerti
+        </button>
+    </div>
+</div>
+@endsection
+
+@push('scripts')
+<script>
+    // FUNGSI FILTER BOOKING
+    function filterBookings(category, btn) {
+        const buttons = document.querySelectorAll('.filter-btn');
+        buttons.forEach(b => {
+            b.className = "filter-btn px-md py-xs bg-surface-container-lowest border border-outline-variant text-secondary rounded-full font-label-md text-label-md hover:bg-surface-container transition-colors whitespace-nowrap";
+        });
+        btn.className = "filter-btn px-md py-xs bg-primary text-on-primary rounded-full font-label-md text-label-md shadow-sm whitespace-nowrap transition-colors";
+
+        const cards = document.querySelectorAll('.booking-card');
+        cards.forEach(card => {
+            if (category === 'all' || card.getAttribute('data-category') === category) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    // FUNGSI UMUM UNTUK MENUTUP MODAL
+    function closeModal(modalId, cardId) {
+        const modal = document.getElementById(modalId);
+        const card = document.getElementById(cardId);
+        card.classList.remove('scale-100');
+        card.classList.add('scale-95');
+        setTimeout(() => {
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }, 150);
+    }
+
+    // 1. Logika Buka Modal Cancel
+    function openCancelModal(bookingId, selisihHari, statusPembayaran) {
+        document.getElementById('cancel-form').action = `/mybooking/${bookingId}/cancel`;
+        const warningBox = document.getElementById('cancel-warning-message');
+
+        if (statusPembayaran === 'Menunggu Pembayaran') {
+            warningBox.innerHTML = `Apakah Anda yakin ingin membatalkan pesanan ini?`;
+        } else {
+            if (selisihHari <= 2) {
+                if (statusPembayaran === 'Half Paid' || statusPembayaran === 'DP') {
+                    warningBox.innerHTML = `Anda membatalkan pada <strong>H-2</strong> atau kurang. Sesuai kebijakan, <strong>uang DP Anda hangus (Tidak dikembalikan)</strong>.`;
+                } else {
+                    warningBox.innerHTML = `Anda membatalkan pada <strong>H-2</strong> atau kurang. Sesuai kebijakan, dana akan <strong>dikembalikan sebesar 50%</strong> dari total.`;
+                }
+            } else {
+                warningBox.innerHTML = `Aman! Anda membatalkan lebih awal dari H-2. Seluruh dana akan <strong>dikembalikan 100%</strong>.`;
             }
         }
-    </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-    </style>
-</head>
-<body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen flex flex-col">
-<!-- TopNavBar Component -->
-<nav class="bg-surface-container-lowest w-full top-0 sticky z-50 shadow-sm transition-colors duration-200">
-<div class="flex justify-between items-center px-gutter py-base max-w-container-max mx-auto w-full">
-<div class="font-headline-md text-headline-md font-bold text-primary flex items-center gap-sm">
-<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
-                NEP Mini Soccer
-            </div>
-<div class="hidden md:flex items-center space-x-md">
-<a class="text-secondary font-medium hover:text-primary-container transition-colors duration-200 font-label-md text-label-md" href="/">Home</a>
-<!-- Active State Applied Here based on exact intent match -->
-<a class="text-primary border-b-2 border-primary font-bold pb-1 hover:text-primary-container transition-colors duration-200 font-label-md text-label-md" href="mybooking">My Bookings</a>
-<a class="text-secondary font-medium hover:text-primary-container transition-colors duration-200 font-label-md text-label-md" href="profile">Profile</a>
-</div>
-<div class="hidden md:flex items-center">
-<form method="POST" action="{{ route('logout') }}" class="hidden md:block m-0 p-0">
-                @csrf
-                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-95 active:scale-90 transition-transform">
-                    <span>Logout</span>
-                    <span class="material-symbols-outlined text-sm">logout</span>
-                </button>
-            </form>
-</div>
-<button class="md:hidden text-on-surface p-xs rounded hover:bg-surface-container transition-colors">
-<span class="material-symbols-outlined">menu</span>
-</button>
-</div>
-</nav>
-<!-- Main Content Canvas -->
-<main class="flex-grow w-full max-w-container-max mx-auto px-gutter py-xl">
-<!-- Page Header -->
-<header class="mb-lg flex flex-col md:flex-row md:items-end justify-between gap-md">
-<div>
-<h1 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Booking History</h1>
-<p class="font-body-md text-body-md text-secondary">Manage your upcoming matches and review past bookings.</p>
-</div>
-<!-- Filter Pills -->
-<div class="flex gap-sm overflow-x-auto pb-xs hide-scrollbar">
-<button class="px-md py-xs bg-primary text-on-primary rounded-full font-label-md text-label-md shadow-sm whitespace-nowrap">All Bookings</button>
-<button class="px-md py-xs bg-surface-container-lowest border border-outline-variant text-secondary rounded-full font-label-md text-label-md hover:bg-surface-container transition-colors whitespace-nowrap">Upcoming</button>
-<button class="px-md py-xs bg-surface-container-lowest border border-outline-variant text-secondary rounded-full font-label-md text-label-md hover:bg-surface-container transition-colors whitespace-nowrap">Past</button>
-</div>
-</header>
-<!-- Bento Grid Layout for Cards -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
-<!-- Card 1: Half-Paid/DP (Action Required) -->
-<article class="bg-surface-container-lowest rounded-lg p-md shadow-[0_2px_4px_rgba(33,37,41,0.05)] hover:shadow-[0_8px_16px_rgba(33,37,41,0.08)] transition-all duration-300 flex flex-col border border-surface-variant relative overflow-hidden">
-<div class="absolute top-0 left-0 w-full h-1 bg-secondary-fixed-dim"></div>
-<div class="flex flex-col sm:flex-row justify-between items-start mb-sm gap-sm">
-<div>
-<h3 class="font-headline-sm text-headline-sm text-on-surface">Main Field A</h3>
-<p class="font-label-sm text-label-sm text-secondary flex items-center gap-xs mt-xs">
-<span class="material-symbols-outlined text-[16px]">calendar_today</span>
-                            Sat, 28 Oct 2024 • 19:00 - 21:00
-                        </p>
-</div>
-<!-- Half-Paid Badge (Mapped to secondary-fixed for a neutral/blue-ish intent within palette) -->
-<span class="px-sm py-xs bg-secondary-fixed text-on-secondary-fixed rounded-full font-label-sm text-label-sm whitespace-nowrap">Half-Paid/DP</span>
-</div>
-<div class="flex flex-col gap-xs py-sm border-t border-surface-variant mt-sm">
-<div class="flex justify-between items-center">
-<span class="font-label-md text-label-md text-secondary">Booking ID</span>
-<span class="font-body-md text-body-md text-on-surface font-medium">#NEP-8842</span>
-</div>
-<div class="flex justify-between items-center">
-<span class="font-label-md text-label-md text-secondary">Total Price</span>
-<span class="font-body-md text-body-md text-on-surface font-medium">Rp 600.000</span>
-</div>
-<div class="flex justify-between items-center mt-xs p-xs bg-surface-container-low rounded">
-<span class="font-label-md text-label-md text-secondary">Remaining Balance</span>
-<span class="font-body-md text-body-md text-on-surface font-bold">Rp 300.000</span>
-</div>
-</div>
-<div class="mt-auto pt-sm flex flex-col sm:flex-row gap-sm justify-end w-full">
-<button class="w-full sm:w-auto text-center justify-center px-md py-sm border border-outline text-secondary rounded font-label-md text-label-md hover:bg-surface-container-low transition-colors">Reschedule</button>
-<button class="w-full sm:w-auto text-center justify-center px-md py-sm bg-primary text-on-primary rounded font-label-md text-label-md shadow-sm hover:shadow-[0_8px_16px_rgba(33,37,41,0.08)] transition-all flex items-center gap-xs">
-<span class="material-symbols-outlined text-[18px]">payments</span>
-                        Bayar Pelunasan
-                    </button>
-</div>
-</article>
-<!-- Card 2: Menunggu Verifikasi -->
-<article class="bg-surface-container-lowest rounded-lg p-md shadow-[0_2px_4px_rgba(33,37,41,0.05)] hover:shadow-[0_8px_16px_rgba(33,37,41,0.08)] transition-all duration-300 flex flex-col border border-surface-variant relative overflow-hidden">
-<div class="absolute top-0 left-0 w-full h-1 bg-tertiary-fixed"></div>
-<div class="flex flex-col sm:flex-row justify-between items-start mb-sm gap-sm">
-<div>
-<h3 class="font-headline-sm text-headline-sm text-on-surface">Training Pitch C</h3>
-<p class="font-label-sm text-label-sm text-secondary flex items-center gap-xs mt-xs">
-<span class="material-symbols-outlined text-[16px]">calendar_today</span>
-                            Sun, 29 Oct 2024 • 16:00 - 18:00
-                        </p>
-</div>
-<!-- Menunggu Verifikasi Badge (Mapped to tertiary for warning intent) -->
-<span class="px-sm py-xs bg-tertiary-fixed text-on-tertiary-fixed rounded-full font-label-sm text-label-sm whitespace-nowrap">Menunggu Verifikasi</span>
-</div>
-<div class="flex flex-col gap-xs py-sm border-t border-surface-variant mt-sm">
-<div class="flex justify-between items-center">
-<span class="font-label-md text-label-md text-secondary">Booking ID</span>
-<span class="font-body-md text-body-md text-on-surface font-medium">#NEP-8845</span>
-</div>
-<div class="flex justify-between items-center">
-<span class="font-label-md text-label-md text-secondary">Total Price</span>
-<span class="font-body-md text-body-md text-on-surface font-medium">Rp 450.000</span>
-</div>
-<div class="mt-xs font-label-sm text-label-sm text-secondary bg-surface-container p-xs rounded">
-                        Admin is reviewing your payment proof.
-                    </div>
-</div>
-<div class="mt-auto pt-sm flex flex-col sm:flex-row gap-sm justify-end w-full">
-<button class="w-full sm:w-auto text-center justify-center px-md py-sm border border-error text-error rounded font-label-md text-label-md hover:bg-error-container transition-colors">Cancel</button>
-</div>
-</article>
-<!-- Card 3: Confirmed/Lunas -->
-<article class="bg-surface-container-lowest rounded-lg p-md shadow-[0_2px_4px_rgba(33,37,41,0.05)] hover:shadow-[0_8px_16px_rgba(33,37,41,0.08)] transition-all duration-300 flex flex-col border border-surface-variant relative overflow-hidden">
-<div class="absolute top-0 left-0 w-full h-1 bg-primary-container"></div>
-<div class="flex flex-col sm:flex-row justify-between items-start mb-sm gap-sm">
-<div>
-<h3 class="font-headline-sm text-headline-sm text-on-surface">Main Field B</h3>
-<p class="font-label-sm text-label-sm text-secondary flex items-center gap-xs mt-xs">
-<span class="material-symbols-outlined text-[16px]">calendar_today</span>
-                            Mon, 30 Oct 2024 • 20:00 - 22:00
-                        </p>
-</div>
-<!-- Confirmed Badge -->
-<span class="px-sm py-xs bg-primary-container text-on-primary-container rounded-full font-label-sm text-label-sm whitespace-nowrap">Confirmed/Lunas</span>
-</div>
-<div class="flex flex-col gap-xs py-sm border-t border-surface-variant mt-sm">
-<div class="flex justify-between items-center">
-<span class="font-label-md text-label-md text-secondary">Booking ID</span>
-<span class="font-body-md text-body-md text-on-surface font-medium">#NEP-8812</span>
-</div>
-<div class="flex justify-between items-center">
-<span class="font-label-md text-label-md text-secondary">Total Price</span>
-<span class="font-body-md text-body-md text-on-surface font-medium">Rp 600.000</span>
-</div>
-</div>
-<div class="mt-auto pt-sm flex flex-col sm:flex-row gap-sm justify-end w-full">
-<button class="w-full sm:w-auto text-center justify-center px-md py-sm border border-outline text-secondary rounded font-label-md text-label-md hover:bg-surface-container-low transition-colors">Reschedule</button>
-<button class="w-full sm:w-auto text-center justify-center px-md py-sm border border-error text-error rounded font-label-md text-label-md hover:bg-error-container transition-colors">Cancel</button>
-</div>
-</article>
-<!-- Card 4: Canceled -->
-<article class="bg-surface-container-lowest rounded-lg p-md shadow-[0_2px_4px_rgba(33,37,41,0.05)] opacity-80 flex flex-col border border-surface-variant relative overflow-hidden">
-<div class="absolute top-0 left-0 w-full h-1 bg-error"></div>
-<div class="flex flex-col sm:flex-row justify-between items-start mb-sm gap-sm">
-<div>
-<h3 class="font-headline-sm text-headline-sm text-on-surface line-through text-secondary">Main Field A</h3>
-<p class="font-label-sm text-label-sm text-secondary flex items-center gap-xs mt-xs">
-<span class="material-symbols-outlined text-[16px]">calendar_today</span>
-                            Fri, 20 Oct 2024 • 19:00 - 21:00
-                        </p>
-</div>
-<!-- Canceled Badge -->
-<span class="px-sm py-xs bg-error-container text-on-error-container rounded-full font-label-sm text-label-sm whitespace-nowrap">Canceled</span>
-</div>
-<div class="flex flex-col gap-xs py-sm border-t border-surface-variant mt-sm">
-<div class="flex justify-between items-center">
-<span class="font-label-md text-label-md text-secondary">Booking ID</span>
-<span class="font-body-md text-body-md text-secondary font-medium">#NEP-8750</span>
-</div>
-</div>
-</article>
-</div>
-</main>
-<!-- Footer Component -->
-<footer class="bg-surface-container-highest w-full py-lg mt-auto">
-<div class="flex flex-col md:flex-row justify-between items-center px-gutter max-w-container-max mx-auto gap-md">
-<div class="font-headline-sm text-headline-sm font-bold text-primary flex items-center gap-sm">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
-                NEP Mini Soccer
-            </div>
-<div class="flex gap-md items-center">
-<a class="text-secondary font-body-md text-body-md hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Terms</a>
-<a class="text-secondary font-body-md text-body-md hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Privacy</a>
-<a class="text-secondary font-body-md text-body-md hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Support</a>
-</div>
-<div class="text-on-surface font-body-md text-body-md opacity-80 text-center md:text-right">
-                © 2024 NEP Mini Soccer. All rights reserved.
-            </div>
-</div>
-</footer>
-</body></html>
+        
+        // Seragamkan tema seperti modal reschedule
+        warningBox.className = "bg-surface-container text-on-surface font-body-md text-body-md p-4 rounded-lg mb-6 text-center leading-relaxed";
+
+        document.getElementById('cancel-modal').classList.remove('hidden');
+        document.getElementById('cancel-modal').classList.add('flex');
+        setTimeout(() => document.getElementById('cancel-modal-card').classList.replace('scale-95', 'scale-100'), 10);
+    }
+
+    // 2. Logika Buka Modal Reschedule
+    function openRescheduleModal(bookingId) {
+        document.getElementById('reschedule-form').action = `/mybooking/${bookingId}/reschedule`;
+        document.getElementById('reschedule-modal').classList.remove('hidden');
+        document.getElementById('reschedule-modal').classList.add('flex');
+        setTimeout(() => document.getElementById('reschedule-modal-card').classList.replace('scale-95', 'scale-100'), 10);
+    }
+
+    // 3. Logika Buka Modal Alert Kustom
+    function openAlertModal(title, message) {
+        document.getElementById('alert-title').innerHTML = title;
+        document.getElementById('alert-message').innerHTML = message;
+        
+        document.getElementById('alert-modal').classList.remove('hidden');
+        document.getElementById('alert-modal').classList.add('flex');
+        setTimeout(() => document.getElementById('alert-modal-card').classList.replace('scale-95', 'scale-100'), 10);
+    }
+
+    // Event Klik di luar area card untuk tutup semua modal
+    window.onclick = function(event) {
+        if (event.target.id === 'cancel-modal') closeModal('cancel-modal', 'cancel-modal-card');
+        if (event.target.id === 'reschedule-modal') closeModal('reschedule-modal', 'reschedule-modal-card');
+        if (event.target.id === 'alert-modal') closeModal('alert-modal', 'alert-modal-card');
+    }
+</script>
+@endpush
+
+
+
+
+

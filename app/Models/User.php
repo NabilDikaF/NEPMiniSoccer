@@ -21,8 +21,19 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'avatar',
+        'no_hp',
         'password',
+        'role',
     ];
+
+    protected $primaryKey = 'id';
+
+    // tambahkan relationship ini
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'id_user', 'id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

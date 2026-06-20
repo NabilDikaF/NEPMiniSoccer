@@ -1,173 +1,19 @@
-<!DOCTYPE html>
+@extends('layouts.admin')
+@section('title', 'Verifikasi Pembayaran - NEP Admin')
 
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Verifikasi Pembayaran - NEP Admin</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-tertiary": "#ffffff",
-                        "surface-bright": "#f8f9fa",
-                        "surface-container": "#edeeef",
-                        "on-primary-fixed": "#002106",
-                        "background": "#f8f9fa",
-                        "on-secondary-fixed-variant": "#43474c",
-                        "secondary": "#5b5f63",
-                        "on-tertiary-container": "#5b0025",
-                        "on-primary-container": "#00330d",
-                        "surface-container-high": "#e7e8e9",
-                        "tertiary-container": "#ee6189",
-                        "surface": "#f8f9fa",
-                        "secondary-container": "#dde0e5",
-                        "secondary-fixed": "#e0e3e8",
-                        "primary-fixed-dim": "#66df75",
-                        "surface-variant": "#e1e3e4",
-                        "on-surface-variant": "#3e4a3c",
-                        "secondary-fixed-dim": "#c3c7cc",
-                        "on-error-container": "#93000a",
-                        "tertiary-fixed": "#ffd9df",
-                        "on-secondary-fixed": "#181c20",
-                        "on-secondary-container": "#5f6368",
-                        "on-tertiary-fixed-variant": "#8b1140",
-                        "tertiary-fixed-dim": "#ffb1c1",
-                        "primary-container": "#28a745",
-                        "outline": "#6e7b6b",
-                        "inverse-surface": "#2e3132",
-                        "on-primary-fixed-variant": "#00531a",
-                        "on-secondary": "#ffffff",
-                        "surface-container-highest": "#e1e3e4",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-dim": "#d9dadb",
-                        "on-background": "#191c1d",
-                        "primary": "#006e25",
-                        "tertiary": "#ab2d57",
-                        "primary-fixed": "#83fc8e",
-                        "surface-tint": "#006e25",
-                        "on-primary": "#ffffff",
-                        "error": "#ba1a1a",
-                        "outline-variant": "#bdcab9",
-                        "surface-container-low": "#f3f4f5",
-                        "inverse-on-surface": "#f0f1f2",
-                        "on-error": "#ffffff",
-                        "inverse-primary": "#66df75",
-                        "on-tertiary-fixed": "#3f0018",
-                        "on-surface": "#191c1d",
-                        "error-container": "#ffdad6"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "xl": "80px",
-                        "gutter": "24px",
-                        "lg": "48px",
-                        "base": "8px",
-                        "xs": "4px",
-                        "md": "24px",
-                        "container-max": "1200px",
-                        "sm": "12px"
-                    },
-                    "fontFamily": {
-                        "headline-lg-mobile": ["Inter"],
-                        "label-sm": ["Inter"],
-                        "label-md": ["Inter"],
-                        "headline-lg": ["Inter"],
-                        "headline-sm": ["Inter"],
-                        "body-lg": ["Inter"],
-                        "body-md": ["Inter"],
-                        "display-lg": ["Inter"],
-                        "headline-md": ["Inter"]
-                    },
-                    "fontSize": {
-                        "headline-lg-mobile": ["28px", { "lineHeight": "1.3", "fontWeight": "700" }],
-                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
-                        "label-md": ["14px", { "lineHeight": "1.2", "fontWeight": "600" }],
-                        "headline-lg": ["32px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "700" }],
-                        "headline-sm": ["20px", { "lineHeight": "1.4", "fontWeight": "600" }],
-                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "display-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }]
-                    }
-                }
-            }
-        }
-    </script>
-<style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
-</head>
-<body class="bg-surface text-on-surface antialiased min-h-screen flex">
-<!-- SideNavBar Component -->
-<nav class="fixed left-0 top-0 h-screen w-64 hidden md:flex flex-col bg-surface-container-low dark:bg-surface-dim shadow-sm dark:shadow-none z-40">
-<div class="flex flex-col h-full p-md space-y-base">
-<div class="flex items-center gap-sm mb-lg">
-<img alt="Admin Avatar" class="w-12 h-12 rounded-full object-cover" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"/>
-<div>
-<h2 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">NEP Admin</h2>
-<p class="font-label-sm text-label-sm text-secondary">Manajemen Lapangan</p>
-</div>
-</div>
-<div class="flex-1 space-y-sm">
-<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="dashboard">
-<span class="material-symbols-outlined">dashboard</span>
-<span class="">Dashboard</span>
-</a>
-<a class="flex items-center gap-sm p-sm text-primary dark:text-primary-fixed-dim bg-surface-container-high dark:bg-surface-container rounded-lg transition-all translate-x-0 font-label-md text-label-md" href="verifikasi">
-<span class="material-symbols-outlined">fact_check</span>
-<span class="">Verifikasi</span>
-</a>
-<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="jadwal">
-<span class="material-symbols-outlined">calendar_month</span>
-<span class="">Kelola Jadwal</span>
-</a>
-<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="pelanggan">
-<span class="material-symbols-outlined">group</span>
-<span class="">Data Pelanggan</span>
-</a>
-</div>
-<div class="mt-auto">
-<a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md">
-<form method="POST" action="{{ route('logout') }}" class="hidden md:block m-0 p-0">
-                @csrf
-                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-110 active:scale-110 transition-transform">
-                    <span>Keluar</span>
-                    <span class="material-symbols-outlined text-sm">logout</span>
-                </button>
-            </form>
-</a>
-</div>
-</div>
-</nav>
-<!-- Main Content Area -->
-<main class="flex-1 md:ml-64 p-gutter max-w-container-max mx-auto w-full">
-<!-- Header -->
+@section('content')
 <header class="mb-lg flex flex-col sm:flex-row justify-between items-start sm:items-center gap-sm sm:gap-0">
 <div>
 <h2 class="font-headline-lg text-headline-lg text-on-surface">Verifikasi Pembayaran</h2>
 <p class="font-body-md text-body-md text-secondary mt-xs">Meninjau dan menyetujui bukti transfer bank yang masuk.</p>
 </div>
-<div class="flex items-center space-x-sm bg-surface-container-lowest px-sm py-xs rounded-lg shadow-sm border border-surface-variant">
-<span class="material-symbols-outlined text-secondary">filter_list</span>
-<span class="font-label-md text-label-md text-on-surface">Filter: Menunggu</span>
-</div>
 </header>
-<!-- Stats Overview -->
+
 <div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-lg">
 <div class="bg-surface-container-lowest p-md rounded-lg shadow-sm border border-surface-variant flex items-center justify-between">
 <div>
 <p class="font-label-sm text-label-sm text-secondary mb-xs">Menunggu Untuk Ditinjau</p>
-<p class="font-headline-md text-headline-md text-on-surface font-bold">12</p>
+<p class="font-headline-md text-headline-md text-on-surface font-bold">{{ $pendingCount }}</p>
 </div>
 <div class="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container">
 <span class="material-symbols-outlined">pending_actions</span>
@@ -176,7 +22,7 @@
 <div class="bg-surface-container-lowest p-md rounded-lg shadow-sm border border-surface-variant flex items-center justify-between">
 <div>
 <p class="font-label-sm text-label-sm text-secondary mb-xs">Disetujui Hari Ini</p>
-<p class="font-headline-md text-headline-md text-on-surface font-bold">8</p>
+<p class="font-headline-md text-headline-md text-on-surface font-bold">{{ $approvedTodayCount }}</p>
 </div>
 <div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
 <span class="material-symbols-outlined">check_circle</span>
@@ -185,110 +31,227 @@
 <div class="bg-surface-container-lowest p-md rounded-lg shadow-sm border border-surface-variant flex items-center justify-between">
 <div>
 <p class="font-label-sm text-label-sm text-secondary mb-xs">Ditolak</p>
-<p class="font-headline-md text-headline-md text-on-surface font-bold">1</p>
+<p class="font-headline-md text-headline-md text-on-surface font-bold">{{ $rejectedCount }}</p>
 </div>
 <div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-on-error-container">
 <span class="material-symbols-outlined">cancel</span>
 </div>
 </div>
 </div>
-<!-- Data Table Section -->
+
+<!-- Search & Filter Form -->
+<form method="GET" action="{{ route('admin.verifikasi') }}" class="mb-lg bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-surface-variant flex flex-col lg:flex-row gap-4 items-center justify-between">
+    <div class="flex-1 w-full relative">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary">search</span>
+        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Nama Pelanggan..." class="w-full pl-10 pr-4 py-2 border border-surface-variant rounded-lg font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors">
+    </div>
+    
+    <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+        <select name="tipe_pembayaran" class="w-full sm:w-auto pl-4 pr-10 py-2 border border-surface-variant rounded-lg font-body-md text-body-md bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors cursor-pointer text-on-surface">
+            <option value="Semua" {{ request('tipe_pembayaran', 'Semua') === 'Semua' ? 'selected' : '' }}>Semua</option>
+            <option value="Pertama" {{ request('tipe_pembayaran') === 'Pertama' ? 'selected' : '' }}>Bayar Pertama</option>
+            <option value="Pelunasan" {{ request('tipe_pembayaran') === 'Pelunasan' ? 'selected' : '' }}>Pelunasan</option>
+        </select>
+        
+        <button type="submit" class="bg-primary hover:bg-primary-container text-on-primary px-6 py-2 rounded-lg font-label-md text-label-md transition-colors whitespace-nowrap shadow-sm flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-[18px]">search</span>
+            Cari & Filter
+        </button>
+    </div>
+</form>
+
 <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-variant overflow-hidden">
 <div class="overflow-x-auto w-full">
 <table class="w-full text-left border-collapse min-w-[800px] md:min-w-full">
 <thead>
 <tr class="bg-surface-container-low border-b border-surface-variant">
-<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap">Tanggal</th>
-<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap">Nama Tim</th>
-<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap">Tipe Pembayaran</th>
-<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap">Jumlah</th>
-<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap">Bukti Transfer</th>
-<th class="font-label-md text-label-md text-secondary py-sm px-md text-right whitespace-nowrap">Aksi</th>
+<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap text-center">Nama Pelanggan</th>
+<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap text-center">Tanggal</th>
+<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap text-center">Data Booking</th>
+<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap text-center">Tipe Pembayaran</th>
+<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap text-center">Jumlah</th>
+<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap text-center">Bukti Transfer</th>
+<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap w-[1%] text-center">Aksi</th>
 </tr>
 </thead>
 <tbody class="font-body-md text-body-md">
-<!-- Row 1 -->
+
+@forelse($pembayarans as $pembayaran)
+@php
+    $bookingIdentifier = $pembayaran->booking->tipe_booking ? ($pembayaran->booking->tipe_booking . ' (#'.$pembayaran->id_booking.')') : 'Booking #'.$pembayaran->id_booking;
+@endphp
 <tr class="border-b border-surface-variant hover:bg-surface-bright transition-colors">
-<td class="py-md px-md text-on-surface whitespace-nowrap">Oct 24, 14:30</td>
-<td class="py-md px-md font-medium text-on-surface whitespace-nowrap">Garuda FC</td>
-<td class="py-md px-md text-secondary whitespace-nowrap">DP (50%)</td>
-<td class="py-md px-md font-medium text-on-surface whitespace-nowrap">Rp 250.000</td>
-<td class="py-md px-md whitespace-nowrap">
-<button class="flex items-center space-x-xs text-primary hover:text-primary-container transition-colors font-label-md text-label-md">
-<span class="material-symbols-outlined text-[18px]">image</span>
-<span class="">Lihat Foto</span>
-</button>
+<td class="py-md px-md font-medium text-on-surface whitespace-nowrap text-center">
+    {{ $pembayaran->booking->user->name ?? 'Tidak Diketahui' }}
 </td>
-<td class="py-md px-md text-right space-x-xs flex justify-end whitespace-nowrap">
-<button class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-xs px-sm rounded shadow-sm transition-all flex items-center">
-<span class="material-symbols-outlined text-[18px] mr-xs">check</span>
-                                    Verifikasi
-                                </button>
-<button class="bg-surface-container hover:bg-error hover:text-on-error text-error font-label-md text-label-md py-xs px-sm rounded shadow-sm border border-surface-variant hover:border-error transition-all flex items-center">
-<span class="material-symbols-outlined text-[18px] mr-xs">close</span>
-                                    Tolak
-                                </button>
+<td class="py-md px-md text-on-surface whitespace-nowrap text-center">
+    {{ \Carbon\Carbon::parse($pembayaran->created_at)->translatedFormat('d M Y, H:i') }}
+</td>
+<td class="py-md px-md font-medium text-on-surface whitespace-nowrap text-center">
+    {{ $pembayaran->booking->tipe_booking ?? 'Booking #'.$pembayaran->id_booking }}
+</td>
+<td class="py-md px-md text-secondary whitespace-nowrap text-center">
+    {{ $pembayaran->jenis_pembayaran }}
+</td>
+<td class="py-md px-md font-medium text-on-surface whitespace-nowrap text-center">
+    Rp {{ number_format($pembayaran->nominal_dibayar, 0, ',', '.') }}
+</td>
+<td class="py-md px-md whitespace-nowrap">
+    <a href="{{ asset('storage/' . $pembayaran->bukti_transfer) }}" target="_blank" class="flex items-center justify-center space-x-xs text-primary hover:text-primary-container transition-colors font-label-md text-label-md">
+        <span class="material-symbols-outlined text-[18px]">image</span>
+        <span class="">Lihat Foto</span>
+    </a>
+</td>
+<td class="py-md px-md whitespace-nowrap w-[1%]">
+    <div class="flex justify-center space-x-xs items-center">
+        <button type="button" onclick="triggerConfirmModal('{{ $pembayaran->id_pembayaran }}', 'Valid', '{{ $bookingIdentifier }}')" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-xs px-sm rounded shadow-sm transition-all flex items-center">
+            <span class="material-symbols-outlined text-[18px] mr-xs">check</span> Verifikasi
+        </button>
+
+        <button type="button" onclick="triggerConfirmModal('{{ $pembayaran->id_pembayaran }}', 'Ditolak', '{{ $bookingIdentifier }}')" class="bg-surface-container hover:bg-error hover:text-on-error text-error font-label-md text-label-md py-xs px-sm rounded shadow-sm border border-surface-variant hover:border-error transition-all flex items-center">
+            <span class="material-symbols-outlined text-[18px] mr-xs">close</span> Tolak
+        </button>
+    </div>
 </td>
 </tr>
-<!-- Row 2 -->
-<tr class="border-b border-surface-variant hover:bg-surface-bright transition-colors">
-<td class="py-md px-md text-on-surface whitespace-nowrap">Oct 24, 11:15</td>
-<td class="py-md px-md font-medium text-on-surface whitespace-nowrap">Kickers Club</td>
-<td class="py-md px-md text-secondary whitespace-nowrap">Lunas</td>
-<td class="py-md px-md font-medium text-on-surface whitespace-nowrap">Rp 500.000</td>
-<td class="py-md px-md whitespace-nowrap">
-<button class="flex items-center space-x-xs text-primary hover:text-primary-container transition-colors font-label-md text-label-md">
-<span class="material-symbols-outlined text-[18px]">image</span>
-<span class="">Lihat Foto</span>
-</button>
-</td>
-<td class="py-md px-md text-right space-x-xs flex justify-end whitespace-nowrap">
-<button class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-xs px-sm rounded shadow-sm transition-all flex items-center">
-<span class="material-symbols-outlined text-[18px] mr-xs">check</span>
-                                    Verifikasi
-                                </button>
-<button class="bg-surface-container hover:bg-error hover:text-on-error text-error font-label-md text-label-md py-xs px-sm rounded shadow-sm border border-surface-variant hover:border-error transition-all flex items-center">
-<span class="material-symbols-outlined text-[18px] mr-xs">close</span>
-                                    Tolak
-                                </button>
-</td>
+@empty
+<tr>
+    <td colspan="7" class="py-lg px-md text-center text-secondary font-label-md text-label-md">
+        Belum ada pembayaran yang perlu diverifikasi.
+    </td>
 </tr>
-<!-- Row 3 -->
-<tr class="hover:bg-surface-bright transition-colors">
-<td class="py-md px-md text-on-surface whitespace-nowrap">Oct 23, 19:45</td>
-<td class="py-md px-md font-medium text-on-surface whitespace-nowrap">Weekend Warriors</td>
-<td class="py-md px-md text-secondary whitespace-nowrap">DP (50%)</td>
-<td class="py-md px-md font-medium text-on-surface whitespace-nowrap">Rp 250.000</td>
-<td class="py-md px-md whitespace-nowrap">
-<button class="flex items-center space-x-xs text-primary hover:text-primary-container transition-colors font-label-md text-label-md">
-<span class="material-symbols-outlined text-[18px]">image</span>
-<span class="">Lihat Foto</span>
-</button>
-</td>
-<td class="py-md px-md text-right space-x-xs flex justify-end whitespace-nowrap">
-<button class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-xs px-sm rounded shadow-sm transition-all flex items-center">
-<span class="material-symbols-outlined text-[18px] mr-xs">check</span>
-                                    Verifikasi
-                                </button>
-<button class="bg-surface-container hover:bg-error hover:text-on-error text-error font-label-md text-label-md py-xs px-sm rounded shadow-sm border border-surface-variant hover:border-error transition-all flex items-center">
-<span class="material-symbols-outlined text-[18px] mr-xs">close</span>
-                                    Tolak
-                                </button>
-</td>
-</tr>
+@endforelse
+
 </tbody>
 </table>
 </div>
-<!-- Pagination Footer -->
-<div class="bg-surface-container-lowest border-t border-surface-variant px-md py-sm flex flex-col sm:flex-row items-center justify-between gap-sm sm:gap-0">
-<span class="font-label-sm text-label-sm text-secondary">Memperlihatkan 1 sampai 3 dari 12</span>
-<div class="flex space-x-xs">
-<button class="px-sm py-xs border border-surface-variant rounded text-secondary hover:bg-surface-container-high transition-colors font-label-md text-label-md disabled:opacity-50" disabled="">Sebelumnya</button>
-<button class="px-sm py-xs bg-primary-container text-on-primary-container rounded font-label-md text-label-md">1</button>
-<button class="px-sm py-xs border border-surface-variant rounded text-secondary hover:bg-surface-container-high transition-colors font-label-md text-label-md">2</button>
-<button class="px-sm py-xs border border-surface-variant rounded text-secondary hover:bg-surface-container-high transition-colors font-label-md text-label-md">Lanjutnya</button>
+<div class="bg-surface-container-lowest border-t border-surface-variant px-md py-sm">
+    {{ $pembayarans->links() }}
 </div>
 </div>
+
+<!-- Modal Konfirmasi -->
+<div id="custom-confirm-modal" class="fixed inset-0 bg-gray-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4 transition-all duration-300">
+    <div class="bg-white dark:bg-zinc-900 rounded-xl max-w-md w-full p-6 shadow-xl border border-gray-100 dark:border-zinc-800 transform scale-95 transition-transform duration-300 flex flex-col" id="modal-card">
+        
+        <div class="flex items-center gap-4 mb-4">
+            <div id="modal-icon-container" class="w-12 h-12 rounded-full flex items-center justify-center">
+                <span id="modal-icon" class="material-symbols-outlined text-2xl">help</span>
+            </div>
+            <div>
+                <h3 id="modal-title" class="text-lg font-bold text-gray-900 dark:text-white">Konfirmasi Aksi</h3>
+                <p id="modal-subtitle" class="text-xs text-secondary">Aksi ini akan memperbarui status booking pelanggan</p>
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <p id="modal-description" class="text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">
+                Apakah Anda yakin ingin memproses data pembayaran ini?
+            </p>
+        </div>
+
+        <form id="modal-action-form" method="POST" class="m-0 p-0 flex flex-col sm:flex-row justify-end gap-sm flex-wrap">
+            @csrf
+            <input type="hidden" name="status_pembayaran" id="modal-status-input" value="">
+
+            <div id="rejection-note-container" class="w-full mb-4 hidden">
+                <label for="modal-catatan-admin" class="block font-label-md text-label-md text-on-surface mb-xs">Catatan Penolakan (Opsional)</label>
+                <textarea id="modal-catatan-admin" name="catatan_admin" rows="3" class="w-full px-sm py-xs border border-outline-variant rounded-DEFAULT focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary font-body-md text-body-md bg-surface-bright" placeholder="Berikan alasan mengapa pembayaran ditolak..."></textarea>
+            </div>
+            
+            <button type="submit" id="modal-submit-btn" class="w-full sm:w-auto text-white font-bold py-2 px-5 rounded-lg text-sm transition-all shadow-xs flex items-center justify-center gap-1">
+                <span class="material-symbols-outlined text-[18px]">done</span>
+                <span id="modal-btn-text">Ya, Lanjutkan</span>
+            </button>
+            <button type="button" onclick="closeConfirmModal()" class="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg text-sm transition-colors text-center">
+                Batal
+            </button>
+        </form>
+
+    </div>
 </div>
-</main>
-</body></html>
+@endsection
+
+@push('scripts')
+<script>
+    function triggerConfirmModal(idPembayaran, actionType, bookingInfo) {
+        const modalContainer = document.getElementById('custom-confirm-modal');
+        const modalCard = document.getElementById('modal-card');
+        const actionForm = document.getElementById('modal-action-form');
+        const statusInput = document.getElementById('modal-status-input');
+        
+        const titleText = document.getElementById('modal-title');
+        const descText = document.getElementById('modal-description');
+        const btnText = document.getElementById('modal-btn-text');
+        const submitBtn = document.getElementById('modal-submit-btn');
+        const iconContainer = document.getElementById('modal-icon-container');
+        const icon = document.getElementById('modal-icon');
+
+        // 1. Set URL Action Form Dinamis sesuai ID Pembayaran
+        actionForm.action = `/admin/verifikasi/${idPembayaran}/verify`;
+        
+        // 2. Pasang value status ('Valid' / 'Ditolak') untuk dikirim ke Controller
+        statusInput.value = actionType;
+
+        // 3. Cabang Desain & Text antara Setuju (Valid) vs Tolak (Ditolak)
+        if (actionType === 'Valid') {
+            titleText.innerText = "Verifikasi Pembayaran";
+            descText.innerHTML = `Apakah Anda yakin ingin <strong>MENYETUJUI</strong> bukti transfer untuk <strong>${bookingInfo}</strong>? Data akan ditandai sah dan status jadwal akan langsung terkunci.`;
+            btnText.innerText = "Ya, Verifikasi";
+            
+            // Sembunyikan Textarea catatan
+            document.getElementById('rejection-note-container').classList.add('hidden');
+            
+            // Set skema warna Hijau (Success)
+            submitBtn.className = "w-full sm:w-auto bg-primary hover:bg-green-700 text-white font-bold py-2 px-5 rounded-lg text-sm transition-all shadow-xs flex items-center justify-center gap-1";
+            iconContainer.className = "w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-700";
+            icon.innerText = "check_circle";
+        } else {
+            titleText.innerText = "Tolak Pembayaran";
+            descText.innerHTML = `Apakah Anda yakin ingin <strong>MENOLAK</strong> bukti transfer untuk <strong>${bookingInfo}</strong>? Status pesanan pelanggan akan dikembalikan agar mereka bisa mengunggah ulang foto yang benar.`;
+            btnText.innerText = "Ya, Tolak";
+            
+            // Set skema warna Merah (Danger)
+            submitBtn.className = "w-full sm:w-auto bg-error hover:bg-red-700 text-white font-bold py-2 px-5 rounded-lg text-sm transition-all shadow-xs flex items-center justify-center gap-1";
+            iconContainer.className = "w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-red-700";
+            icon.innerText = "cancel";
+            
+            // Tampilkan Textarea catatan
+            document.getElementById('rejection-note-container').classList.remove('hidden');
+        }
+
+        // 4. Munculkan Modal dengan animasi transisi yang halus
+        modalContainer.classList.remove('hidden');
+        modalContainer.classList.add('flex');
+        setTimeout(() => {
+            modalCard.classList.remove('scale-95');
+            modalCard.classList.add('scale-100');
+        }, 10);
+    }
+
+    function closeConfirmModal() {
+        const modalContainer = document.getElementById('custom-confirm-modal');
+        const modalCard = document.getElementById('modal-card');
+        
+        modalCard.classList.remove('scale-100');
+        modalCard.classList.add('scale-95');
+        
+        setTimeout(() => {
+            modalContainer.classList.remove('flex');
+            modalContainer.classList.add('hidden');
+        }, 150);
+    }
+
+    // Menutup modal otomatis jika admin mengklik area luar kartu modal (backdrop)
+    document.getElementById('custom-confirm-modal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeConfirmModal();
+        }
+    });
+
+    // Sembunyikan parameter URL dari address bar agar terlihat rapi (seperti menggunakan POST)
+    if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.pathname);
+    }
+</script>
+@endpush

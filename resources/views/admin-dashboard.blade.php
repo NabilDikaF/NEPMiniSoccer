@@ -1,138 +1,10 @@
-<!DOCTYPE html>
+@extends('layouts.admin')
+@section('title', 'Dashboard - NEP Admin')
 
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>NEP Admin Dashboard</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "on-tertiary": "#ffffff",
-                      "surface-bright": "#f8f9fa",
-                      "surface-container": "#edeeef",
-                      "on-primary-fixed": "#002106",
-                      "background": "#f8f9fa",
-                      "on-secondary-fixed-variant": "#43474c",
-                      "secondary": "#5b5f63",
-                      "on-tertiary-container": "#5b0025",
-                      "on-primary-container": "#00330d",
-                      "surface-container-high": "#e7e8e9",
-                      "tertiary-container": "#ee6189",
-                      "surface": "#f8f9fa",
-                      "secondary-container": "#dde0e5",
-                      "secondary-fixed": "#e0e3e8",
-                      "primary-fixed-dim": "#66df75",
-                      "surface-variant": "#e1e3e4",
-                      "on-surface-variant": "#3e4a3c",
-                      "secondary-fixed-dim": "#c3c7cc",
-                      "on-error-container": "#93000a",
-                      "tertiary-fixed": "#ffd9df",
-                      "on-secondary-fixed": "#181c20",
-                      "on-secondary-container": "#5f6368",
-                      "on-tertiary-fixed-variant": "#8b1140",
-                      "tertiary-fixed-dim": "#ffb1c1",
-                      "primary-container": "#28a745",
-                      "outline": "#6e7b6b",
-                      "inverse-surface": "#2e3132",
-                      "on-primary-fixed-variant": "#00531a",
-                      "on-secondary": "#ffffff",
-                      "surface-container-highest": "#e1e3e4",
-                      "surface-container-lowest": "#ffffff",
-                      "surface-dim": "#d9dadb",
-                      "on-background": "#191c1d",
-                      "primary": "#006e25",
-                      "tertiary": "#ab2d57",
-                      "primary-fixed": "#83fc8e",
-                      "surface-tint": "#006e25",
-                      "on-primary": "#ffffff",
-                      "error": "#ba1a1a",
-                      "outline-variant": "#bdcab9",
-                      "surface-container-low": "#f3f4f5",
-                      "inverse-on-surface": "#f0f1f2",
-                      "on-error": "#ffffff",
-                      "inverse-primary": "#66df75",
-                      "on-tertiary-fixed": "#3f0018",
-                      "on-surface": "#191c1d",
-                      "error-container": "#ffdad6"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.25rem",
-                      "lg": "0.5rem",
-                      "xl": "0.75rem",
-                      "full": "9999px"
-              },
-              "spacing": {
-                      "xl": "80px",
-                      "gutter": "24px",
-                      "lg": "48px",
-                      "base": "8px",
-                      "xs": "4px",
-                      "md": "24px",
-                      "container-max": "1200px",
-                      "sm": "12px"
-              },
-              "fontFamily": {
-                      "headline-lg-mobile": ["Inter"],
-                      "label-sm": ["Inter"],
-                      "label-md": ["Inter"],
-                      "headline-lg": ["Inter"],
-                      "headline-sm": ["Inter"],
-                      "body-lg": ["Inter"],
-                      "body-md": ["Inter"],
-                      "display-lg": ["Inter"],
-                      "headline-md": ["Inter"]
-              },
-              "fontSize": {
-                      "headline-lg-mobile": ["28px", {"lineHeight": "1.3", "fontWeight": "700"}],
-                      "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
-                      "label-md": ["14px", {"lineHeight": "1.2", "fontWeight": "600"}],
-                      "headline-lg": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "700"}],
-                      "headline-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
-                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                      "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                      "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}]
-              }
-            }
-          }
-        }
-    </script>
-<style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
-</head>
-<body class="bg-background text-on-background flex h-screen overflow-hidden flex-col md:flex-row">
-<!-- Mobile Header -->
-<header class="md:hidden flex items-center justify-between p-sm bg-surface-container-low shadow-sm z-40 border-b border-surface-variant">
-<div class="flex items-center space-x-sm">
-<button class="p-sm text-secondary hover:bg-surface-container-high rounded-full focus:outline-none focus:ring-2 focus:ring-primary" id="sidebar-toggle">
-<span class="material-symbols-outlined">menu</span>
-</button>
-<div class="w-8 h-8 rounded-full text-on-primary-container font-headline-sm text-headline-sm font-bold"><img alt="Admin Avatar" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7P06HlnPnTGTIQuNNgTlnKq1RROsE5TAeBSnc0WLBm5xhrBSmkagDA_4_zqSQSIKnE7-Ky9btQSpHNa5hoAxkEuFrEqNldfU8t-cGgHvknlboNP5L9OiTeO48IWSDIRqgeeli43xBMRuBxMF-uiU1edHDNqriSNkQe5HmhMWeU8a-T6Y8jvKmzv25ZjuADai3bqJi3ggpWfprJowhiJAYEmsdMAWvyTDZpkaNi5QTwOc0lPgopxQu9HuR6M8IcGeL0PqXDZG0I_3c"/></div>
-</div>
-<h1 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">NEP Admin</h1>
-</header>
-<!-- Overlay -->
-<div class="fixed inset-0 bg-on-background/50 z-40 hidden transition-opacity duration-300 opacity-0 md:hidden" id="sidebar-overlay"></div>
-<!-- SideNavBar -->
-<nav class="bg-surface-container-low dark:bg-surface-dim shadow-lg md:shadow-sm dark:shadow-none fixed md:relative left-0 top-0 h-screen w-64 flex flex-col p-md space-y-base z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out" id="sidebar"><div class="flex flex-col h-full p-md space-y-base"><div class="flex items-center justify-between md:justify-start mb-lg"><div class="flex items-center gap-sm"><img alt="Admin Avatar" class="w-12 h-12 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7P06HlnPnTGTIQuNNgTlnKq1RROsE5TAeBSnc0WLBm5xhrBSmkagDA_4_zqSQSIKnE7-Ky9btQSpHNa5hoAxkEuFrEqNldfU8t-cGgHvknlboNP5L9OiTeO48IWSDIRqgeeli43xBMRuBxMF-uiU1edHDNqriSNkQe5HmhMWeU8a-T6Y8jvKmzv25ZjuADai3bqJi3ggpWfprJowhiJAYEmsdMAWvyTDZpkaNi5QTwOc0lPgopxQu9HuR6M8IcGeL0PqXDZG0I_3c"/><div><h2 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">NEP Admin</h2><p class="font-label-sm text-label-sm text-secondary">Field Management</p></div></div><button class="md:hidden p-sm text-secondary hover:bg-surface-container-high rounded-full focus:outline-none focus:ring-2 focus:ring-primary" id="sidebar-close"><span class="material-symbols-outlined">close</span></button></div><div class="flex-1 space-y-sm"><a class="flex items-center gap-sm p-sm text-primary dark:text-primary-fixed-dim bg-surface-container-high dark:bg-surface-container rounded-lg transition-all translate-x-0 font-label-md text-label-md" href="dashboard"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span><span class="">Dashboard</span></a><a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="verifikasi"><span class="material-symbols-outlined">fact_check</span><span class="">Verifikasi</span></a><a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="jadwal"><span class="material-symbols-outlined">calendar_month</span><span class="">Kelola Jadwal</span></a><a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="pelanggan"><span class="material-symbols-outlined">group</span><span class="">Data Pelanggan</span></a></div><div class="mt-auto"><a class="flex items-center gap-sm p-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container rounded-lg transition-all translate-x-1 active:translate-x-0 font-label-md text-label-md" href="#"><span class="material-symbols-outlined"></span><form method="POST" action="{{ route('logout') }}" class="hidden md:block m-0 p-0">
-                @csrf
-                <button type="submit" class="flex items-center space-x-xs text-secondary dark:text-secondary-fixed-dim font-medium hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200 scale-110 active:scale-110 transition-transform">
-                    <span>Keluar</span>
-                    <span class="material-symbols-outlined text-sm">logout</span>
-                </button>
-            </form></a></div></div></nav>
-<!-- Main Content Canvas -->
-<main class="flex-1 overflow-y-auto p-md md:p-gutter lg:p-xl w-full">
+@section('content')
 <div class="max-w-container-max mx-auto space-y-lg">
 <!-- Header Section -->
-<header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
+<header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-lg">
 <div>
 <h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background">Ringkasan</h2>
 <p class="font-body-md text-body-md text-secondary">Berikut adalah ringkasan singkat aktivitas di NEP Mini Soccer.</p>
@@ -189,7 +61,7 @@
 </div>
 </section>
 <!-- Chart & Activity Section -->
-<section class="grid grid-cols-1 lg:grid-cols-3 gap-md md:gap-gutter">
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-md md:gap-gutter mt-lg">
 <!-- Peak Hours Chart Area -->
 <div class="lg:col-span-2 bg-surface-container-lowest rounded-lg shadow-sm border border-surface-variant p-md w-full overflow-hidden">
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-lg gap-4 sm:gap-0">
@@ -223,64 +95,167 @@
 </div>
 </div>
 <!-- Recent Activity Feed -->
-<div class="bg-surface-container-lowest rounded-lg shadow-sm border border-surface-variant p-md flex flex-col h-auto md:h-96 lg:h-auto">
+<div class="bg-surface-container-lowest rounded-lg shadow-sm border border-surface-variant p-md flex flex-col h-full min-h-[300px]">
 <h3 class="font-headline-sm text-headline-sm text-on-background mb-md">Aktivitas Terbaru</h3>
-<div class="space-y-md flex-1 overflow-y-auto pr-2">
-<div class="flex items-start space-x-sm">
-<div class="w-2 h-2 mt-2 rounded-full bg-primary-container flex-shrink-0"></div>
-<div>
-<p class="font-label-md text-label-md text-on-background">Booking Dikonfirmasi</p>
-<p class="font-body-md text-body-md text-secondary">19:00, Budi Santoso</p>
-<p class="font-label-sm text-label-sm text-outline mt-xs">10 menit lalu</p>
+<div class="space-y-md flex-1 overflow-y-auto pr-2 max-h-[270px] mb-md">
+
+    @forelse($recentNotifications as $notif)
+    <div class="flex items-start space-x-sm p-1 rounded {{ !$notif->is_read ? 'bg-surface-container-low' : '' }}">
+        <div class="w-2 h-2 mt-1 rounded-full {{ $notif->is_urgent ? 'bg-error' : ($notif->is_read ? 'bg-secondary' : 'bg-primary-container') }} flex-shrink-0"></div>
+        <div>
+            <p class="font-label-md text-label-md {{ $notif->is_urgent ? 'text-error font-bold' : 'text-on-background' }}">{{ $notif->tipe_notifikasi }}</p>
+            <p class="font-body-md text-body-md text-secondary">{{ $notif->pesan }}</p>
+            <p class="font-label-sm text-label-sm text-outline mt-xs">{{ $notif->created_at->diffForHumans() }}</p>
+        </div>
+    </div>
+    @empty
+    <div class="text-center text-secondary py-4">
+        <span class="material-symbols-outlined text-4xl mb-2">notifications_off</span>
+        <p class="font-label-md text-label-md">Belum ada aktivitas terbaru.</p>
+    </div>
+    @endforelse
+
 </div>
-</div>
-<div class="flex items-start space-x-sm">
-<div class="w-2 h-2 mt-2 rounded-full bg-tertiary flex-shrink-0"></div>
-<div>
-<p class="font-label-md text-label-md text-on-background">Pembayaran Tertunda</p>
-<p class="font-body-md text-body-md text-secondary">20:00, Tim Garuda</p>
-<p class="font-label-sm text-label-sm text-outline mt-xs">45 menit lalu</p>
-</div>
-</div>
-<div class="flex items-start space-x-sm">
-<div class="w-2 h-2 mt-2 rounded-full bg-secondary flex-shrink-0"></div>
-<div>
-<p class="font-label-md text-label-md text-on-background">Jadwal Diperbarui</p>
-<p class="font-body-md text-body-md text-secondary">Pemeliharaan dijadwalkan untuk besok</p>
-<p class="font-label-sm text-label-sm text-outline mt-xs">2 jam yang lalu</p>
-</div>
-</div>
-</div>
-<button class="w-full mt-md py-sm border border-surface-variant rounded-DEFAULT text-secondary hover:bg-surface font-label-md text-label-md transition-colors">
-                        Lihat Semua
-                    </button>
+<button onclick="openNotificationModal()" class="w-full mt-auto py-sm border border-surface-variant rounded-DEFAULT text-secondary hover:bg-surface font-label-md text-label-md transition-colors">
+    Lihat Semua
+</button>
 </div>
 </section>
+</section>
 </div>
-</main>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const sidebar = document.getElementById('sidebar');
-        const sidebarToggle = document.getElementById('sidebar-toggle');
-        const sidebarClose = document.getElementById('sidebar-close');
-        const overlay = document.getElementById('sidebar-overlay');
 
-        function toggleSidebar() {
-            const isClosed = sidebar.classList.contains('-translate-x-full');
-            if (isClosed) {
-                sidebar.classList.remove('-translate-x-full');
-                overlay.classList.remove('hidden');
-                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
-            } else {
-                sidebar.classList.add('-translate-x-full');
-                overlay.classList.add('opacity-0');
-                setTimeout(() => overlay.classList.add('hidden'), 300);
-            }
+<!-- MODAL SEMUA NOTIFIKASI -->
+<div id="all-notifications-modal" class="fixed inset-0 bg-[#191c1d]/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+    <div class="bg-surface-container-lowest rounded-xl max-w-2xl w-full h-[90vh] flex flex-col shadow-xl border border-surface-variant relative transform scale-95 transition-transform duration-300" id="notif-modal-card">
+        
+        <!-- Header Modal -->
+        <div class="flex-shrink-0 p-md border-b border-surface-variant flex justify-between items-center">
+            <h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+                <span class="material-symbols-outlined">notifications</span> Riwayat Aktivitas
+            </h3>
+            <button onclick="closeNotificationModal()" class="text-secondary hover:text-on-surface transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <!-- Filter -->
+        <div class="flex-shrink-0 px-md py-sm bg-surface-container-low border-b border-surface-variant flex gap-sm overflow-x-auto">
+            <button onclick="filterNotif('all')" id="btn-filter-all" class="px-sm py-xs bg-primary text-on-primary rounded-full font-label-sm text-label-sm transition-colors whitespace-nowrap">Semua</button>
+            <button onclick="filterNotif('urgent')" id="btn-filter-urgent" class="px-sm py-xs bg-surface text-secondary border border-outline-variant rounded-full font-label-sm text-label-sm hover:bg-surface-container transition-colors whitespace-nowrap text-error font-bold border-error">Penting</button>
+            <button onclick="filterNotif('unread')" id="btn-filter-unread" class="px-sm py-xs bg-surface text-secondary border border-outline-variant rounded-full font-label-sm text-label-sm hover:bg-surface-container transition-colors whitespace-nowrap">Belum Dibaca</button>
+            <button onclick="filterNotif('read')" id="btn-filter-read" class="px-sm py-xs bg-surface text-secondary border border-outline-variant rounded-full font-label-sm text-label-sm hover:bg-surface-container transition-colors whitespace-nowrap">Sudah Dibaca</button>
+        </div>
+
+        <!-- List Notifikasi -->
+        <div class="p-md overflow-y-auto flex-1 space-y-md" id="notif-list-container">
+            @forelse($allNotifications as $notif)
+            <div data-status="{{ $notif->is_read ? 'read' : 'unread' }}" data-urgent="{{ $notif->is_urgent ? 'true' : 'false' }}" data-id="{{ $notif->id }}" class="notif-item flex items-start space-x-sm p-3 rounded-lg border border-surface-variant {{ !$notif->is_read ? 'bg-surface-container' : 'bg-surface' }}">
+                <div class="w-3 h-3 mt-1.5 rounded-full {{ $notif->is_urgent ? 'bg-error' : ($notif->is_read ? 'bg-secondary' : 'bg-primary') }} flex-shrink-0"></div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start">
+                        <p class="font-label-md text-label-md {{ $notif->is_urgent ? 'text-error font-bold' : 'text-on-background' }}">{{ $notif->tipe_notifikasi }}</p>
+                        <p class="font-label-sm text-label-sm text-outline">{{ $notif->created_at->format('d M Y, H:i') }}</p>
+                    </div>
+                    <p class="font-body-md text-body-md text-secondary mt-1">{{ $notif->pesan }}</p>
+                    
+                    @if(!$notif->is_read)
+                    <button onclick="markAsRead({{ $notif->id }}, this)" class="group mt-2 text-primary font-label-sm text-label-sm flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px]">done_all</span> <span class="group-hover:underline">Tandai sudah dibaca</span>
+                    </button>
+                    @endif
+                </div>
+            </div>
+            @empty
+            <div class="text-center text-secondary py-10">
+                <span class="material-symbols-outlined text-4xl mb-2">inbox</span>
+                <p class="font-label-md text-label-md">Tidak ada riwayat aktivitas.</p>
+            </div>
+            @endforelse
+        </div>
+    </div>
+</div>
+@endsection
+
+@push('scripts')
+<script>
+    function openNotificationModal() {
+        const modal = document.getElementById('all-notifications-modal');
+        const card = document.getElementById('notif-modal-card');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => {
+            card.classList.replace('scale-95', 'scale-100');
+        }, 10);
+    }
+
+    function closeNotificationModal() {
+        const modal = document.getElementById('all-notifications-modal');
+        const card = document.getElementById('notif-modal-card');
+        card.classList.replace('scale-100', 'scale-95');
+        setTimeout(() => {
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }, 300);
+    }
+
+    function filterNotif(type) {
+        // Reset buttons
+        document.getElementById('btn-filter-all').className = "px-sm py-xs bg-surface text-secondary border border-outline-variant rounded-full font-label-sm text-label-sm hover:bg-surface-container transition-colors whitespace-nowrap";
+        document.getElementById('btn-filter-unread').className = "px-sm py-xs bg-surface text-secondary border border-outline-variant rounded-full font-label-sm text-label-sm hover:bg-surface-container transition-colors whitespace-nowrap";
+        document.getElementById('btn-filter-read').className = "px-sm py-xs bg-surface text-secondary border border-outline-variant rounded-full font-label-sm text-label-sm hover:bg-surface-container transition-colors whitespace-nowrap";
+        document.getElementById('btn-filter-urgent').className = "px-sm py-xs bg-surface text-secondary border border-outline-variant rounded-full font-label-sm text-label-sm hover:bg-surface-container transition-colors whitespace-nowrap text-error font-bold border-error";
+        
+        // Active button
+        if(type === 'urgent') {
+            document.getElementById('btn-filter-' + type).className = "px-sm py-xs bg-error text-white rounded-full font-label-sm text-label-sm transition-colors whitespace-nowrap shadow-sm";
+        } else {
+            document.getElementById('btn-filter-' + type).className = "px-sm py-xs bg-primary text-on-primary rounded-full font-label-sm text-label-sm transition-colors whitespace-nowrap shadow-sm";
         }
 
-        sidebarToggle.addEventListener('click', toggleSidebar);
-        sidebarClose.addEventListener('click', toggleSidebar);
-        overlay.addEventListener('click', toggleSidebar);
-    });
+        // Filter items
+        const items = document.querySelectorAll('.notif-item');
+        items.forEach(item => {
+            if (type === 'all') {
+                item.style.display = 'flex';
+            } else if (type === 'urgent') {
+                if (item.getAttribute('data-urgent') === 'true') {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            } else if (item.getAttribute('data-status') === type) {
+                item.style.display = 'flex';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    function markAsRead(id, btnElement) {
+        fetch(`/admin/notifications/${id}/mark-read`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update UI without refreshing
+                const notifContainer = btnElement.closest('.notif-item');
+                notifContainer.classList.replace('bg-surface-container', 'bg-surface');
+                notifContainer.setAttribute('data-status', 'read');
+                
+                const dot = notifContainer.querySelector('.w-3.h-3');
+                if(!dot.classList.contains('bg-error')) {
+                    dot.classList.replace('bg-primary', 'bg-secondary');
+                }
+
+                btnElement.remove(); // Remove the button
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
 </script>
-</body></html>
+@endpush

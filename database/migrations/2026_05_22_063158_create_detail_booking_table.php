@@ -28,9 +28,6 @@ return new class extends Migration
                   ->references('id_jadwal')
                   ->on('jadwal')
                   ->onDelete('restrict');
-
-            // Satu jadwal hanya boleh masuk ke satu booking aktif
-            $table->unique(['id_jadwal']);
         });
     }
 
