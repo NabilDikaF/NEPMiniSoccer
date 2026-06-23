@@ -1,18 +1,20 @@
 @extends('layouts.admin')
 @section('title', 'Dashboard - NEP Admin')
 
+@section('header')
+<header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-lg">
+    <div>
+        <h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background">Ringkasan</h2>
+        <p class="font-body-md text-body-md text-secondary">Berikut adalah ringkasan singkat aktivitas di NEP Mini Soccer.</p>
+    </div>
+    <a href="{{ route('admin.laporan') }}" class="w-full sm:w-auto bg-primary hover:bg-primary-container text-on-primary px-md py-sm rounded-DEFAULT font-label-md text-label-md transition-colors shadow-sm inline-block text-center">
+        Buat Laporan
+    </a>
+</header>
+@endsection
+
 @section('content')
 <div class="max-w-container-max mx-auto space-y-lg">
-<!-- Header Section -->
-<header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-lg">
-<div>
-<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background">Ringkasan</h2>
-<p class="font-body-md text-body-md text-secondary">Berikut adalah ringkasan singkat aktivitas di NEP Mini Soccer.</p>
-</div>
-<button class="w-full sm:w-auto bg-primary hover:bg-primary-container text-on-primary px-md py-sm rounded-DEFAULT font-label-md text-label-md transition-colors shadow-sm">
-                    Buat Laporan
-                </button>
-</header>
 <!-- Metrics Bento Grid -->
 <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-md md:gap-gutter">
 <!-- Total Revenue Card -->
@@ -21,11 +23,10 @@
 <div class="bg-surface-container-high p-sm rounded-full inline-flex">
 <span class="material-symbols-outlined text-primary">payments</span>
 </div>
-<span class="font-label-sm text-label-sm text-primary-container bg-surface flex items-center px-2 py-1 rounded-full">+12.5%</span>
 </div>
 <div>
 <p class="font-label-md text-label-md text-secondary mb-xs">Total Pendapatan</p>
-<h3 class="font-headline-lg md:font-display-lg text-headline-lg md:text-display-lg text-on-background">Rp 4.2M</h3>
+<h3 class="font-headline-lg md:font-display-lg text-headline-lg md:text-display-lg text-on-background">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</h3>
 <p class="font-body-md text-body-md text-secondary mt-xs">Seminggu terakhir</p>
 </div>
 </div>
@@ -35,11 +36,10 @@
 <div class="bg-surface-container-high p-sm rounded-full inline-flex">
 <span class="material-symbols-outlined text-tertiary">receipt_long</span>
 </div>
-<span class="font-label-sm text-label-sm text-secondary bg-surface flex items-center px-2 py-1 rounded-full">-2.1%</span>
 </div>
 <div>
 <p class="font-label-md text-label-md text-secondary mb-xs">Pesanan Aktif</p>
-<h3 class="font-headline-lg md:font-display-lg text-headline-lg md:text-display-lg text-on-background">24</h3>
+<h3 class="font-headline-lg md:font-display-lg text-headline-lg md:text-display-lg text-on-background">{{ $pesananMenungguVerifikasi }}</h3>
 <p class="font-body-md text-body-md text-secondary mt-xs">Menunggu Verifikasi</p>
 </div>
 </div>
@@ -55,7 +55,7 @@
 </div>
 <div class="relative z-10">
 <p class="font-label-md text-label-md text-inverse-on-surface mb-xs">Jadwal Hari Ini</p>
-<h3 class="font-headline-lg md:font-display-lg text-headline-lg md:text-display-lg">8/12</h3>
+<h3 class="font-headline-lg md:font-display-lg text-headline-lg md:text-display-lg">{{ $jadwalHariIni }}</h3>
 <p class="font-body-md text-body-md text-inverse-on-surface mt-xs">Slot Terisi</p>
 </div>
 </div>
@@ -66,32 +66,15 @@
 <div class="lg:col-span-2 bg-surface-container-lowest rounded-lg shadow-sm border border-surface-variant p-md w-full overflow-hidden">
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-lg gap-4 sm:gap-0">
 <h3 class="font-headline-sm text-headline-sm text-on-background">Analisis Jam Puncak</h3>
-<select class="w-full sm:w-auto bg-surface border border-surface-variant text-secondary text-sm rounded-DEFAULT focus:ring-primary focus:border-primary block p-2">
-<option>Minggu Ini</option>
-<option>Minggu Lalu</option>
-<option>Bulan Ini</option>
+<select id="chartFilter" class="w-full sm:w-auto pl-4 pr-10 py-2 border border-surface-variant rounded-lg font-body-md text-body-md bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors cursor-pointer text-on-surface">
+<option value="hari_ini">Hari Ini</option>
+<option value="seminggu" selected>Seminggu</option>
+<option value="sebulan">Sebulan</option>
 </select>
 </div>
-<!-- Chart Placeholder -->
-<div class="h-48 md:h-64 w-full relative flex items-end space-x-1 sm:space-x-2">
-<!-- Simulated Bar Chart -->
-<div class="flex-1 bg-surface-container rounded-t-DEFAULT relative group h-[30%]"><div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-label-sm text-label-sm text-secondary transition-opacity hidden sm:block">10</div></div>
-<div class="flex-1 bg-surface-container rounded-t-DEFAULT relative group h-[40%]"><div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-label-sm text-label-sm text-secondary transition-opacity hidden sm:block">15</div></div>
-<div class="flex-1 bg-primary rounded-t-DEFAULT relative group h-[80%]"><div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-label-sm text-label-sm text-primary transition-opacity hidden sm:block">35</div></div>
-<div class="flex-1 bg-primary-container rounded-t-DEFAULT relative group h-[95%]"><div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-label-sm text-label-sm text-primary-container transition-opacity hidden sm:block">42</div></div>
-<div class="flex-1 bg-surface-container rounded-t-DEFAULT relative group h-[60%]"><div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-label-sm text-label-sm text-secondary transition-opacity hidden sm:block">25</div></div>
-<div class="flex-1 bg-surface-container rounded-t-DEFAULT relative group h-[85%]"><div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-label-sm text-label-sm text-secondary transition-opacity hidden sm:block">38</div></div>
-<div class="flex-1 bg-surface-container rounded-t-DEFAULT relative group h-[45%]"><div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-label-sm text-label-sm text-secondary transition-opacity hidden sm:block">18</div></div>
-</div>
-<!-- X-Axis Labels -->
-<div class="flex justify-between items-center mt-sm text-secondary font-label-sm text-label-sm">
-<span class="">M<span class="hidden sm:inline">on</span></span>
-<span class="">T<span class="hidden sm:inline">ue</span></span>
-<span class="">W<span class="hidden sm:inline">ed</span></span>
-<span class="">T<span class="hidden sm:inline">hu</span></span>
-<span class="">F<span class="hidden sm:inline">ri</span></span>
-<span class="">S<span class="hidden sm:inline">at</span></span>
-<span class="">S<span class="hidden sm:inline">un</span></span>
+<!-- Chart Canvas -->
+<div class="h-48 md:h-64 w-full relative">
+    <canvas id="peakHoursChart"></canvas>
 </div>
 </div>
 <!-- Recent Activity Feed -->
@@ -122,6 +105,48 @@
 </div>
 </section>
 </section>
+
+<!-- Expired Verifications Section -->
+@if($expiredVerifications->count() > 0)
+<section class="mt-lg">
+    <div class="bg-error-container/10 rounded-lg shadow-sm border border-error/20 p-md">
+        <div class="flex items-center justify-between mb-md">
+            <h3 class="font-headline-sm text-headline-sm text-error flex items-center gap-2">
+                <span class="material-symbols-outlined">warning</span> Pesanan Lewat Waktu (Belum Diverifikasi)
+            </h3>
+            <span class="bg-error text-white text-xs font-bold px-2 py-1 rounded-full">{{ $expiredVerifications->count() }}</span>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b border-error/20">
+                        <th class="font-label-sm text-label-sm text-secondary pb-2 px-2">Booking ID</th>
+                        <th class="font-label-sm text-label-sm text-secondary pb-2 px-2">Pelanggan</th>
+                        <th class="font-label-sm text-label-sm text-secondary pb-2 px-2">Tipe</th>
+                        <th class="font-label-sm text-label-sm text-secondary pb-2 px-2">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($expiredVerifications as $expired)
+                    <tr class="border-b border-error/10 hover:bg-error/5 transition-colors">
+                        <td class="py-2 px-2 font-body-sm text-body-sm">{{ $expired->booking->id_booking }}</td>
+                        <td class="py-2 px-2 font-body-sm text-body-sm">{{ $expired->booking->user->name ?? 'Unknown' }}</td>
+                        <td class="py-2 px-2 font-body-sm text-body-sm font-bold {{ $expired->jenis_pembayaran == 'Pelunasan' ? 'text-primary' : 'text-secondary' }}">{{ $expired->jenis_pembayaran }}</td>
+                        <td class="py-2 px-2">
+                            <button onclick="openExpiredActionModal('{{ $expired->id_pembayaran }}', '{{ $expired->booking->id_booking }}', '{{ $expired->jenis_pembayaran }}', '{{ $expired->nominal_dibayar }}')" class="bg-error hover:bg-error/90 text-white font-label-sm text-label-sm px-3 py-1 rounded shadow-sm transition-colors flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[16px]">gavel</span> Tindak Lanjuti
+                            </button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+@endif
+
 </div>
 
 <!-- MODAL SEMUA NOTIFIKASI -->
@@ -174,9 +199,52 @@
         </div>
     </div>
 </div>
+
+<!-- MODAL TINDAKAN VERIFIKASI KADALUARSA -->
+<div id="expired-action-modal" class="fixed inset-0 bg-[#191c1d]/60 backdrop-blur-sm z-[60] hidden items-center justify-center p-4 transition-opacity duration-300">
+    <div class="bg-surface-container-lowest rounded-xl max-w-lg w-full p-6 shadow-xl border border-error/30 relative transform scale-95 transition-transform duration-300" id="expired-action-card">
+        
+        <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-error">
+                <span class="material-symbols-outlined text-2xl">gavel</span>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold text-on-surface">Tindak Lanjuti Pesanan Expired</h3>
+                <p class="text-xs text-secondary">ID Booking: <span id="expired-booking-id" class="font-bold"></span></p>
+            </div>
+        </div>
+
+        <div class="mb-6 bg-surface-container-low p-4 rounded-lg">
+            <p class="text-sm text-on-surface mb-2">Tipe Pembayaran: <strong id="expired-tipe-pembayaran"></strong></p>
+            <p class="text-sm text-on-surface">Nominal Ditransfer: <strong id="expired-nominal" class="text-primary"></strong></p>
+            
+            <div id="expired-action-description" class="mt-4 text-sm text-secondary border-t border-surface-variant pt-2">
+                <!-- Description injected via JS based on DP vs Pelunasan -->
+            </div>
+        </div>
+
+        <form id="expired-action-form" method="POST" action="" class="m-0 p-0 flex flex-col gap-sm">
+            @csrf
+            <input type="hidden" name="action_type" id="expired-action-type" value="">
+
+            <div class="flex flex-col sm:flex-row justify-end gap-sm mt-4">
+                <button type="button" onclick="closeExpiredModal()" class="w-full sm:w-auto bg-surface-container hover:bg-surface-container-high text-on-surface font-medium py-2 px-4 rounded-lg text-sm transition-colors text-center">
+                    Batal
+                </button>
+                <button type="submit" id="expired-submit-btn" class="w-full sm:w-auto text-white font-bold py-2 px-5 rounded-lg text-sm transition-all shadow-xs flex items-center justify-center gap-1">
+                    <span class="material-symbols-outlined text-[18px]">done</span>
+                    <span id="expired-btn-text">Proses</span>
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
 @endsection
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     function openNotificationModal() {
         const modal = document.getElementById('all-notifications-modal');
@@ -257,5 +325,111 @@
         })
         .catch(error => console.error('Error:', error));
     }
+
+    function openExpiredActionModal(idPembayaran, idBooking, tipePembayaran, nominal) {
+        document.getElementById('expired-booking-id').innerText = idBooking;
+        document.getElementById('expired-tipe-pembayaran').innerText = tipePembayaran;
+        document.getElementById('expired-nominal').innerText = 'Rp ' + parseInt(nominal).toLocaleString('id-ID');
+        
+        const form = document.getElementById('expired-action-form');
+        form.action = `/admin/verifikasi/${idPembayaran}/expired-action`;
+        
+        const desc = document.getElementById('expired-action-description');
+        const submitBtn = document.getElementById('expired-submit-btn');
+        const btnText = document.getElementById('expired-btn-text');
+        const actionTypeInput = document.getElementById('expired-action-type');
+
+        if (tipePembayaran === 'Pelunasan') {
+            desc.innerHTML = `Karena jadwal telah terlewat, pesanan akan <strong>otomatis dibatalkan</strong> dan <strong>DP akan hangus</strong> (aturan H-2). Namun, dana pelunasan yang telah ditransfer ini akan masuk ke daftar <strong>Pengembalian Dana (Refund)</strong>.`;
+            submitBtn.className = "w-full sm:w-auto bg-primary hover:bg-primary-container text-white font-bold py-2 px-5 rounded-lg text-sm transition-all shadow-xs flex items-center justify-center gap-1";
+            btnText.innerText = "Batalkan & Refund Pelunasan";
+            actionTypeInput.value = 'RefundPelunasan';
+        } else {
+            desc.innerHTML = `Karena yang terlewat adalah pembayaran awal <strong>(DP/Lunas)</strong> tanpa pelanggan bermain, Anda dapat memilih untuk menolak pembayaran dan menghanguskan dana. Pesanan akan otomatis dibatalkan.`;
+            submitBtn.className = "w-full sm:w-auto bg-error hover:bg-error/90 text-white font-bold py-2 px-5 rounded-lg text-sm transition-all shadow-xs flex items-center justify-center gap-1";
+            btnText.innerText = "Tolak & Batalkan Pesanan";
+            actionTypeInput.value = 'Forfeit';
+        }
+
+        const modal = document.getElementById('expired-action-modal');
+        const card = document.getElementById('expired-action-card');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => card.classList.replace('scale-95', 'scale-100'), 10);
+    }
+
+    function closeExpiredModal() {
+        const modal = document.getElementById('expired-action-modal');
+        const card = document.getElementById('expired-action-card');
+        card.classList.replace('scale-100', 'scale-95');
+        setTimeout(() => {
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }, 150);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('peakHoursChart').getContext('2d');
+        let peakChart;
+
+        // Data inisial dari backend
+        const initialLabels = @json($labels);
+        const initialData = @json($data);
+
+        function initChart(labels, data) {
+            if (peakChart) {
+                peakChart.destroy();
+            }
+
+            peakChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Jumlah Pemesanan',
+                        data: data,
+                        backgroundColor: '#005954', // Tailwind primary color
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Inisialisasi chart pertama kali
+        initChart(initialLabels, initialData);
+
+        // Handle filter change
+        document.getElementById('chartFilter').addEventListener('change', function() {
+            const filter = this.value;
+            
+            fetch(`{{ route('admin.dashboard') }}?filter=${filter}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(json => {
+                initChart(json.labels, json.data);
+            })
+            .catch(err => console.error('Error fetching chart data:', err));
+        });
+    });
 </script>
 @endpush

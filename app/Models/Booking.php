@@ -18,6 +18,7 @@ class Booking extends Model
         'id_booking',
         'id_user',
         'tipe_booking',
+        'nama_tim',
         'status_booking',
         'total_tagihan',
     ];
@@ -110,5 +111,74 @@ class Booking extends Model
                 $booking->update(['status_booking' => 'Selesai']);
             }
         }
+
+        // 2. Auto-cancel pesanan yang masih 'Menunggu Pembayaran' tapi sudah lewat waktu main
+        $queryUnpaid = self::with('detailBookings.jadwal.harga')
+            ->where('status_booking', 'Menunggu Pembayaran');
+        
+        if ($userId) {
+            $queryUnpaid->where('id_user', $userId);
+        }
+
+        $unpaidBookings = $queryUnpaid->get();
+        foreach ($unpaidBookings as $booking) {
+            if ($booking->isPastPlayTime()) {
+                $booking->update(['status_booking' => 'Dibatalkan']);
+                foreach ($booking->detailBookings as $detail) {
+                    if ($detail->id_jadwal) {
+                        \App\Models\Jadwal::where('id_jadwal', $detail->id_jadwal)
+                            ->update(['status_jadwal' => 'Tersedia']);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Cek apakah pesanan sudah melewati jadwal bermain (waktu_selesai terakhir)
+     */
+    public function isPastPlayTime(): bool
+    {
+        $waktuSelesaiTerakhir = null;
+        $now = \Carbon\Carbon::now();
+        foreach ($this->detailBookings as $detail) {
+            if ($detail->jadwal && $detail->jadwal->harga) {
+                $tanggalStr = $detail->jadwal->tanggal instanceof \Carbon\Carbon ? $detail->jadwal->tanggal->format('Y-m-d') : $detail->jadwal->tanggal;
+                $waktuSelesai = \Carbon\Carbon::parse($tanggalStr . ' ' . $detail->jadwal->harga->jam_selesai);
+                
+                if (!$waktuSelesaiTerakhir || $waktuSelesai->greaterThan($waktuSelesaiTerakhir)) {
+                    $waktuSelesaiTerakhir = $waktuSelesai;
+                }
+            }
+        }
+        return $waktuSelesaiTerakhir && $now->greaterThan($waktuSelesaiTerakhir);
+    }
+
+    /**
+     * Cek apakah sekarang sedang berada pada waktu bermain (antara jam mulai dan jam selesai)
+     */
+    public function isPlayingTime(): bool
+    {
+        $waktuMulaiAwal = null;
+        $waktuSelesaiTerakhir = null;
+        $now = \Carbon\Carbon::now();
+        
+        foreach ($this->detailBookings as $detail) {
+            if ($detail->jadwal && $detail->jadwal->harga) {
+                $tanggalStr = $detail->jadwal->tanggal instanceof \Carbon\Carbon ? $detail->jadwal->tanggal->format('Y-m-d') : $detail->jadwal->tanggal;
+                $waktuMulai = \Carbon\Carbon::parse($tanggalStr . ' ' . $detail->jadwal->harga->jam_mulai);
+                $waktuSelesai = \Carbon\Carbon::parse($tanggalStr . ' ' . $detail->jadwal->harga->jam_selesai);
+                
+                if (!$waktuMulaiAwal || $waktuMulai->lessThan($waktuMulaiAwal)) {
+                    $waktuMulaiAwal = $waktuMulai;
+                }
+                
+                if (!$waktuSelesaiTerakhir || $waktuSelesai->greaterThan($waktuSelesaiTerakhir)) {
+                    $waktuSelesaiTerakhir = $waktuSelesai;
+                }
+            }
+        }
+        
+        return $waktuMulaiAwal && $waktuSelesaiTerakhir && $now->between($waktuMulaiAwal, $waktuSelesaiTerakhir);
     }
 }

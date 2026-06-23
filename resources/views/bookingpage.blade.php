@@ -3,8 +3,8 @@
 
 @section('content')
 <!-- MODAL ALERT CUSTOM UNTUK REGULER -->
-<div id="customAlert" class="fixed inset-0 z-[100] flex items-center justify-center hidden bg-on-background/50 backdrop-blur-sm transition-opacity">
-    <div class="bg-surface-container-lowest border border-surface-variant rounded-xl shadow-2xl p-6 max-w-sm w-full mx-4 transform transition-all scale-100">
+<div id="customAlert" class="fixed inset-0 bg-[#191c1d]/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 transition-opacity duration-300">
+    <div class="bg-surface-container-lowest border border-surface-variant rounded-xl shadow-xl p-6 max-w-sm w-full relative transform scale-95 transition-transform duration-300" id="customAlert-card">
         <div class="flex items-center gap-3 mb-4 text-error">
             <span class="material-symbols-outlined text-4xl">warning</span>
             <h3 class="font-headline-sm font-bold text-on-surface">Peringatan Order</h3>
@@ -13,7 +13,7 @@
             <!-- Pesan akan diinjeksi lewat JavaScript -->
         </p>
         <div class="flex justify-end">
-            <button type="button" onclick="closeCustomAlert()" class="px-6 py-2 bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary-container transition-colors shadow-sm">
+            <button type="button" onclick="closeCustomAlert()" class="px-6 py-3 bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary-container transition-colors shadow-sm">
                 Mengerti
             </button>
         </div>
@@ -42,6 +42,28 @@
     </div>
 @endif
 
+@if($errors->any())
+    <div class="max-w-7xl mx-auto px-6 mt-6 w-full">
+        <div class="bg-error-container border border-error text-on-error-container p-4 rounded-lg flex items-center gap-3 shadow-sm">
+            <span class="material-symbols-outlined">warning</span>
+            <ul class="font-body-md list-disc list-inside">
+                @foreach($errors->all() as $err)
+                    <li>{{ $err }}</li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="max-w-7xl mx-auto px-6 mt-6 w-full">
+        <div class="bg-error-container border border-error text-on-error-container p-4 rounded-lg flex items-center gap-3 shadow-sm">
+            <span class="material-symbols-outlined">error</span>
+            <p class="font-body-md">{{ session('error') }}</p>
+        </div>
+    </div>
+@endif
+
 <div class="flex-grow max-w-container-max mx-auto w-full px-gutter py-xl flex flex-col gap-lg">
     <div>
         <h1 class="font-headline-lg text-headline-lg font-bold text-on-surface mb-xs">Selesaikan Booking Anda</h1>
@@ -60,44 +82,68 @@
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
                     <div class="flex flex-col space-y-xs">
-                        <label class="font-label-md text-label-md text-on-surface" for="teamName">Nama Tim</label>
+                        <label class="font-label-md text-label-md text-on-surface" for="teamName">Nama Tim <span class="text-error">*</span></label>
                         <!-- PERUBAHAN: Value dikosongkan agar pelanggan mengisi nama tim murni -->
                         <input class="w-full py-3 sm:py-sm px-sm border border-surface-variant rounded-lg font-body-md text-body-md text-on-surface bg-surface-bright focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="teamName" name="nama_tim" value="{{ old('nama_tim') }}" placeholder="Masukkan Nama Tim Anda" type="text" required/>
+                        @error('nama_tim')
+                            <p class="text-error font-body-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </section>
 
-            <section class="bg-surface-container-lowest rounded-lg p-md md:p-lg shadow-[0_2px_4px_rgba(33,37,41,0.05)] border border-surface-variant flex flex-col">
-                <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-md flex items-center gap-sm">
-                    <span class="material-symbols-outlined text-primary text-[24px]">sell</span>
-                    Jenis Order
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
-                    <label class="relative cursor-pointer block">
-                        <input checked class="peer sr-only" name="tipe_booking" type="radio" value="Reguler"/>
-                        <div class="border rounded-lg p-md transition-all duration-200 border-surface-variant bg-surface-container-lowest hover:border-primary-container hover:shadow-[0_2px_4px_rgba(33,37,41,0.05)] peer-checked:border-2 peer-checked:border-primary peer-checked:bg-primary-container/10 peer-checked:shadow-[0_2px_8px_rgba(40,167,69,0.1)] peer-checked:[&_.icon-unchecked]:hidden peer-checked:[&_.icon-checked]:block">
-                            <div class="flex justify-between items-center mb-xs">
-                                <span class="font-label-md text-label-md text-on-surface font-bold">Reguler</span>
-                                <span class="material-symbols-outlined text-secondary icon-unchecked block">radio_button_unchecked</span>
-                                <span class="material-symbols-outlined text-primary icon-checked hidden" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                            </div>
-                            <p class="font-body-md text-sm text-secondary">Pesan untuk 1 hari saja.</p>
+            @if(session()->has('reschedule_booking_id'))
+                @php
+                    $oldTipe = \App\Models\Booking::find(session('reschedule_booking_id'))->tipe_booking;
+                @endphp
+                <section class="bg-surface-container-lowest rounded-lg p-md md:p-lg shadow-[0_2px_4px_rgba(33,37,41,0.05)] border border-surface-variant flex flex-col">
+                    <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-md flex items-center gap-sm">
+                        <span class="material-symbols-outlined text-primary text-[24px]">sell</span>
+                        Jenis Order (Mode Reschedule)
+                    </h2>
+                    <div class="bg-surface-container border border-surface-variant rounded-lg p-md flex items-start gap-3">
+                        <span class="material-symbols-outlined text-secondary">info</span>
+                        <div>
+                            <p class="font-bold text-on-surface">Pesanan {{ $oldTipe }}</p>
+                            <p class="font-body-sm text-secondary mt-1">Saat melakukan Reschedule, Anda harus memilih jadwal baru yang sesuai dengan tipe pesanan awal Anda.</p>
                         </div>
-                    </label>
+                    </div>
+                    <!-- Radio tersembunyi agar validasi JS dan form submit tetap bekerja dengan nilai yang benar -->
+                    <input type="radio" name="tipe_booking" value="{{ $oldTipe }}" checked class="hidden">
+                </section>
+            @else
+                <section class="bg-surface-container-lowest rounded-lg p-md md:p-lg shadow-[0_2px_4px_rgba(33,37,41,0.05)] border border-surface-variant flex flex-col">
+                    <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-md flex items-center gap-sm">
+                        <span class="material-symbols-outlined text-primary text-[24px]">sell</span>
+                        Jenis Order
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+                        <label class="relative cursor-pointer block">
+                            <input checked class="peer sr-only" name="tipe_booking" type="radio" value="Reguler"/>
+                            <div class="border rounded-lg p-md transition-all duration-200 border-surface-variant bg-surface-container-lowest hover:border-primary-container hover:shadow-[0_2px_4px_rgba(33,37,41,0.05)] peer-checked:border-2 peer-checked:border-primary peer-checked:bg-primary-container/10 peer-checked:shadow-[0_2px_8px_rgba(40,167,69,0.1)] peer-checked:[&_.icon-unchecked]:hidden peer-checked:[&_.icon-checked]:block">
+                                <div class="flex justify-between items-center mb-xs">
+                                    <span class="font-label-md text-label-md text-on-surface font-bold">Reguler</span>
+                                    <span class="material-symbols-outlined text-secondary icon-unchecked block">radio_button_unchecked</span>
+                                    <span class="material-symbols-outlined text-primary icon-checked hidden" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                </div>
+                                <p class="font-body-md text-sm text-secondary">Pesan untuk 1 hari saja.</p>
+                            </div>
+                        </label>
 
-                    <label class="relative cursor-pointer block">
-                        <input class="peer sr-only" name="tipe_booking" type="radio" value="Member"/>
-                        <div class="border rounded-lg p-md transition-all duration-200 border-surface-variant bg-surface-container-lowest hover:border-primary-container hover:shadow-[0_2px_4px_rgba(33,37,41,0.05)] peer-checked:border-2 peer-checked:border-primary peer-checked:bg-primary-container/10 peer-checked:shadow-[0_2px_8px_rgba(40,167,69,0.1)] peer-checked:[&_.icon-unchecked]:hidden peer-checked:[&_.icon-checked]:block">
-                            <div class="flex justify-between items-center mb-xs">
-                                <span class="font-label-md text-label-md text-on-surface font-bold">Member</span>
-                                <span class="material-symbols-outlined text-secondary icon-unchecked block">radio_button_unchecked</span>
-                                <span class="material-symbols-outlined text-primary icon-checked hidden" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        <label class="relative cursor-pointer block">
+                            <input class="peer sr-only" name="tipe_booking" type="radio" value="Member"/>
+                            <div class="border rounded-lg p-md transition-all duration-200 border-surface-variant bg-surface-container-lowest hover:border-primary-container hover:shadow-[0_2px_4px_rgba(33,37,41,0.05)] peer-checked:border-2 peer-checked:border-primary peer-checked:bg-primary-container/10 peer-checked:shadow-[0_2px_8px_rgba(40,167,69,0.1)] peer-checked:[&_.icon-unchecked]:hidden peer-checked:[&_.icon-checked]:block">
+                                <div class="flex justify-between items-center mb-xs">
+                                    <span class="font-label-md text-label-md text-on-surface font-bold">Member</span>
+                                    <span class="material-symbols-outlined text-secondary icon-unchecked block">radio_button_unchecked</span>
+                                    <span class="material-symbols-outlined text-primary icon-checked hidden" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                </div>
+                                <p class="font-body-md text-sm text-secondary">Pesan min. 4 hari (Diskon 15%).</p>
                             </div>
-                            <p class="font-body-md text-sm text-secondary">Pesan min. 4 hari (Diskon 15%).</p>
-                        </div>
-                    </label>
-                </div>
-            </section>
+                        </label>
+                    </div>
+                </section>
+            @endif
 
             <section class="bg-surface-container-lowest rounded-lg p-md md:p-lg shadow-[0_2px_4px_rgba(33,37,41,0.05)] border border-surface-variant flex flex-col">
                 
@@ -150,7 +196,7 @@
                                                         $isPast = $jadwalTime->isPast();
                                                     @endphp
                                                     
-                                                    @if($jadwal->status_jadwal === 'Tersedia' && !$isPast)
+                                                    @if($jadwal->status_jadwal === 'Tersedia' && $jadwal->harga->is_active && !$isPast)
                                                         <label class="relative cursor-pointer block">
                                                             <input type="checkbox" name="id_jadwal[]" value="{{ $jadwal->id_jadwal }}" 
                                                                    data-price="{{ $jadwal->harga->harga }}" 
@@ -167,8 +213,19 @@
                                                         </label>
                                                     @else
                                                         @php
-                                                            $bgColor = $isPast && $jadwal->status_jadwal === 'Tersedia' ? 'bg-surface-container-high text-secondary' : 'bg-[#ffebee] text-error';
-                                                            $labelStatus = $isPast && $jadwal->status_jadwal === 'Tersedia' ? 'Waktu Lewat' : 'Booked';
+                                                            if (!$jadwal->harga->is_active) {
+                                                                $labelStatus = 'Maintenance';
+                                                                $bgColor = 'bg-surface-container-high text-secondary';
+                                                            } elseif ($jadwal->status_jadwal == 'Tutup') {
+                                                                $labelStatus = 'Tutup';
+                                                                $bgColor = 'bg-surface-container-high text-secondary';
+                                                            } elseif ($isPast) {
+                                                                $labelStatus = 'Waktu Lewat';
+                                                                $bgColor = 'bg-surface-container-high text-secondary';
+                                                            } else {
+                                                                $labelStatus = 'Booked';
+                                                                $bgColor = 'bg-[#ffebee] text-error';
+                                                            }
                                                         @endphp
                                                         <button disabled type="button" class="{{ $bgColor }} font-label-md text-label-md rounded-lg py-sm px-xs text-center flex flex-col items-center justify-center cursor-not-allowed opacity-75">
                                                             <span>{{ \Carbon\Carbon::parse($jadwal->harga->jam_mulai)->format('H:i') }}</span>
@@ -256,10 +313,16 @@
         const alertMsg = document.getElementById('customAlertMessage');
         alertMsg.innerHTML = message;
         alertBox.classList.remove('hidden');
+        alertBox.classList.add('flex');
+        setTimeout(() => document.getElementById('customAlert-card').classList.replace('scale-95', 'scale-100'), 10);
     }
 
     function closeCustomAlert() {
-        document.getElementById('customAlert').classList.add('hidden');
+        document.getElementById('customAlert-card').classList.replace('scale-100', 'scale-95');
+        setTimeout(() => {
+            document.getElementById('customAlert').classList.remove('flex');
+            document.getElementById('customAlert').classList.add('hidden');
+        }, 150);
     }
 
     document.addEventListener('DOMContentLoaded', function() {

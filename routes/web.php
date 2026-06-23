@@ -12,6 +12,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HargaController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LaporanController;
 
 // 1. PUBLIC ROUTES (Bisa diakses siapa saja)
 Route::get('/', [HomeController::class, 'home'])->name('home');
@@ -24,14 +26,14 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'register'])->name('register');
     Route::post('/register', [AuthController::class, 'register_post'])->name('register.post');
     Route::get('/forgetpw', [AuthController::class, 'forgetpw'])->name('forgetpw');
-    
+
     // Rute OTP Register
-    Route::post('/register/send-otp', [OtpController::class, 'sendOtp'])->name('register.sendOtp');
-    Route::post('/register/verify-otp', [OtpController::class, 'verifyOtp'])->name('register.verifyOtp');
-    
+    Route::post('/register/send-otp', [OtpController::class, 'sendOtp'])->middleware('throttle:3,1')->name('register.sendOtp');
+    Route::post('/register/verify-otp', [OtpController::class, 'verifyOtp'])->middleware('throttle:5,1')->name('register.verifyOtp');
+
     // Rute OTP Lupa Password
-    Route::post('/forgetpw/send-otp', [OtpController::class, 'sendResetOtp'])->name('forgetpw.sendOtp');
-    Route::post('/forgetpw/verify-otp', [OtpController::class, 'verifyResetOtp'])->name('forgetpw.verifyOtp');
+    Route::post('/forgetpw/send-otp', [OtpController::class, 'sendResetOtp'])->middleware('throttle:3,1')->name('forgetpw.sendOtp');
+    Route::post('/forgetpw/verify-otp', [OtpController::class, 'verifyResetOtp'])->middleware('throttle:5,1')->name('forgetpw.verifyOtp');
     Route::post('/forgetpw/reset', [OtpController::class, 'resetPassword'])->name('forgetpw.reset');
 });
 
@@ -40,7 +42,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     // Logout Auth
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    
+
     // Profile
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
@@ -55,18 +57,28 @@ Route::middleware('auth')->group(function () {
     Route::post('/mybooking/{id_booking}/reschedule', [BookingController::class, 'rescheduleBooking'])->name('booking.reschedule');
     Route::post('/cancel-reschedule', [BookingController::class, 'cancelRescheduleSession'])->name('cancel.reschedule.session');
 
-    // Pembayaran (Telah Dibersihkan)
+    // Pembayaran
     Route::get('/payment/{id_booking}', [PaymentController::class, 'payment'])->name('payment.page');
     Route::post('/payment/{id_booking}', [PaymentController::class, 'storePayment'])->name('payment.store');
 });
 
 // 4. ADMIN ROUTES (Hanya untuk role ADMIN)
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
-    
-    // Dashboard & Pelanggan
+
+    // Dashboard & Notifikasi
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/pelanggan', [DashboardController::class, 'pelanggan'])->name('admin.pelanggan');
     Route::post('/notifications/{id}/mark-read', [DashboardController::class, 'markNotificationRead'])->name('admin.notifications.mark-read');
+
+    // Data Pelanggan
+    Route::get('/pelanggan', [UserController::class, 'index'])->name('admin.pelanggan');
+    Route::get('/pelanggan/{id}/detail', [UserController::class, 'detail'])->name('admin.pelanggan.detail');
+    Route::put('/pelanggan/{id}/update', [UserController::class, 'update'])->name('admin.pelanggan.update');
+
+    // Laporan
+    Route::get('/laporan', [LaporanController::class, 'laporan'])->name('admin.laporan');
+    Route::get('/laporan/cetak-perbandingan', [LaporanController::class, 'cetakPerbandingan'])->name('admin.laporan.cetak-perbandingan');
+    Route::get('/laporan/data-pendapatan', [LaporanController::class, 'getPendapatanData'])->name('admin.laporan.data-pendapatan');
+    Route::get('/laporan/cetak-pendapatan', [LaporanController::class, 'cetakPendapatan'])->name('admin.laporan.cetak-pendapatan');
 
     // Kelola Jadwal Lapangan
     Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
@@ -85,4 +97,5 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     // Verifikasi Pembayaran
     Route::get('/verifikasi', [PaymentController::class, 'indexAdmin'])->name('admin.verifikasi');
     Route::post('/verifikasi/{id_pembayaran}/verify', [PaymentController::class, 'verify'])->name('admin.payment.verify');
+    Route::post('/verifikasi/{id_pembayaran}/expired-action', [PaymentController::class, 'expiredAction'])->name('admin.payment.expired-action');
 });

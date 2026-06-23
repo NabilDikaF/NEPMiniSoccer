@@ -78,7 +78,7 @@
                         <label class="font-label-md text-label-md text-on-surface" for="noWhatsapp">Nomor Telepon</label>
                         <div class="relative flex items-center">
                             <span class="material-symbols-outlined absolute left-3 text-secondary-fixed-dim" data-icon="phone_iphone">phone_iphone</span>
-                            <input class="w-full pl-10 pr-sm py-3 sm:py-sm border border-surface-variant rounded-lg font-body-md text-body-md text-on-surface bg-surface-bright focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="noWhatsapp" name="no_hp" placeholder="Nomor Telepon" type="tel" value="{{ Auth::user()->no_hp ?? '' }}"/>
+                            <input class="w-full pl-10 pr-sm py-3 sm:py-sm border border-surface-variant rounded-lg font-body-md text-body-md text-on-surface bg-surface-bright focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="noWhatsapp" name="no_hp" placeholder="Contoh: 0812-3456-7890" type="tel" value="{{ Auth::user()->no_hp ?? '' }}" maxlength="15" oninput="formatPhone(this)"/>
                         </div>
                     </div>
                     
@@ -142,8 +142,8 @@
 </div>
 
 <!-- Cropping Modal -->
-<div id="cropperModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 backdrop-blur-sm">
-    <div class="bg-surface-container-lowest p-6 rounded-xl shadow-lg w-full max-w-md flex flex-col gap-4">
+<div id="cropperModal" class="fixed inset-0 bg-[#191c1d]/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 transition-opacity duration-300">
+    <div class="bg-surface-container-lowest rounded-xl max-w-md w-full p-6 shadow-xl border border-surface-variant relative transform scale-95 transition-transform duration-300" id="cropper-modal-card">
         <h3 class="font-headline-sm font-bold text-on-surface">Sesuaikan Foto Profil</h3>
         <div class="w-full h-64 bg-surface-container-highest flex items-center justify-center overflow-hidden rounded border border-surface-variant">
             <img id="cropperImage" src="" alt="Image to crop" class="max-w-full max-h-full">
@@ -162,6 +162,28 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
 <script>
+function formatPhone(input) {
+    let value = input.value.replace(/\D/g, ''); // Hapus semua karakter selain angka
+    if (value.length > 13) value = value.substring(0, 13); // Maksimal 13 digit
+    
+    let formatted = '';
+    if (value.length > 8) {
+        formatted = value.substring(0, 4) + '-' + value.substring(4, 8) + '-' + value.substring(8);
+    } else if (value.length > 4) {
+        formatted = value.substring(0, 4) + '-' + value.substring(4);
+    } else {
+        formatted = value;
+    }
+    input.value = formatted;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const phoneInput = document.getElementById('noWhatsapp');
+    if (phoneInput && phoneInput.value) {
+        formatPhone(phoneInput);
+    }
+});
+
 let cropper = null;
 
 function openCropper(event) {
@@ -172,6 +194,8 @@ function openCropper(event) {
     reader.onload = function(e) {
         document.getElementById('cropperImage').src = e.target.result;
         document.getElementById('cropperModal').classList.remove('hidden');
+        document.getElementById('cropperModal').classList.add('flex');
+        setTimeout(() => document.getElementById('cropper-modal-card').classList.replace('scale-95', 'scale-100'), 10);
 
         if (cropper) {
             cropper.destroy();
@@ -191,11 +215,15 @@ function openCropper(event) {
 }
 
 function closeCropper() {
-    document.getElementById('cropperModal').classList.add('hidden');
-    if (cropper) {
-        cropper.destroy();
-        cropper = null;
-    }
+    document.getElementById('cropper-modal-card').classList.replace('scale-100', 'scale-95');
+    setTimeout(() => {
+        document.getElementById('cropperModal').classList.remove('flex');
+        document.getElementById('cropperModal').classList.add('hidden');
+        if (cropper) {
+            cropper.destroy();
+            cropper = null;
+        }
+    }, 150);
 }
 
 document.getElementById('saveCroppedImage').addEventListener('click', function() {

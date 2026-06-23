@@ -1,13 +1,16 @@
 @extends('layouts.admin')
 @section('title', 'Verifikasi Pembayaran - NEP Admin')
 
-@section('content')
+@section('header')
 <header class="mb-lg flex flex-col sm:flex-row justify-between items-start sm:items-center gap-sm sm:gap-0">
-<div>
-<h2 class="font-headline-lg text-headline-lg text-on-surface">Verifikasi Pembayaran</h2>
-<p class="font-body-md text-body-md text-secondary mt-xs">Meninjau dan menyetujui bukti transfer bank yang masuk.</p>
-</div>
+    <div>
+        <h2 class="font-headline-lg text-headline-lg text-on-surface">Verifikasi Pembayaran</h2>
+        <p class="font-body-md text-body-md text-secondary mt-xs">Meninjau dan menyetujui bukti transfer bank yang masuk.</p>
+    </div>
 </header>
+@endsection
+
+@section('content')
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-lg">
 <div class="bg-surface-container-lowest p-md rounded-lg shadow-sm border border-surface-variant flex items-center justify-between">
@@ -66,7 +69,7 @@
 <thead>
 <tr class="bg-surface-container-low border-b border-surface-variant">
 <th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap text-center">Nama Pelanggan</th>
-<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap text-center">Tanggal</th>
+<th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap text-center">Transaksi & Main</th>
 <th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap text-center">Data Booking</th>
 <th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap text-center">Tipe Pembayaran</th>
 <th class="font-label-md text-label-md text-secondary py-sm px-md whitespace-nowrap text-center">Jumlah</th>
@@ -85,7 +88,15 @@
     {{ $pembayaran->booking->user->name ?? 'Tidak Diketahui' }}
 </td>
 <td class="py-md px-md text-on-surface whitespace-nowrap text-center">
-    {{ \Carbon\Carbon::parse($pembayaran->created_at)->translatedFormat('d M Y, H:i') }}
+    <div class="flex flex-col items-center gap-1">
+        <span class="text-secondary"><span class="material-symbols-outlined text-[14px] align-middle">upload_file</span> {{ \Carbon\Carbon::parse($pembayaran->created_at)->translatedFormat('d M, H:i') }}</span>
+        @php
+            $firstJadwal = $pembayaran->booking->detailBookings->first()?->jadwal;
+        @endphp
+        @if($firstJadwal)
+            <span class="text-primary font-medium bg-primary-container/20 px-2 rounded whitespace-nowrap"><span class="material-symbols-outlined text-[14px] align-middle">sports_soccer</span> {{ \Carbon\Carbon::parse($firstJadwal->tanggal)->translatedFormat('d M Y') }} • {{ \Carbon\Carbon::parse($firstJadwal->harga->jam_mulai)->format('H:i') }}</span>
+        @endif
+    </div>
 </td>
 <td class="py-md px-md font-medium text-on-surface whitespace-nowrap text-center">
     {{ $pembayaran->booking->tipe_booking ?? 'Booking #'.$pembayaran->id_booking }}

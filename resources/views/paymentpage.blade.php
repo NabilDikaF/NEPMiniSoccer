@@ -27,7 +27,7 @@
             </div>
         @endif
 
-        <form action="{{ route('payment.store', $booking->id_booking) }}" method="POST" enctype="multipart/form-data" class="bg-surface-container-lowest rounded-lg shadow-sm border border-surface-variant overflow-hidden mb-8 md:mb-lg">
+        <form id="paymentForm" action="{{ route('payment.store', $booking->id_booking) }}" method="POST" enctype="multipart/form-data" class="bg-surface-container-lowest rounded-lg shadow-sm border border-surface-variant overflow-hidden mb-8 md:mb-lg" onsubmit="return validateForm(event)">
             @csrf
 
             <input type="hidden" name="nominal_dibayar" id="nominal_dibayar" value="{{ $booking->status_booking != 'Half Paid' ? ($booking->total_tagihan / 2) : ($booking->total_tagihan / 2) }}">
@@ -110,7 +110,7 @@
                                 <p class="font-label-sm text-label-sm text-secondary">JPG, PNG only (MAX. 5MB)</p>
                             </div>
                         </label>
-                        <input class="hidden" id="dropzone-file" name="bukti_pembayaran" type="file" accept=".jpg,.jpeg,.png" required onchange="previewImage(this)"/>
+                        <input class="hidden" id="dropzone-file" name="bukti_pembayaran" type="file" accept=".jpg,.jpeg,.png" onchange="previewImage(this)"/>
                         
                         <!-- Preview Dropzone (Div, replaces label when file selected) -->
                         <div id="preview-container" class="hidden flex-col items-center justify-center w-full min-h-[160px] md:min-h-[200px] border-2 border-primary border-dashed rounded-lg cursor-pointer bg-surface hover:bg-surface-container-low transition-colors p-2 relative overflow-hidden group" onclick="openActionModal()">
@@ -142,7 +142,7 @@
 </div>
 
 <!-- Action Modal untuk Foto -->
-<div id="action-modal" class="fixed inset-0 bg-gray-900/60 z-50 hidden items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300">
+<div id="action-modal" class="fixed inset-0 bg-[#191c1d]/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 transition-opacity duration-300">
     <div class="bg-surface-container-lowest rounded-xl max-w-sm w-full p-6 shadow-xl border border-surface-variant transform scale-95 transition-transform duration-300" id="action-modal-card">
         <div class="flex justify-center mb-4">
             <div class="w-12 h-12 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center">
@@ -152,14 +152,14 @@
         <h3 class="font-headline-sm text-headline-sm text-on-surface mb-2 text-center">Opsi Foto</h3>
         <p class="font-body-md text-body-md text-secondary text-center mb-6">Apa yang ingin Anda lakukan dengan foto ini?</p>
         
-        <div class="flex flex-col gap-3">
-            <button type="button" onclick="triggerReupload()" class="w-full py-3 bg-primary hover:bg-primary-container text-on-primary rounded-lg font-label-md text-label-md transition-colors flex items-center justify-center gap-2">
+        <div class="flex flex-col gap-sm">
+            <button type="button" onclick="triggerReupload()" class="w-full bg-primary hover:opacity-90 text-on-primary font-label-md text-label-md py-3 rounded-lg transition-opacity shadow-sm flex items-center justify-center gap-2">
                 <span class="material-symbols-outlined text-[20px]">upload_file</span> Unggah Ulang
             </button>
-            <button type="button" onclick="viewPhotoFullscreen()" class="w-full py-3 bg-surface border border-surface-variant hover:bg-surface-container-low rounded-lg font-label-md text-label-md text-on-surface transition-colors flex items-center justify-center gap-2">
+            <button type="button" onclick="viewPhotoFullscreen()" class="w-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
                 <span class="material-symbols-outlined text-[20px]">zoom_in</span> Lihat Foto
             </button>
-            <button type="button" onclick="closeActionModal()" class="w-full py-3 mt-2 bg-transparent text-secondary hover:text-on-surface rounded-lg font-label-md text-label-md transition-colors">
+            <button type="button" onclick="closeActionModal()" class="w-full mt-2 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md py-3 rounded-lg transition-colors">
                 Batal
             </button>
         </div>
@@ -167,11 +167,29 @@
 </div>
 
 <!-- Fullscreen Photo Modal -->
-<div id="photo-modal" class="fixed inset-0 bg-black/95 z-[60] hidden items-center justify-center p-4 transition-opacity duration-300" onclick="closePhotoFullscreen()">
+<div id="photo-modal" class="fixed inset-0 bg-black/95 z-[100] hidden items-center justify-center p-4 transition-opacity duration-300" onclick="closePhotoFullscreen()">
     <button type="button" onclick="closePhotoFullscreen(); event.stopPropagation();" class="absolute top-4 right-4 md:top-6 md:right-6 text-white hover:text-white w-12 h-12 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full flex items-center justify-center transition-colors z-10 cursor-pointer">
         <span class="material-symbols-outlined text-3xl leading-none">close</span>
     </button>
     <img id="fullscreen-image" src="#" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl transform scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
+</div>
+
+<!-- Validation Alert Modal -->
+<div id="validation-modal" class="fixed inset-0 bg-[#191c1d]/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 transition-opacity duration-300">
+    <div class="bg-surface-container-lowest border border-surface-variant rounded-xl shadow-xl p-6 max-w-sm w-full relative transform scale-95 transition-transform duration-300" id="validation-modal-card">
+        <div class="flex items-center gap-3 mb-4 text-error">
+            <span class="material-symbols-outlined text-4xl">warning</span>
+            <h3 class="font-headline-sm font-bold text-on-surface" id="validationAlertTitle">Peringatan</h3>
+        </div>
+        <p class="font-body-md text-secondary mb-6 leading-relaxed" id="validationAlertMessage">
+            Pesan peringatan.
+        </p>
+        <div class="flex justify-end">
+            <button type="button" onclick="closeValidationAlert()" class="px-6 py-3 bg-primary text-on-primary rounded-lg font-label-md hover:opacity-90 transition-opacity shadow-sm">
+                Mengerti
+            </button>
+        </div>
+    </div>
 </div>
 @endsection
 
@@ -257,6 +275,48 @@
         setTimeout(() => {
             photoModal.classList.remove('flex');
             photoModal.classList.add('hidden');
+        }, 300);
+    }
+
+    function validateForm(event) {
+        event.preventDefault();
+        const fileInput = document.getElementById('dropzone-file');
+        const paymentType = document.querySelector('input[name="payment_type"]:checked');
+
+        if (!paymentType) {
+            showValidationAlert('Pilih Metode Pembayaran', 'Anda belum memilih metode pembayaran. Silakan pilih metode pembayaran sebelum mengirim bukti.');
+            return false;
+        }
+
+        if (!fileInput.files || fileInput.files.length === 0) {
+            showValidationAlert('Unggah Bukti Pembayaran', 'Harap unggah foto bukti transfer Anda sebelum mengirim.');
+            return false;
+        }
+
+        // Jika lolos validasi
+        document.getElementById('paymentForm').submit();
+    }
+
+    function showValidationAlert(title, message) {
+        document.getElementById('validationAlertTitle').innerText = title;
+        document.getElementById('validationAlertMessage').innerText = message;
+        
+        const modal = document.getElementById('validation-modal');
+        const card = document.getElementById('validation-modal-card');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => {
+            card.classList.replace('scale-95', 'scale-100');
+        }, 10);
+    }
+
+    function closeValidationAlert() {
+        const modal = document.getElementById('validation-modal');
+        const card = document.getElementById('validation-modal-card');
+        card.classList.replace('scale-100', 'scale-95');
+        setTimeout(() => {
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
         }, 300);
     }
 </script>

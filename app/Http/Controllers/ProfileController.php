@@ -19,6 +19,10 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
+        if ($user->role === 'admin') {
+            return view('admin-profile', compact('user'));
+        }
+
         // Auto-update status Lunas menjadi Selesai jika waktu sudah berlalu
         Booking::updateStatusSelesai($user->id);
 
@@ -43,10 +47,17 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
+        // Bersihkan format nomor HP (hilangkan strip) sebelum divalidasi
+        if ($request->has('no_hp') && $request->no_hp) {
+            $request->merge([
+                'no_hp' => str_replace('-', '', $request->no_hp)
+            ]);
+        }
+
         // 1. Validasi Input
         $validated = $request->validate([
             'name'   => ['required', 'string', 'max:255'],
-            'no_hp'  => ['nullable', 'string', 'max:20'],
+            'no_hp'  => ['nullable', 'string', 'max:13'],
             'email'  => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
         ]);
 

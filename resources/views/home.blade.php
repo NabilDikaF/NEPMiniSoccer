@@ -112,19 +112,40 @@
                                                 $tglFormatted = \Carbon\Carbon::parse($tanggal)->format('Y-m-d');
                                                 $jadwalTime = \Carbon\Carbon::parse($tglFormatted . ' ' . $jadwal->harga->jam_mulai);
                                                 $isPast = $jadwalTime->isPast();
+                                                $isUrgent = !$isPast && now()->diffInMinutes($jadwalTime) <= 60;
                                             @endphp
 
                                             @if($jadwal->status_jadwal === 'Tersedia' && $jadwal->harga->is_active && !$isPast)
-                                                <a href="{{ route('booking', ['date' => $tanggal, 'slot' => $jadwal->id_jadwal]) }}" class="bg-[#e8f5e9] text-primary font-label-md text-label-md rounded-lg py-sm px-xs text-center transition-transform active:scale-95 hover:opacity-90 flex flex-col items-center justify-center">
-                                                    <span>{{ \Carbon\Carbon::parse($jadwal->harga->jam_mulai)->format('H:i') }}</span>
-                                                    <span class="text-[10px] font-normal uppercase tracking-wide mt-1 opacity-1 select-none">
-                                                        Tersedia
-                                                    </span>
-                                                </a>
+                                                @if($isUrgent)
+                                                    <button onclick="confirmUrgentBooking('{{ route('booking', ['date' => $tanggal, 'slot' => $jadwal->id_jadwal]) }}')" class="bg-[#e8f5e9] text-primary font-label-md text-label-md rounded-lg py-sm px-xs text-center transition-transform active:scale-95 hover:opacity-90 flex flex-col items-center justify-center">
+                                                        <span>{{ \Carbon\Carbon::parse($jadwal->harga->jam_mulai)->format('H:i') }}</span>
+                                                        <span class="text-[10px] font-normal uppercase tracking-wide mt-1 opacity-1 select-none">
+                                                            Tersedia
+                                                        </span>
+                                                    </button>
+                                                @else
+                                                    <a href="{{ route('booking', ['date' => $tanggal, 'slot' => $jadwal->id_jadwal]) }}" class="bg-[#e8f5e9] text-primary font-label-md text-label-md rounded-lg py-sm px-xs text-center transition-transform active:scale-95 hover:opacity-90 flex flex-col items-center justify-center">
+                                                        <span>{{ \Carbon\Carbon::parse($jadwal->harga->jam_mulai)->format('H:i') }}</span>
+                                                        <span class="text-[10px] font-normal uppercase tracking-wide mt-1 opacity-1 select-none">
+                                                            Tersedia
+                                                        </span>
+                                                    </a>
+                                                @endif
                                             @else
                                                 @php
-                                                    $bgColor = $isPast && $jadwal->status_jadwal === 'Tersedia' && $jadwal->harga->is_active ? 'bg-surface-container-high text-secondary' : 'bg-[#ffebee] text-error';
-                                                    $labelStatus = !$jadwal->harga->is_active ? 'Maintenance' : ($jadwal->status_jadwal == 'Tutup' ? 'Tutup' : ($isPast && $jadwal->status_jadwal === 'Tersedia' ? 'Waktu Sudah Lewat' : 'Booked'));
+                                                    if (!$jadwal->harga->is_active) {
+                                                        $labelStatus = 'Maintenance';
+                                                        $bgColor = 'bg-surface-container-high text-secondary';
+                                                    } elseif ($jadwal->status_jadwal == 'Tutup') {
+                                                        $labelStatus = 'Tutup';
+                                                        $bgColor = 'bg-surface-container-high text-secondary';
+                                                    } elseif ($isPast) {
+                                                        $labelStatus = 'Waktu Lewat';
+                                                        $bgColor = 'bg-surface-container-high text-secondary';
+                                                    } else {
+                                                        $labelStatus = 'Booked';
+                                                        $bgColor = 'bg-[#ffebee] text-error';
+                                                    }
                                                 @endphp
                                                 <button disabled class="{{ $bgColor }} font-label-md text-label-md rounded-lg py-sm px-xs text-center flex flex-col items-center justify-center cursor-not-allowed opacity-75">
                                                     <span>{{ \Carbon\Carbon::parse($jadwal->harga->jam_mulai)->format('H:i') }}</span>
@@ -145,10 +166,51 @@
         </div>
         
     </section>
+
+    <!-- Modal Urgent Booking -->
+    <div id="urgentBookingModal" class="fixed inset-0 bg-[#191c1d]/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 transition-opacity duration-300">
+        <div class="bg-surface-container-lowest border border-surface-variant rounded-xl shadow-xl p-6 max-w-sm w-full relative transform scale-95 transition-transform duration-300" id="urgentBookingModal-card">
+            <div class="flex items-center gap-3 mb-4 text-error">
+                <span class="material-symbols-outlined text-4xl">warning</span>
+                <h3 class="font-headline-sm font-bold text-on-surface">Peringatan Jadwal</h3>
+            </div>
+            <p class="font-body-md text-secondary mb-6 leading-relaxed">
+                Jadwal akan segera dimulai, apakah anda yakin ingin memesan di jadwal ini?
+            </p>
+            <div class="flex justify-between gap-sm">
+                <a id="btnUrgentIya" href="#" class="w-1/2 flex items-center justify-center px-6 py-3 bg-primary hover:opacity-90 text-on-primary rounded-lg font-label-md text-label-md transition-opacity shadow-sm">
+                    Iya
+                </a>
+                <button type="button" onclick="closeUrgentModal()" class="w-1/2 flex items-center justify-center px-6 py-3 bg-surface-container hover:bg-surface-container-high text-on-surface rounded-lg font-label-md text-label-md transition-colors shadow-sm">
+                    Tidak
+                </button>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
 <script>
+    // Script Modal Urgent Booking
+    function confirmUrgentBooking(url) {
+        document.getElementById('btnUrgentIya').href = url;
+        const modal = document.getElementById('urgentBookingModal');
+        const card = document.getElementById('urgentBookingModal-card');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => card.classList.replace('scale-95', 'scale-100'), 10);
+    }
+
+    function closeUrgentModal() {
+        const modal = document.getElementById('urgentBookingModal');
+        const card = document.getElementById('urgentBookingModal-card');
+        card.classList.replace('scale-100', 'scale-95');
+        setTimeout(() => {
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }, 150);
+    }
+
     // Script Sistem Tab
     function showSchedule(tanggalTarget) {
         document.querySelectorAll('.schedule-content').forEach(el => {

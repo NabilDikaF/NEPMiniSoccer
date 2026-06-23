@@ -82,10 +82,17 @@ class AuthController extends Controller
 
     public function register_post(Request $request): RedirectResponse
     {
+        // Bersihkan format nomor HP (hilangkan strip) sebelum divalidasi
+        if ($request->has('no_hp') && $request->no_hp) {
+            $request->merge([
+                'no_hp' => str_replace('-', '', $request->no_hp)
+            ]);
+        }
+
         // 1. Validasi input form
         $request->validate([
             'name'     => ['required', 'string', 'max:255'],
-            'no_hp'    => ['nullable', 'string', 'max:20'],
+            'no_hp'    => ['nullable', 'string', 'max:13'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'], // 'confirmed' akan otomatis mengecek input 'password_confirmation'
         ], [

@@ -13,12 +13,14 @@ return new class extends Migration
             $table->string('id_booking', 20)->primary();
             $table->unsignedBigInteger('id_user');
             $table->enum('tipe_booking', ['Reguler', 'Member']);
+            $table->string('nama_tim')->nullable();
             $table->enum('status_booking', [
                 'Menunggu Pembayaran',
                 'Menunggu Verifikasi',
                 'Half Paid',      // sudah bayar DP, belum lunas
                 'Confirmed',      // sudah lunas dan diverifikasi
-                'Dibatalkan'
+                'Dibatalkan',
+                'Selesai'
             ])->default('Menunggu Pembayaran');
             $table->decimal('total_tagihan', 10, 2);
             $table->timestamps(); // created_at penting untuk laporan & analitik

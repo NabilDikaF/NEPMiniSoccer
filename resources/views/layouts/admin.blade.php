@@ -157,12 +157,16 @@
                     <span class="">Data Pelanggan</span>
                 </a>
             </div>
-            
-            <div class="mt-auto pt-md border-t border-surface-variant">
+            <a href="{{ route('profile') }}" class="flex w-full items-center gap-sm p-sm {{ request()->routeIs('profile') ? 'text-primary bg-surface-container-high' : 'text-secondary hover:bg-surface-container-high' }} rounded-lg transition-all font-label-md text-label-md">
+                    <span class="material-symbols-outlined {{ request()->routeIs('profile') ? 'filled' : '' }} text-[18px]">settings</span>
+                    <span>Pengaturan</span>
+                </a>
+            <div class="mt-auto pt-xs border-t border-surface-variant flex flex-col gap-xs">
+                
                 <form method="POST" action="{{ route('logout') }}" class="m-0 p-0">
                     @csrf
                     <button type="submit" class="flex w-full items-center gap-sm p-sm text-secondary hover:bg-surface-container-high rounded-lg transition-all font-label-md text-label-md hover:text-error">
-                        <span class="material-symbols-outlined text-sm">logout</span>
+                        <span class="material-symbols-outlined text-[18px]">logout</span>
                         <span>Keluar</span>
                     </button>
                 </form>
@@ -170,21 +174,23 @@
         </div>
     </aside>
 
-    <!-- Main Content Area (From admin-jadwal) -->
+    <!-- Main Content Area -->
     <main class="flex-1 p-md md:p-lg w-full max-w-[1440px] mx-auto overflow-x-hidden">
         
+        @yield('header')
+
         <!-- Global Notifications -->
-        @if(session('success'))
-        <div class="mb-lg px-md py-sm bg-primary-container text-on-primary-container rounded-lg shadow-sm border border-primary flex items-center gap-2">
+        @if(session('success') && !isset($hideGlobalSuccess))
+        <div class="mb-lg bg-[#e8f5e9] border border-[#c8e6c9] text-[#2e7d32] p-4 rounded-lg flex items-center gap-3 shadow-sm">
             <span class="material-symbols-outlined">check_circle</span>
-            {{ session('success') }}
+            <p class="font-body-md font-bold">{{ session('success') }}</p>
         </div>
         @endif
 
-        @if(session('error'))
-        <div class="mb-lg px-md py-sm bg-error-container text-on-error-container rounded-lg shadow-sm border border-error flex items-center gap-2">
+        @if(session('error') && !isset($hideGlobalError))
+        <div class="mb-lg bg-error-container border border-error text-on-error-container p-4 rounded-lg flex items-center gap-3 shadow-sm">
             <span class="material-symbols-outlined">error</span>
-            {{ session('error') }}
+            <p class="font-body-md font-bold">{{ session('error') }}</p>
         </div>
         @endif
 

@@ -55,9 +55,12 @@
 
                 // Tentukan Kategori Filter
                 $filterCategory = 'upcoming';
-                if ($booking->status_booking == 'Dibatalkan' || $selisihHari < 0) {
+                if ($booking->status_booking == 'Dibatalkan' || $selisihHari < 0 || $booking->isPastPlayTime()) {
                     $filterCategory = 'completed';
                 }
+                
+                $isExpired = $booking->isPastPlayTime();
+                $isPlaying = $booking->isPlayingTime();
             @endphp
 
             {{-- KONDISI 1: MENUNGGU PEMBAYARAN ATAU HALF PAID --}}
@@ -100,6 +103,13 @@
                         </div>
                         @endif
                     </div></div><!-- FOOTER TOMBOL AKSI -->
+                    @if($isExpired)
+                    <div class="mt-auto pt-sm w-full border-t border-surface-variant mt-sm text-center">
+                        <span class="inline-block px-md py-sm bg-error-container text-on-error-container rounded-lg font-label-md text-label-md w-full">
+                            <span class="material-symbols-outlined text-[16px] align-middle mr-1">timer_off</span> Waktu Terlewat
+                        </span>
+                    </div>
+                    @else
                     <div class="mt-auto pt-sm grid grid-cols-1 xl:grid-cols-3 gap-xs w-full border-t border-surface-variant mt-sm">
                         <!-- Pembayaran -->
                         <a href="{{ route('payment.page', $booking->id_booking) }}" class="w-full xl:w-auto flex-1 text-center justify-center px-sm py-sm bg-primary text-on-primary rounded font-label-md text-label-md shadow-sm hover:opacity-90 transition-all flex items-center gap-xs whitespace-nowrap">
@@ -109,19 +119,20 @@
                         <!-- Reschedule -->
                         @if($isRescheduleLocked)
                             <button type="button" onclick="openAlertModal('Peringatan Sistem', 'Permintaan Reschedule ditolak. Mengubah jadwal hanya dapat dilakukan maksimal <strong>H-3 sebelum jadwal bermain.</strong>')" class="w-full xl:w-auto flex-1 text-center justify-center px-sm py-sm border border-outline-variant text-secondary opacity-70 cursor-not-allowed rounded font-label-md text-label-md flex items-center gap-xs whitespace-nowrap">
-                                <span class="material-symbols-outlined text-[18px]">event_busy</span> Resched
+                                <span class="material-symbols-outlined text-[18px]">event_busy</span> Ubah
                             </button>
                         @else
                             <button type="button" onclick="openRescheduleModal('{{ $booking->id_booking }}')" class="w-full xl:w-auto flex-1 text-center justify-center px-sm py-sm border border-outline text-secondary rounded font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center gap-xs whitespace-nowrap">
-                                <span class="material-symbols-outlined text-[18px]">edit_calendar</span> Resched
+                                <span class="material-symbols-outlined text-[18px]">edit_calendar</span> Ubah
                             </button>
                         @endif
 
                         <!-- Cancel -->
                         <button type="button" onclick="openCancelModal('{{ $booking->id_booking }}', {{ $selisihHari }}, '{{ $booking->status_booking }}')" class="w-full xl:w-auto flex-1 text-center justify-center px-sm py-sm border border-error text-error hover:bg-error/10 rounded font-label-md text-label-md transition-colors flex items-center gap-xs whitespace-nowrap">
-                            <span class="material-symbols-outlined text-[18px]">cancel</span> Cancel
+                            <span class="material-symbols-outlined text-[18px]">cancel</span> Batal
                         </button>
                     </div>
+                    @endif
                 </article>
 
             {{-- KONDISI 2: MENUNGGU VERIFIKASI --}}
@@ -150,23 +161,31 @@
                             Admin sedang meninjau bukti pembayaran Anda.
                         </div>
                     </div></div><!-- FOOTER TOMBOL AKSI -->
+                    @if($isExpired)
+                    <div class="mt-auto pt-sm w-full border-t border-surface-variant mt-sm text-center">
+                        <span class="inline-block px-md py-sm bg-error-container text-on-error-container rounded-lg font-label-md text-label-md w-full">
+                            <span class="material-symbols-outlined text-[16px] align-middle mr-1">timer_off</span> Waktu Terlewat (Menunggu Verifikasi Admin)
+                        </span>
+                    </div>
+                    @else
                     <div class="mt-auto pt-sm grid grid-cols-2 gap-xs w-full border-t border-surface-variant mt-sm">
                         <!-- Reschedule -->
                         @if($isRescheduleLocked)
                             <button type="button" onclick="openAlertModal('Peringatan Sistem', 'Permintaan Reschedule ditolak. Mengubah jadwal hanya dapat dilakukan maksimal <strong>H-3 sebelum jadwal bermain.</strong>')" class="w-full sm:w-auto flex-1 text-center justify-center px-sm py-sm border border-outline-variant text-secondary opacity-70 cursor-not-allowed rounded font-label-md text-label-md flex items-center gap-xs whitespace-nowrap">
-                                <span class="material-symbols-outlined text-[18px]">event_busy</span> Reschedule
+                                <span class="material-symbols-outlined text-[18px]">event_busy</span> Ubah
                             </button>
                         @else
                             <button type="button" onclick="openRescheduleModal('{{ $booking->id_booking }}')" class="w-full sm:w-auto flex-1 text-center justify-center px-sm py-sm border border-outline text-secondary rounded font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center gap-xs whitespace-nowrap">
-                                <span class="material-symbols-outlined text-[18px]">edit_calendar</span> Reschedule
+                                <span class="material-symbols-outlined text-[18px]">edit_calendar</span> Ubah
                             </button>
                         @endif
 
                         <!-- Cancel -->
                         <button type="button" onclick="openCancelModal('{{ $booking->id_booking }}', {{ $selisihHari }}, '{{ $booking->status_booking }}')" class="w-full sm:w-auto flex-1 text-center justify-center px-sm py-sm border border-error text-error hover:bg-error/10 rounded font-label-md text-label-md transition-colors flex items-center gap-xs whitespace-nowrap">
-                            <span class="material-symbols-outlined text-[18px]">cancel</span> Cancel
+                            <span class="material-symbols-outlined text-[18px]">cancel</span> Batal
                         </button>
                     </div>
+                    @endif
                 </article>
 
             {{-- KONDISI 3: CONFIRMED / LUNAS --}}
@@ -181,7 +200,13 @@
                                 {{ $tanggal }} • {{ $jamMulai }} - {{ $jamSelesai }}
                             </p>
                         </div>
-                        <span class="px-sm py-xs bg-primary-container text-on-primary-container rounded-full font-label-sm text-label-sm whitespace-nowrap">Confirmed/Lunas</span>
+                        @if($isPlaying)
+                            <span class="px-sm py-xs bg-[#dcfce7] text-[#166534] border border-[#bbf7d0] rounded-full font-label-sm text-label-sm whitespace-nowrap animate-pulse flex items-center gap-1">
+                                <span class="w-2 h-2 bg-[#22c55e] rounded-full"></span> Waktu Dimulai
+                            </span>
+                        @else
+                            <span class="px-sm py-xs bg-primary-container text-on-primary-container rounded-full font-label-sm text-label-sm whitespace-nowrap">Confirmed/Lunas</span>
+                        @endif
                     </div><div class="flex flex-col gap-xs py-sm border-t border-surface-variant mt-sm">
                         <div class="flex justify-between items-center">
                             <span class="font-label-md text-label-md text-secondary">Booking ID</span>
@@ -196,17 +221,17 @@
                         <!-- Reschedule -->
                         @if($isRescheduleLocked)
                             <button type="button" onclick="openAlertModal('Peringatan Sistem', 'Permintaan Reschedule ditolak. Mengubah jadwal hanya dapat dilakukan maksimal <strong>H-3 sebelum jadwal bermain.</strong>')" class="w-full sm:w-auto flex-1 text-center justify-center px-sm py-sm border border-outline-variant text-secondary opacity-70 cursor-not-allowed rounded font-label-md text-label-md flex items-center gap-xs whitespace-nowrap">
-                                <span class="material-symbols-outlined text-[18px]">event_busy</span> Reschedule
+                                <span class="material-symbols-outlined text-[18px]">event_busy</span> Ubah
                             </button>
                         @else
                             <button type="button" onclick="openRescheduleModal('{{ $booking->id_booking }}')" class="w-full sm:w-auto flex-1 text-center justify-center px-sm py-sm border border-outline text-secondary rounded font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center gap-xs whitespace-nowrap">
-                                <span class="material-symbols-outlined text-[18px]">edit_calendar</span> Reschedule
+                                <span class="material-symbols-outlined text-[18px]">edit_calendar</span> Ubah
                             </button>
                         @endif
 
                         <!-- Cancel -->
                         <button type="button" onclick="openCancelModal('{{ $booking->id_booking }}', {{ $selisihHari }}, '{{ $booking->status_booking }}')" class="w-full sm:w-auto flex-1 text-center justify-center px-sm py-sm border border-error text-error hover:bg-error/10 rounded font-label-md text-label-md transition-colors flex items-center gap-xs whitespace-nowrap">
-                            <span class="material-symbols-outlined text-[18px]">cancel</span> Cancel
+                            <span class="material-symbols-outlined text-[18px]">cancel</span> Batal
                         </button>
                     </div>
                 </article>
@@ -277,7 +302,7 @@
 <!-- ======================================================= -->
 
 <!-- 1. MODAL CANCEL (Hitung Denda Otomatis) -->
-<div id="cancel-modal" class="fixed inset-0 bg-[#191c1d]/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+<div id="cancel-modal" class="fixed inset-0 bg-[#191c1d]/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 transition-opacity duration-300">
     <div class="bg-surface-container-lowest rounded-xl max-w-md w-full p-6 shadow-xl border border-surface-variant relative transform scale-95 transition-transform duration-300" id="cancel-modal-card">
         <div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-on-error-container mb-4 mx-auto">
             <span class="material-symbols-outlined text-[24px]">warning</span>
@@ -299,7 +324,7 @@
 </div>
 
 <!-- 2. MODAL RESCHEDULE KONFIRMASI -->
-<div id="reschedule-modal" class="fixed inset-0 bg-[#191c1d]/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+<div id="reschedule-modal" class="fixed inset-0 bg-[#191c1d]/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 transition-opacity duration-300">
     <div class="bg-surface-container-lowest rounded-xl max-w-md w-full p-6 shadow-xl border border-surface-variant relative transform scale-95 transition-transform duration-300" id="reschedule-modal-card">
         <div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container mb-4 mx-auto">
             <span class="material-symbols-outlined text-[24px]">edit_calendar</span>
@@ -311,18 +336,18 @@
 
         <form id="reschedule-form" method="POST" class="flex flex-col sm:flex-row gap-sm m-0">
             @csrf
+            <button type="submit" class="w-full sm:w-1/2 bg-primary hover:opacity-90 text-on-primary font-label-md text-label-md py-3 rounded-lg transition-opacity shadow-sm">
+                Ya, Ubah
+            </button>
             <button type="button" onclick="closeModal('reschedule-modal', 'reschedule-modal-card')" class="w-full sm:w-1/2 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md py-3 rounded-lg transition-colors">
                 Batal
-            </button>
-            <button type="submit" class="w-full sm:w-1/2 bg-primary hover:opacity-90 text-on-primary font-label-md text-label-md py-3 rounded-lg transition-opacity shadow-sm">
-                Ya, Reschedule
             </button>
         </form>
     </div>
 </div>
 
 <!-- 3. MODAL ALERT PERINGATAN (Untuk H-3 Locked) -->
-<div id="alert-modal" class="fixed inset-0 bg-[#191c1d]/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+<div id="alert-modal" class="fixed inset-0 bg-[#191c1d]/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 transition-opacity duration-300">
     <div class="bg-surface-container-lowest rounded-xl max-w-md w-full p-6 shadow-xl border border-surface-variant relative transform scale-95 transition-transform duration-300" id="alert-modal-card">
         <div class="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container mb-4 mx-auto">
             <span class="material-symbols-outlined text-[24px]">event_busy</span>

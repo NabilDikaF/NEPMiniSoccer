@@ -35,6 +35,18 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class, 'id_user', 'id');
     }
 
+    public function getFormattedNoHpAttribute()
+    {
+        if (!$this->no_hp) return '-';
+        $val = preg_replace('/\D/', '', $this->no_hp);
+        if (strlen($val) > 8) {
+            return substr($val, 0, 4) . '-' . substr($val, 4, 4) . '-' . substr($val, 8);
+        } elseif (strlen($val) > 4) {
+            return substr($val, 0, 4) . '-' . substr($val, 4);
+        }
+        return $val;
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

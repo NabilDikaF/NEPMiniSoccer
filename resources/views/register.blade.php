@@ -32,7 +32,7 @@
                 <label class="font-label-md text-label-md text-on-surface" for="whatsapp">No. WhatsApp</label>
                 <div class="relative flex items-center">
                     <span class="material-symbols-outlined absolute left-3 text-secondary-fixed-dim" data-icon="call">call</span>
-                    <input class="w-full pl-10 pr-sm py-3 sm:py-sm border @error('no_hp') border-error @else border-surface-variant @enderror rounded-lg font-body-md text-body-md text-on-surface bg-surface-bright focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors shadow-[0_2px_4px_rgba(33,37,41,0.05)]" id="whatsapp" name="no_hp" value="{{ old('no_hp') }}" placeholder="Contoh: 081234567890" type="tel"/>
+                    <input class="w-full pl-10 pr-sm py-3 sm:py-sm border @error('no_hp') border-error @else border-surface-variant @enderror rounded-lg font-body-md text-body-md text-on-surface bg-surface-bright focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors shadow-[0_2px_4px_rgba(33,37,41,0.05)]" id="whatsapp" name="no_hp" value="{{ old('no_hp') }}" placeholder="Contoh: 0812-3456-7890" type="tel" maxlength="15" oninput="formatPhone(this)"/>
                 </div>
             </div>
             
@@ -104,6 +104,28 @@
 </main>
 
 <script>
+    function formatPhone(input) {
+        let value = input.value.replace(/\D/g, ''); // Hapus semua karakter selain angka
+        if (value.length > 13) value = value.substring(0, 13); // Maksimal 13 digit
+        
+        let formatted = '';
+        if (value.length > 8) {
+            formatted = value.substring(0, 4) + '-' + value.substring(4, 8) + '-' + value.substring(8);
+        } else if (value.length > 4) {
+            formatted = value.substring(0, 4) + '-' + value.substring(4);
+        } else {
+            formatted = value;
+        }
+        input.value = formatted;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const phoneInput = document.getElementById('whatsapp');
+        if (phoneInput && phoneInput.value) {
+            formatPhone(phoneInput);
+        }
+    });
+
     function showMessage(elementId, text, isError = false) {
         const el = document.getElementById(elementId);
         el.innerText = text;

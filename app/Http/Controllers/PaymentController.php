@@ -20,14 +20,16 @@ class PaymentController extends Controller
                           ->where('id_user', Auth::id())
                           ->firstOrFail();
 
+        // Validasi agar hanya bisa buka halaman ini jika statusnya valid
+        if (!in_array($booking->status_booking, ['Menunggu Pembayaran', 'Half Paid'])) {
+            return redirect()->route('mybooking')->with('error', 'Halaman pembayaran tidak tersedia untuk status pesanan saat ini.');
+        }
+
         return view('paymentpage', compact('booking'));
     }
 
     /**
-     * Memproses upload bukti transfer dari pelanggan
-     */
-    /**
-     * Memproses upload bukti transfer dari pelanggan
+     * Memproses upload bukti transfer dari pelanggan.
      */
     public function storePayment(Request $request, $id_booking)
     {
@@ -35,6 +37,11 @@ class PaymentController extends Controller
         $booking = Booking::with('detailBookings')->where('id_booking', $id_booking)
                           ->where('id_user', Auth::id())
                           ->firstOrFail();
+
+        // Validasi Status Booking untuk Keamanan
+        if (!in_array($booking->status_booking, ['Menunggu Pembayaran', 'Half Paid'])) {
+            return redirect()->route('mybooking')->with('error', 'Validasi Gagal: Pesanan ini tidak sedang dalam status menunggu pembayaran.');
+        }
 
         // 1. Validasi Input sesuai dengan atribut 'name' di HTML
         $request->validate([
@@ -114,19 +121,31 @@ class PaymentController extends Controller
     public function indexAdmin(Request $request)
     {
         // 1. Hitung statistik untuk kotak bagian atas
-        $pendingCount = Pembayaran::where('status_pembayaran', 'Menunggu Verifikasi')->count();
+        $pendingCount = Pembayaran::where('status_pembayaran', 'Menunggu Verifikasi')
+                                  ->whereHas('booking', function ($q) {
+                                      $q->where('status_booking', '!=', 'Dibatalkan');
+                                  })->count();
         $approvedTodayCount = Pembayaran::where('status_pembayaran', 'Valid')
                                         ->whereDate('updated_at', \Carbon\Carbon::today())
-                                        ->count();
-        $rejectedCount = Pembayaran::where('status_pembayaran', 'Ditolak')->count();
+                                        ->whereHas('booking', function ($q) {
+                                            $q->where('status_booking', '!=', 'Dibatalkan');
+                                        })->count();
+        $rejectedCount = Pembayaran::where('status_pembayaran', 'Ditolak')
+                                  ->whereHas('booking', function ($q) {
+                                      $q->where('status_booking', '!=', 'Dibatalkan');
+                                  })->count();
 
         // 2. Query dasar
-        $query = Pembayaran::with(['booking.user']);
+        $query = Pembayaran::with(['booking.user', 'booking.detailBookings.jadwal.harga']);
 
         // Selalu tampilkan yang Menunggu Verifikasi
         $query->where('status_pembayaran', 'Menunggu Verifikasi')
               ->whereHas('booking', function ($q) {
                   $q->where('status_booking', '!=', 'Dibatalkan');
+                  // Jangan tampilkan yang sudah lewat waktu main, biarkan ditangani di Dashboard Kadaluarsa
+                  $q->whereHas('detailBookings.jadwal', function ($qJadwal) {
+                      $qJadwal->whereDate('tanggal', '>=', \Carbon\Carbon::today());
+                  });
               });
 
         // Pencarian Teks (Nama atau ID Booking)
@@ -220,8 +239,67 @@ class PaymentController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e->getMessage());
-            return back()->with('error', 'Gagal memverifikasi pembayaran.');
+            return back()->with('error', 'Gagal memverifikasi pembayaran: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Memproses tindakan admin untuk pesanan yang sudah expired (lewat waktu main) namun masih menunggu verifikasi.
+     */
+    public function expiredAction(Request $request, $id_pembayaran)
+    {
+        $request->validate([
+            'action_type' => ['required', 'in:RefundPelunasan,Forfeit']
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $pembayaran = Pembayaran::with('booking.detailBookings')->findOrFail($id_pembayaran);
+            $booking = $pembayaran->booking;
+
+            if ($request->action_type === 'RefundPelunasan') {
+                $pembayaran->update([
+                    'status_pembayaran' => 'Ditolak',
+                    'catatan_admin' => 'Jadwal telah terlewat. Pesanan dibatalkan (DP hangus), namun dana pelunasan dikembalikan (Refund).'
+                ]);
+                $booking->update(['status_booking' => 'Dibatalkan']);
+                
+                foreach ($booking->detailBookings as $detail) {
+                    Jadwal::where('id_jadwal', $detail->id_jadwal)->update(['status_jadwal' => 'Tersedia']);
+                }
+
+                AdminNotification::create([
+                    'tipe_notifikasi' => 'Pengembalian Dana',
+                    'pesan' => "Pesanan #{$booking->id_booking} dibatalkan (lewat waktu). DP hangus, tapi dana pelunasan Rp " . number_format($pembayaran->nominal_dibayar, 0, ',', '.') . " perlu dikembalikan.",
+                    'id_booking' => $booking->id_booking,
+                    'is_urgent' => true
+                ]);
+
+            } else {
+                $pembayaran->update([
+                    'status_pembayaran' => 'Ditolak',
+                    'catatan_admin' => 'Jadwal telah terlewat. Pembayaran ditolak dan DP hangus karena pelanggan tidak memenuhi pesanan.'
+                ]);
+                $booking->update(['status_booking' => 'Dibatalkan']);
+
+                foreach ($booking->detailBookings as $detail) {
+                    Jadwal::where('id_jadwal', $detail->id_jadwal)->update(['status_jadwal' => 'Tersedia']);
+                }
+
+                AdminNotification::create([
+                    'tipe_notifikasi' => 'Booking Dibatalkan',
+                    'pesan' => "Pesanan #{$booking->id_booking} dibatalkan otomatis (lewat waktu) dan DP dihanguskan.",
+                    'id_booking' => $booking->id_booking,
+                    'is_urgent' => false
+                ]);
+            }
+
+            DB::commit();
+            return back()->with('success', 'Tindakan untuk pesanan expired berhasil diproses.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Gagal memproses pesanan expired: ' . $e->getMessage());
         }
     }
 }

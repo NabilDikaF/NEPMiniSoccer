@@ -5,70 +5,76 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
-use Illuminate\Database\QueryException;
 
 class UserController extends Controller
 {
     /**
-     * Menampilkan daftar semua pelanggan
+     * Menampilkan daftar semua pelanggan.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Ambil semua user yang role-nya 'pelanggan'
-        $pelanggans = User::where('role', 'pelanggan')->orderBy('created_at', 'desc')->get();
-        return view('admin.pelanggan.index', compact('pelanggans'));
+        $search = $request->get('search');
+
+        $query = User::where('role', 'pelanggan')
+            ->withCount('bookings')
+            ->with(['bookings' => fn($q) => $q->latest()]);
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('no_hp', 'like', "%{$search}%");
+            });
+        }
+
+        $pelanggans = $query->latest()->paginate(10)->withQueryString();
+
+        return view('admin-dataPelanggan', compact('pelanggans'));
     }
 
     /**
-     * Menampilkan form edit data pelanggan spesifik
+     * Menampilkan detail pelanggan beserta riwayat bookingnya.
      */
-    public function edit($id)
+    public function detail($id)
     {
-        $pelanggan = User::findOrFail($id);
-        return view('admin.pelanggan.edit', compact('pelanggan'));
+        $user = User::findOrFail($id);
+
+        $bookings = $user->bookings()
+                         ->with(['detailBookings.jadwal.harga'])
+                         ->orderBy('created_at', 'desc')
+                         ->paginate(5);
+
+        return view('admin-pelanggan-detail', compact('user', 'bookings'));
     }
 
     /**
-     * Menyimpan perubahan data pelanggan (Oleh Admin)
+     * Memperbarui data pelanggan (oleh Admin).
      */
     public function update(Request $request, $id)
     {
-        $pelanggan = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
-        $validated = $request->validate([
-            'name'  => ['required', 'string', 'max:255'],
-            'no_hp' => ['nullable', 'string', 'max:20'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($pelanggan->id)],
-            'password' => ['nullable', 'string', 'min:8'], // Opsional bagi admin jika ingin mereset password user
+        // Bersihkan format nomor HP (hilangkan strip) sebelum divalidasi
+        if ($request->has('no_hp') && $request->no_hp) {
+            $request->merge(['no_hp' => str_replace('-', '', $request->no_hp)]);
+        }
+
+        $request->validate([
+            'name'     => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $id],
+            'no_hp'    => ['nullable', 'string', 'max:13'],
+            'password' => ['nullable', 'string', 'min:8'],
         ]);
 
-        $pelanggan->name = $validated['name'];
-        $pelanggan->email = $validated['email'];
-        $pelanggan->no_hp = $validated['no_hp'];
+        $user->name  = $request->name;
+        $user->email = $request->email;
+        $user->no_hp = $request->no_hp;
 
         if ($request->filled('password')) {
-            $pelanggan->password = Hash::make($validated['password']);
+            $user->password = Hash::make($request->password);
         }
 
-        $pelanggan->save();
+        $user->save();
 
-        return redirect()->route('admin.pelanggan.index')->with('success', 'Data pelanggan berhasil diperbarui.');
-    }
-
-    /**
-     * Menghapus pelanggan
-     */
-    public function destroy($id)
-    {
-        try {
-            $pelanggan = User::findOrFail($id);
-            $pelanggan->delete();
-
-            return redirect()->route('admin.pelanggan.index')->with('success', 'Data pelanggan berhasil dihapus.');
-        } catch (QueryException $e) {
-            // Mencegah error jika pelanggan sudah pernah melakukan booking (terikat foreign key)
-            return redirect()->route('admin.pelanggan.index')->with('error', 'Pelanggan tidak bisa dihapus karena memiliki riwayat transaksi.');
-        }
+        return redirect()->back()->with('success', 'Data pelanggan berhasil diperbarui!');
     }
 }
