@@ -72,7 +72,7 @@ class LaporanController extends Controller
                 'tanggal'         => $notif->created_at->format('Y-m-d H:i:s'),
                 'tanggal_display' => $notif->created_at->translatedFormat('d M Y, H:i'),
                 'tipe'            => 'Keluar',
-                'deskripsi'       => 'Refund (' . $notif->judul . ')',
+                'deskripsi'       => 'Refund (' . $notif->tipe_notifikasi . ')',
                 'nominal'         => $nominal,
             ];
         }

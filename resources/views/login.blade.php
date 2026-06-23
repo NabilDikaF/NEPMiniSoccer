@@ -54,7 +54,7 @@
 
         <div class="mt-md text-center">
             <p class="font-body-md text-body-md text-secondary">
-                Tidak mempunyai akun? 
+                Belum punya akun? 
                 <a class="text-primary font-medium hover:underline p-2 -m-2 inline-block" href="{{ route('register') }}">Daftar</a>
             </p>
         </div>
